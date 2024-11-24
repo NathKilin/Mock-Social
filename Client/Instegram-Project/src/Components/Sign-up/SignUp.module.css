@@ -1,3 +1,19 @@
+/* .formSignUp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerSignUp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-inline: auto;
+} */
+
 .containerSignUp {
     display: flex;
     flex-direction: column;
