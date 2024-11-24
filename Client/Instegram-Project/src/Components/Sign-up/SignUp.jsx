@@ -9,6 +9,7 @@ const signUpApi = async (userData) => {
 
 const SignUp = () => {
   const [userData, setUserData] = useState({
+    userName: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -45,6 +46,16 @@ const SignUp = () => {
     <div className={styles.containerSignUp}>
       <h1 className={styles.signUpTitle}>Sign Up</h1>
       <form className={styles.signUpForm} onSubmit={handleSubmit}>
+        <input
+          className={styles.signUpInput}
+          placeholder="User name..."
+          type="text"
+          id="userName"
+          value={userData.userName}
+          onChange={handleChange}
+          required
+        />
+        <hr className={styles.signUpHr} />
         <input
           className={styles.signUpInput}
           placeholder="First name..."

@@ -2,24 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./LogIn.module.css";
 
-const logInApi = async (fullName, email) => {
-  console.log("Logging in with:", fullName, email);
-  return { fullName, email };
+const logInApi = async (userName, email) => {
+  console.log("Logging in with:", userName, email);
+  return { userName, email };
 };
 
 const LogIn = () => {
-  const [fullName, setFullName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userData = await logInApi(fullName, email);
+      const userData = await logInApi(userName, email);
       console.log("User data:", userData);
     } catch (error) {
       console.log("Error during login:", error);
     }
-    setFullName("");
+    setUserName("");
     setEmail("");
   };
 
@@ -29,10 +29,10 @@ const LogIn = () => {
       <form className={styles.logInForm} onSubmit={handleSubmit}>
         <input
           className={styles.logInInput}
-          placeholder="Full Name..."
+          placeholder="User Name..."
           type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
           required
         />
         <hr className={styles.logInHr} />
