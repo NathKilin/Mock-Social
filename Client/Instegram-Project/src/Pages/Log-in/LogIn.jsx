@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./LogIn.module.css";
+import axios from "axios";
 
 const logInApi = async (userName, email) => {
-  console.log("Logging in with:", userName, email);
+  const res = await axios.post("http://localhost:3000/users");
   return { userName, email };
 };
 
