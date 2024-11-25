@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F6EECE;
+    color: #262626;
+}
+
+.logo {
+    font-family: 'Grand Hotel', cursive;
+    color: white;
+}
+
+
+.feed {
+    margin-top: 70px;
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post {
+    width: 90%;
+    max-width: 500px;
+    background-color: white;
+    margin: 16px 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.post .imagePlaceholder {
+    width: 100%;
+    height: 300px;
+    background-color: #FFF8AF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(51, 39, 51);
+    border: 3px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.post .caption {
+    padding: 16px;
+    font-size: 14px;
+    color: #9B7E32;
+}

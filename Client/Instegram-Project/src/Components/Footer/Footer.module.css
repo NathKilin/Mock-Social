@@ -1,0 +1,24 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: rgb(250, 195, 77);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #DBDBDB;
+    z-index: 1000;
+}
+
+.footer button {
+    border: none;
+    font-size: 20px;
+    transition: 0.2s ease;
+    cursor: pointer;
+    background-color: rgb(250, 195, 77);
+}
+
+.footer button:hover {
+    font-size: 22px;
+}
