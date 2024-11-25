@@ -1,20 +1,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./SignUp.module.css";
+import axios from "axios";
 
 const signUpApi = async (userData) => {
-  console.log("Signing up with:", userData);
-  return userData;
+  try {
+    const res = await axios.post("http://localhost:3000/api/user", userData);
+    console.log("User registered successfully:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Error during sign-up:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };
 
 const SignUp = () => {
+  const [failedText, setFailedText] = useState("");
   const [userData, setUserData] = useState({
     userName: "",
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    phoneNumber: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -34,11 +45,12 @@ const SignUp = () => {
       console.log("Error during sign up:", error);
     }
     setUserData({
+      userName: "",
       firstName: "",
       lastName: "",
       email: "",
       password: "",
-      phoneNumber: "",
+      phone: "",
     });
   };
 
@@ -98,11 +110,11 @@ const SignUp = () => {
         <hr className={styles.signUpHr} />
         <input
           className={styles.signUpInput}
-          placeholder="Phone number..."
+          placeholder="phone number..."
           type="tel"
-          id="phoneNumber"
+          id="phone"
           pattern="[0-9]{10}"
-          value={userData.phoneNumber}
+          value={userData.phone}
           onChange={handleChange}
           required
         />
@@ -110,6 +122,7 @@ const SignUp = () => {
         <button type="submit" className={styles.signUpButton}>
           Sign Up
         </button>
+        <div>{failedText}</div>
       </form>
 
       <p className={styles.signUpParagraph}>
