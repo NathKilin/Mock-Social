@@ -1,20 +1,5 @@
-/* .form-log-in {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.log-in-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-inline: auto;
-} */
-
-.logInContainer {
+/* Dark mode*/
+/* .logInContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -101,4 +86,94 @@
 
 .logInLink:hover {
     color: #cfa700;
+} */
+
+/*light mode*/
+.logInContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    color: #333;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+.logInTitle {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 30px;
+}
+
+.logInForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logInInput {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: #333;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.logInInput:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.logInButton {
+    padding: 15px 20px;
+    background-color: #FFD700;
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logInButton:hover {
+    background-color: #FFD700;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logInHr {
+    width: 80%;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.logInParagraph {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+.logInLink {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.logInLink:hover {
+    color: #FFD700;
 }
