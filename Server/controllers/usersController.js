@@ -1,4 +1,5 @@
 const User = require("../models/usersModel.js");
+const Saved = require("../models/savedModel.js");
 
 const {
   makeHashedPassword,
@@ -17,6 +18,34 @@ const getAllUsers = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });
+  }
+};
+
+// get saved posts
+const getSavedPosts = async (req, res) => {};
+
+// add saved posts
+const addSavedPosts = async (req, res) => {
+  try {
+    const { userId, postId } = req.body;
+
+    const baba = await Saved.findByIdAndUpdate("6744c6087b328516091bf7d8", {
+      $push: { postId },
+    });
+
+    if (!userId || !postId) {
+      return res.status(400).send({ massege: "missing fileds" });
+    }
+
+    // const newSaved = new Saved({
+    //   userId,
+    //   postId,
+    // });
+    // const savedSaved = await newSaved.save();
+    // res.status(200).send({ message: "yey", savedSaved });
+    res.status(200).send({ message: "baba", baba });
+  } catch (error) {
+    return res.status(500).send({ massege: error });
   }
 };
 
@@ -123,13 +152,17 @@ const lightSignIn = async (req, res) => {
     }
 
     const user = await User.find({ userName: userName });
+    console.log(user);
 
-    if (!user) {
+    if (user.length === 0) {
       return res.status(401).send({ massege: "wrong user Name" });
     } else if (user[0].email !== email) {
       return res.status(401).send({ massege: "wrong email" });
     }
-    return res.status(200).send({ massege: "you are realy you!!" });
+
+    return res
+      .status(200)
+      .send({ massege: "you are realy you!!", userId: user._id });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -206,4 +239,6 @@ module.exports = {
   deleteUser,
   signIn,
   lightSignIn,
+  getSavedPosts,
+  addSavedPosts,
 };

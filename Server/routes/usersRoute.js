@@ -8,6 +8,8 @@ const {
   signIn,
   deleteUser,
   lightSignIn,
+  getSavedPosts,
+  addSavedPosts,
 } = require("../controllers/usersController.js");
 // import { validator } from "../middlewares/validator.js";
 
@@ -15,6 +17,12 @@ const router = express.Router();
 
 //  get all users
 router.get("/all", getAllUsers);
+
+// get seved post
+router.get("/seved_posts", getSavedPosts);
+
+// add seved post
+router.post("/seved_posts", addSavedPosts);
 
 // add user
 router.post("/", addUser);
