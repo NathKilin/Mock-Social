@@ -6,7 +6,7 @@ const {
   getPostById,
   updatePost,
   deletePost,
-} = require("../controllers/postsController.js");
+} = require("../controllers/postController.js");
 
 const router = express.Router();
 

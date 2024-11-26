@@ -1,4 +1,4 @@
-const Post = require("../models/postsModel.js");
+const Post = require("../models/postModel.js");
 
 const postController = {
   // Create a new post
