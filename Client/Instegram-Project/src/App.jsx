@@ -10,8 +10,7 @@ import Article from "./Pages/Article/Article.jsx";
 import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
 
 function App() {
-  const [isLogIn, setIsLogIn] = useState(false);
-
+  const [isLogIn, setIsLogIn] = useState(true);
   const router = createBrowserRouter([
     {
       path: "/",

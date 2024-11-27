@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/slices/userSlice";
 
 const LogIn = ({ setIsLogIn }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +21,7 @@ const LogIn = ({ setIsLogIn }) => {
         user
       );
       if (res?.data?.id) {
-        saveInCookie(res.data.id);
+        dispatch(setUser())
       }
       return res.data;
     } catch (error) {
@@ -26,9 +29,9 @@ const LogIn = ({ setIsLogIn }) => {
     }
   };
 
-  const saveInCookie = (id) => {
-    document.cookie = `userId=${id}; path=/`;
-  };
+  // const saveInCookie = (id) => {
+  //   document.cookie = `userId=${id}; path=/`;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
