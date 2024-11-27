@@ -65,8 +65,17 @@ async function getUsereById(req, res) {
 
 //   add user
 const addUser = async (req, res) => {
-  const { firstName, lastName, userName, email, phone, password } = req.body;
-  if (!firstName || !lastName || !userName || !email || !phone || !password) {
+  const { firstName, lastName, userName, email, phone, password, role } =
+    req.body;
+  if (
+    !firstName ||
+    !lastName ||
+    !userName ||
+    !email ||
+    !phone ||
+    !password ||
+    !role
+  ) {
     res.status(401).send({ massege: "bad request" });
   }
 
@@ -76,10 +85,6 @@ const addUser = async (req, res) => {
       process.env.BCRYPT_KEY,
       process.env.SALT_NUM
     );
-    console.log(req.body.password);
-    console.log(process.env.BCRYPT_KEY);
-    console.log(process.env.SALT_NUM);
-    console.log(hashedPassword);
 
     const newUser = new User({
       firstName,
@@ -87,6 +92,7 @@ const addUser = async (req, res) => {
       userName,
       email,
       phone,
+      role,
       password: hashedPassword,
     });
 
@@ -95,6 +101,7 @@ const addUser = async (req, res) => {
     res.send({
       message: "seve this id to delete or update the user latter on",
       id,
+      role,
     });
   } catch (error) {
     // check if it mongoose error
@@ -134,7 +141,6 @@ const signIn = async (req, res) => {
     }
 
     const token = await creatToken(id, process.env.JWT_KEY);
-    console.log(token);
 
     res
       .status(200)
@@ -146,6 +152,8 @@ const signIn = async (req, res) => {
 
 const lightSignIn = async (req, res) => {
   try {
+    console.log("baba");
+
     const { userName, email } = req.body;
     if (!userName || !email) {
       return res.status(400).send({ massege: "userName and email required" });
@@ -160,9 +168,11 @@ const lightSignIn = async (req, res) => {
       return res.status(401).send({ massege: "wrong email" });
     }
 
-    return res
-      .status(200)
-      .send({ massege: "you are realy you!!", userId: user._id });
+    return res.status(200).send({
+      massege: "you are realy you!!",
+      userId: user[0]._id,
+      role: user[0].role,
+    });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -172,7 +182,8 @@ const lightSignIn = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, userName, phone, email, password } = req.body;
+    const { firstName, lastName, userName, phone, email, password, role } =
+      req.body;
     const filedsToUpdate = {};
 
     if (firstName || firstName !== "") {
@@ -193,6 +204,10 @@ const updateUser = async (req, res) => {
 
     if (email || email !== "") {
       filedsToUpdate.email = email;
+    }
+
+    if (role || role !== "") {
+      filedsToUpdate.role = role;
     }
 
     if (password || password !== "") {
