@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/slices/userSlice.js";
 
 const LogIn = ({ setIsLogIn }) => {
   const dispatch = useDispatch();
@@ -20,8 +20,14 @@ const LogIn = ({ setIsLogIn }) => {
         "http://localhost:3000/api/user/light_sign",
         user
       );
-      if (res?.data?.id) {
-        dispatch(setUser())
+      if (res?.data?.userId) {
+        console.log(res.data.userId);
+        dispatch(
+          setUser({
+            id: res.data.userId,
+            role: res.data.role ? res.data.role : "user",
+          })
+        );
       }
       return res.data;
     } catch (error) {
