@@ -1,39 +1,74 @@
 import { Navigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
+import OnePost from "../../Components/OnePost/OnePost";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+import Comment from "../../Components/Comment/Comment.jsx";
 
-function generatePosts(numberOfPosts) {
-  const posts = [];
-  for (let i = 0; i < numberOfPosts; i++) {
-    posts.push({
-      id: i + 1,
-      imagePlaceholder: `Image Placeholder ${i + 1}`,
-      caption: `Post text ${i + 1}`,
-    });
+const getAllPostApi = async () => {
+  try {
+    const posts = await axios.get("http://localhost:3000/api/posts/all");
+    if (!posts) {
+      console.log("Post couldn't be found");
+    } else {
+      console.log(posts.data);
+      return posts.data;
+    }
+  } catch (error) {
+    console.error(error);
   }
-  return posts;
-}
+};
 
 const HomePage = ({ isLogIn }) => {
-  console.log(isLogIn);
-
   if (!isLogIn) {
     return <Navigate to="/login" replace />;
   }
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [allPosts, setallPosts] = useState([]);
+  console.log(isLogIn);
 
-  const posts = generatePosts(20);
+  const shufflePosts = (posts) => {
+    return posts.sort(() => Math.random() - 0.5);
+  };
+
+  const posts = async () => {
+    try {
+      const getAllPosts = await getAllPostApi();
+      console.log(getAllPosts);
+      setallPosts((prevPosts) => {
+        return [...prevPosts, ...shufflePosts(getAllPosts)];
+      });
+      return getAllPosts;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    posts();
+  }, []);
 
   return (
     <div className="home-page">
       <main className={styles.feed}>
-        {posts.map((post) => (
-          <div key={post.id} className={styles.post}>
-            <div className={styles.imagePlaceholder}>
-              {post.imagePlaceholder}
-            </div>
-            <p className={styles.caption}>{post.caption}</p>
-          </div>
-        ))}
+        {allPosts &&
+          allPosts.map((post) => {
+            return (
+              <OnePost
+                setSelectedPost={setSelectedPost}
+                key={post._id}
+                post={post}
+              />
+            );
+          })}
       </main>
+      {selectedPost && (
+        <Comment
+          setSelectedPost={setSelectedPost}
+          selectedPost={selectedPost}
+        />
+      )}{" "}
     </div>
   );
 };

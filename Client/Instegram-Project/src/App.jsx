@@ -11,7 +11,6 @@ import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
 
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
-
   const router = createBrowserRouter([
     {
       path: "/",
