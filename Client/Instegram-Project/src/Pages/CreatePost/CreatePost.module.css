@@ -102,3 +102,12 @@ button:hover {
     font-size: 1rem;
     color: #9B7E32;
 }
+
+/* 
+.postPreview {
+    border-radius: 10px;
+    width: 300px;
+    height: 150px;
+    padding: 30px;
+    overflow-y: auto;
+} */

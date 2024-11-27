@@ -3,7 +3,7 @@ import styles from "./CreatePost.module.css";
 
 const creatPost = async (mediaUrl, caption) => {
   try {
-    const post = { mediaUrl, caption };
+    const post = { mediaUrl, caption, userId };
     const res = await axios.post("http://localhost:3000/api/post", post);
     return res.data;
   } catch (error) {
@@ -61,7 +61,7 @@ const CreatePost = () => {
         </div>
         <button type="submit">Create Post</button>
       </form>
-      {/* <div className="post-preview">
+      <div className={styles.postPreview}>
         <h3>Preview</h3>
         {mediaUrl && (
           <img
@@ -71,7 +71,7 @@ const CreatePost = () => {
           />
         )}
         {caption && <p>{caption}</p>}
-      </div> */}
+      </div>
     </div>
   );
 };
