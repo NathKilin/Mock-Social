@@ -35,7 +35,8 @@ const userSchema = new mongoose.Schema({
   // ?QUERY: add require to role? we need role but updete not chenge it ?
   role: {
     type: String,
-    enum: ["super admin", "admin", "user", "moderator", "editor"],
+    enum: ["user", "editor", "moderator", "admin", "super admin", "elchanan"],
+    default: "user",
   },
   password: {
     type: String,
