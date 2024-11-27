@@ -3,7 +3,10 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+// routs
 const usersRoute = require("./routes/usersRoute.js");
+const postsRouter = require("./routes/postRouter.js");
+const commentsRouter = require("./routes/commentRouter.js");
 
 const cors = require("cors");
 
@@ -26,6 +29,10 @@ app.get("/api/status", (req, res) => {
 
 //users routes
 app.use("/api/user", usersRoute);
+
+app.use("/api/posts", postsRouter);
+
+app.use("/api/comments", commentsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port${PORT}`);
