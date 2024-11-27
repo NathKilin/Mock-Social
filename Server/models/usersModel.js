@@ -40,6 +40,13 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  // posts: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Post",
+  //     default: [],
+  //   },
+  // ],
 });
 
 userSchema.index({ email: 1 }, { unique: true });
