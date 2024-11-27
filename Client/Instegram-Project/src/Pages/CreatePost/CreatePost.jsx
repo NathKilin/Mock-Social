@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-const creatPost = async (mediaUrl, caption) => {
+const creatPostApi = async (url, caption, authorId) => {
   try {
-    const post = { mediaUrl, caption, userId };
-    const res = await axios.post("http://localhost:3000/api/post", post);
+    const post = { url, caption, authorId };
+    const res = await axios.post("http://localhost:3000/api/posts/add", post);
+    console.log(res);
     return res.data;
   } catch (error) {
     throw error;
@@ -12,26 +15,29 @@ const creatPost = async (mediaUrl, caption) => {
 };
 
 const CreatePost = () => {
-  const [mediaUrl, setMediaUrl] = useState("");
+  const [url, setMediaUrl] = useState("");
   const [caption, setCaption] = useState("");
+  const userGlobalState = useSelector((state) => state.user);
+  console.log(userGlobalState.user.id);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!mediaUrl || !caption) {
-      alert("Both fields are required.");
+    if (!url) {
+      alert("Media URL is required.");
       return;
     }
     try {
-      const newPost = creatPost(mediaUrl, caption);
+      const newPost = await creatPostApi(url, caption, userGlobalState.user.id);
       console.log("Post created:", newPost);
-    } catch (error) {
-      console.log(error);
-    } finally {
       setMediaUrl("");
       setCaption("");
+    } catch (error) {
+      console.error(error);
     }
   };
+
+  // const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
   return (
     <div className={styles.createPost}>
@@ -42,7 +48,7 @@ const CreatePost = () => {
           <input
             type="url"
             id="media-url"
-            value={mediaUrl}
+            value={url}
             onChange={(e) => setMediaUrl(e.target.value)}
             placeholder="Paste the image or video URL"
             required
@@ -61,17 +67,19 @@ const CreatePost = () => {
         </div>
         <button type="submit">Create Post</button>
       </form>
-      <div className={styles.postPreview}>
+      {/* <div className={styles.postPreview}>
         <h3>Preview</h3>
-        {mediaUrl && (
-          <img
-            src={mediaUrl}
-            alt="Media Preview"
-            style={{ maxWidth: "100%" }}
-          />
-        )}
+        {url &&
+          (isVideo(url) ? (
+            <video autoPlay loop muted controls style={{ maxWidth: "100%" }}>
+              <source src={url} type="video/mp4" />
+            </video>
+          ) : (
+            <img src={url} alt="Media Preview" style={{ maxWidth: "100%" }} />
+          ))}
+
         {caption && <p>{caption}</p>}
-      </div>
+      </div> */}
     </div>
   );
 };
