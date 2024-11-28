@@ -4,6 +4,14 @@ const postSchema = new mongoose.Schema({
   url: {
     type: String, // URL of the img/video
     required: true,
+    // validate: {
+    //   // Regular expression to check if the URL ends with .png or .jpg
+    //   validator: function (value) {
+    //     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(value);
+    //   },
+    //   message: (props) =>
+    //     `${props.value} is not a valid image URL! It must end with . png|jpe?g|gif|bmp|webp`,
+    // },
   },
   caption: {
     type: String,
@@ -25,12 +33,11 @@ const postSchema = new mongoose.Schema({
       default: [], // defualt to empty arr if no comments
     },
   ],
-  likes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Ref to the User collection
-    },
-  ],
+  likes: {
+    type: Number,
+    ref: "Likes",
+    default: 0,
+  },
 });
 
 const Post = mongoose.model("Post", postSchema);
