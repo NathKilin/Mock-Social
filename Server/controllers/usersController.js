@@ -76,7 +76,7 @@ const addUser = async (req, res) => {
     !password ||
     !role
   ) {
-    res.status(401).send({ massege: "bad request" });
+    return res.status(401).send({ massege: "bad request" });
   }
 
   try {
@@ -140,7 +140,7 @@ const signIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
-    const token = await creatToken(id, process.env.JWT_KEY);
+    const token = await creatToken(id, "us", process.env.JWT_KEY);
 
     res
       .status(200)
@@ -224,7 +224,19 @@ const updateUser = async (req, res) => {
     });
     res.send({ message: "updated successfully" });
   } catch (err) {
-    res.send({ error: `${err}` });
+    console.log(err.code);
+    if (err.code === 11000) {
+      return res.status(409).send({
+        message: "Duplicate key error. This user already exists.",
+        error: err.message,
+      });
+    } else if (err.name === "ValidationError") {
+      return res.status(400).send({
+        message: "Validation error occurred.",
+        error: err.message,
+      });
+    }
+    res.status(500).send({ error: `${err}` });
   }
 };
 

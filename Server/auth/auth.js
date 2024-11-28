@@ -9,7 +9,6 @@ const makeHashedPassword = async (password, superSecretKey, saltNum) => {
   try {
     const combainKey = password + superSecretKey;
     const hashedPassword = await bcrypt.hash(combainKey, Number(saltNum));
-    console.log(hashedPassword);
     return hashedPassword;
   } catch (error) {
     console.log(`server error: ${error}`);
@@ -35,8 +34,17 @@ const signInAuth = async (inputPassword, storedHashedPassword) => {
 };
 
 // creating jwt token
-async function creatToken(userID, jwtKey) {
-  const token = jwt.sign({ userID }, jwtKey, { expiresIn: "1h" });
+async function creatToken(userID, role, jwtKey) {
+  const roles = [
+    "user",
+    "editor",
+    "moderator",
+    "admin",
+    "super admin",
+    "elchanan",
+  ];
+  !roles.includes(role) ? (role = "user") : role;
+  const token = jwt.sign({ userID, role }, jwtKey, { expiresIn: "1h" });
   return token;
 }
 
