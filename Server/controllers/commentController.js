@@ -25,7 +25,7 @@ const commentsController = {
   getAllComments: async (req, res) => {
     try {
       const comments = await Comment.find()
-        .populate("postId") // Populate author details
+        .populate("postId", "url caption") // Populate author details
         .populate("authorId", "userName email"); // Populate author details
 
       res.status(200).json(comments);
