@@ -63,7 +63,7 @@ const SignUp = () => {
           placeholder="User name..."
           type="text"
           id="userName"
-          value={userData.userName}
+          value={userData.userName.toLowerCase()}
           onChange={handleChange}
           required
         />
