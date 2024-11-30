@@ -125,12 +125,15 @@ const addUser = async (req, res) => {
 // sign in
 const signIn = async (req, res) => {
   try {
-    if (!req.body.password) {
-      return res.status(400).send({ massege: "password requiere" });
+    if (!req.body.password || !req.body.userName) {
+      return res
+        .status(400)
+        .send({ massege: "password and userName requiere" });
     }
 
     const id = req.params.id;
-    const user = await User.findById(id);
+    const response = await User.find({ userName: req.body.userName });
+    const user = response[0];
     const hashedPassword = user.password;
     const isMatch = await signInAuth(req.body.password, hashedPassword);
 
@@ -140,11 +143,20 @@ const signIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
-    const token = await creatToken(id, "us", process.env.JWT_KEY);
+    const token = await creatToken(
+      id,
+      user.role ? user.role : "user",
+      process.env.JWT_KEY
+    );
 
-    res
-      .status(200)
-      .send({ success: true, message: "Login successfuly", token });
+    res.cookie("jwt", token, {
+      httpOnly: false,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 3600000,
+    });
+
+    res.status(200).json({ success: true, message: "Login successfuly" });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -219,6 +231,9 @@ const updateUser = async (req, res) => {
       filedsToUpdate.password = hashedPassword;
     }
 
+    if (filedsToUpdate.length === 0) {
+      return res.status(400).send({ messege: "no match fileds found" });
+    }
     await User.findByIdAndUpdate(id, filedsToUpdate, {
       runValidators: true,
     });
