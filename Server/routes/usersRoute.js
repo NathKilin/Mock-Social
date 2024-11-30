@@ -1,5 +1,7 @@
 const express = require("express");
 
+const { verifyToken } = require("../middlewares/verifyToken.js");
+
 const {
   getAllUsers,
   addUser,
@@ -11,7 +13,6 @@ const {
   getSavedPosts,
   addSavedPosts,
 } = require("../controllers/usersController.js");
-// import { validator } from "../middlewares/validator.js";
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.post("/sign/:id", signIn);
 router.post("/light_sign", lightSignIn);
 
 // updete user by id
-router.patch("/:id", updateUser);
+router.patch("/:id", verifyToken, updateUser);
 
 // delete user by id
 router.delete("/:id", deleteUser);
