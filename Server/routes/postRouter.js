@@ -1,5 +1,6 @@
 const express = require("express");
 
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 const {
   createPost,
   getAllPosts,
@@ -11,7 +12,7 @@ const {
 const router = express.Router();
 
 // create new post
-router.post("/add", createPost);
+router.post("/add", verifySplitToken, createPost);
 
 // get all posts
 router.get("/all", getAllPosts);
