@@ -1,4 +1,5 @@
 const Comment = require("../models/commentModel.js");
+const Post = require("../models/postModel.js");
 
 const commentsController = {
   // Create a new comment
@@ -9,11 +10,15 @@ const commentsController = {
       if (!postId || !text || !authorId) {
         return res.status(400).json({ message: "All fields are required" });
       }
-
       const newComment = new Comment({ postId, text, authorId });
       const savedComment = await newComment.save();
-
-      res.status(201).json(savedComment);
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      post.comments.push(savedComment._id);
+      await post.save();
+      res.status(201).json({ commentId: savedComment._id });
     } catch (error) {
       res
         .status(500)
