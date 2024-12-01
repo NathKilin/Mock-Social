@@ -31,9 +31,9 @@ const postController = {
   getAllPosts: async (req, res) => {
     try {
       const posts = await Post.find()
-        .populate("authorId", "userName email") // Populate author details
-        .populate("comments", "text"); // Populate comments
-      // .populate("likes", "likers".length); // Populate likes
+        .populate("authorId", "userName") // Populate author details
+        .populate("comments", "text") // Populate comments
+        .populate("likedBy", "userName");
 
       res.status(200).json(posts);
     } catch (error) {
@@ -50,8 +50,9 @@ const postController = {
       console.log("Received Post ID:", id);
 
       const post = await Post.findById(id)
-        .populate("authorId", "displayName email")
-        .populate("comments");
+        .populate("authorId", "userName")
+        .populate("comments")
+        .populate("likedBy", "userName");
 
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
