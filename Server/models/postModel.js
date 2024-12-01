@@ -38,14 +38,14 @@ const postSchema = new mongoose.Schema({
     ref: "Likes",
     default: 0,
   },
+  likedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
-
-// How the "likes" Work:
-// The likes field is an array of User IDs.
-// Add a User ID to the array when they like a post.
-// Remove the User ID when they unlike the post.
-// Use the length of the array to determine the total like count.
