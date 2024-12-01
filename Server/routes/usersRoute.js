@@ -25,7 +25,7 @@ router.post("/", addUser);
 router.get("/:id", getUsereById);
 
 // log in
-router.post("/logIn/:id", logIn);
+router.post("/log_in/:id", logIn);
 
 // updete user by id
 router.patch("/:id", verifyToken, updateUser);
