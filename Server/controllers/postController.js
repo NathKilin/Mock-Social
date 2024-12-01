@@ -29,8 +29,9 @@ const postController = {
     try {
       const posts = await Post.find()
         .populate("authorId", "userName email") // Populate author details
-        .populate("comments"); // Populate comments
+        .populate("comments", "text"); // Populate comments
       // .populate("likes", "likers".length); // Populate likes
+
       res.status(200).json(posts);
     } catch (error) {
       res
