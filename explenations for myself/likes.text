@@ -1,0 +1,24 @@
+likes explenation: 
+
+# The "likes" field in the Post model is a simple number that keeps track of the total count of likes for the post.
+
+# The likers array in the Likes model holds the list of user IDs (userId) who have liked the post.
+
+# This is useful if:
+    - You want to check who liked a post (not just the total count).
+    - You want to implement features like:
+         Showing a list of users who liked a post.
+         Preventing duplicate likes from the same user.
+
+
+# *How the Workflow Looks*
+
+    When a Post is Liked:
+
+    - The Likes model's "likers" array is updated to include the user who liked the post.
+    - The Post model's likes field is incremented by 1.
+    
+    When a Post is Unliked:
+
+    - The user is removed from the likers array in the Likes model.
+    - The Post model's likes field is decremented by 1.
