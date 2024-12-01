@@ -4,7 +4,10 @@ const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { url, authorId, caption } = req.body;
+      const { url, caption } = req.body;
+      // const authorId = req.body.userID;
+
+      console.log(req.role);
 
       // data to be inserted via body
       const newPost = new Post({

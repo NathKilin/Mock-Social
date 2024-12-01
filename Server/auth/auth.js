@@ -44,6 +44,9 @@ async function creatToken(userID, role, jwtKey) {
     "super admin",
     "elchanan",
   ];
+  console.log(`user id in creat token ${userID}`);
+  console.log(`role id in creat token ${role}`);
+
   !roles.includes(role) ? (role = "user") : role;
   const token = jwt.sign({ userID, role }, jwtKey, { expiresIn: "1h" });
 

@@ -7,11 +7,12 @@ const {
   updatePost,
   deletePost,
 } = require("../controllers/postController.js");
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const router = express.Router();
 
 // create new post
-router.post("/add", createPost);
+router.post("/add", verifySplitToken, createPost);
 
 // get all posts
 router.get("/all", getAllPosts);
