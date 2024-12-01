@@ -1,5 +1,5 @@
 import axios from "axios";
-//  add id dinamy
+
 const handleLogInSabmit = async (
   e,
   setFailedLogText,
@@ -15,10 +15,12 @@ const handleLogInSabmit = async (
   try {
     console.log("in controller before axios");
     const response = await axios.post(
-      "http://localhost:3000/api/user/sign/674791e67667e1ddd0117cc6",
+      "http://localhost:3000/api/user/sign",
       { userName, password },
       { withCredentials: true }
     );
+    console.log(response);
+
     setFailedLogText("Logging you in...");
     setIsLogIn(true);
     navigate("/");
@@ -32,4 +34,24 @@ const handleLogInSabmit = async (
   setUserName("");
   setPassword("");
 };
-export { handleLogInSabmit };
+
+const verifyAuth = async (token) => {
+  try {
+    const response = await axios.get(
+      "http://localhost:3000/api/user/verify_token",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to verify auth:", error);
+    return false;
+  }
+};
+
+export { handleLogInSabmit, verifyAuth };
