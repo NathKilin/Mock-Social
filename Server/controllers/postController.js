@@ -5,9 +5,7 @@ const postController = {
   createPost: async (req, res) => {
     try {
       const { url, caption } = req.body;
-      // const authorId = req.body.userID;
-
-      console.log(req.role);
+      const authorId = req.userID;
 
       // data to be inserted via body
       const newPost = new Post({

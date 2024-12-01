@@ -142,8 +142,8 @@ const logIn = async (req, res) => {
 //   update user
 const updateUser = async (req, res) => {
   try {
-    // console.log(`req.role: ${req.role}`);
-    // console.log(`req.userID: ${req.userID}`);
+    console.log(`req.role: ${req.role}`);
+    console.log(`req.userID: ${req.userID}`);
 
     const { id } = req.params;
     const { firstName, lastName, userName, phone, email, password, role } =

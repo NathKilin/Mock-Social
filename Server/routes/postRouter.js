@@ -1,5 +1,6 @@
 const express = require("express");
 
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 const {
   createPost,
   getAllPosts,
@@ -7,7 +8,6 @@ const {
   updatePost,
   deletePost,
 } = require("../controllers/postController.js");
-const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const router = express.Router();
 

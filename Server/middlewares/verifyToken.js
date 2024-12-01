@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const verifySplitToken = async (req, res, next) => {
   try {
+    console.log("baba");
+
     const authHeader = req.headers["authorization"];
     const token = authHeader.split(" ")[1];
     if (!token) {
@@ -15,7 +17,7 @@ const verifySplitToken = async (req, res, next) => {
         //   reasiment to req (req is object so i cen add keys)
         req.userID = decoded.userID;
         decoded.role ? (req.role = decoded.role) : (req.role = "user");
-        // console.log(`req- role: ${req.role} user id: ${req.userID}`);
+        console.log(`req- role: ${req.role} user id: ${req.userID}`);
         next();
       }
     });
