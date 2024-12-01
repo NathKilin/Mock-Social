@@ -16,7 +16,7 @@ const makeHashedPassword = async (password, superSecretKey, saltNum) => {
 };
 
 //login function to compare the input Password with stored hashed password
-const signInAuth = async (inputPassword, storedHashedPassword) => {
+const logInAuth = async (inputPassword, storedHashedPassword) => {
   try {
     // combine the input password with our secret key
     const combinedPassword = inputPassword + process.env.BCRYPT_KEY;
@@ -55,6 +55,6 @@ async function creatToken(userID, role, jwtKey) {
 
 module.exports = {
   makeHashedPassword,
-  signInAuth,
+  logInAuth,
   creatToken,
 };
