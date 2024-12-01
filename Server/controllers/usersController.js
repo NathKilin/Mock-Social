@@ -3,8 +3,8 @@ const Saved = require("../models/savedModel.js");
 
 const {
   makeHashedPassword,
-  signInAuth,
   creatToken,
+  logInAuth,
 } = require("../auth/auth.js");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
@@ -18,34 +18,6 @@ const getAllUsers = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ err });
-  }
-};
-
-// get saved posts
-const getSavedPosts = async (req, res) => {};
-
-// add saved posts
-const addSavedPosts = async (req, res) => {
-  try {
-    const { userId, postId } = req.body;
-
-    const baba = await Saved.findByIdAndUpdate("6744c6087b328516091bf7d8", {
-      $push: { postId },
-    });
-
-    if (!userId || !postId) {
-      return res.status(400).send({ massege: "missing fileds" });
-    }
-
-    // const newSaved = new Saved({
-    //   userId,
-    //   postId,
-    // });
-    // const savedSaved = await newSaved.save();
-    // res.status(200).send({ message: "yey", savedSaved });
-    res.status(200).send({ message: "baba", baba });
-  } catch (error) {
-    return res.status(500).send({ massege: error });
   }
 };
 
@@ -76,7 +48,7 @@ const addUser = async (req, res) => {
     !password ||
     !role
   ) {
-    res.status(401).send({ massege: "bad request" });
+    return res.status(401).send({ massege: "bad request" });
   }
 
   try {
@@ -122,17 +94,20 @@ const addUser = async (req, res) => {
   }
 };
 
-// sign in
-const signIn = async (req, res) => {
+// log in
+const logIn = async (req, res) => {
   try {
-    if (!req.body.password) {
-      return res.status(400).send({ massege: "password requiere" });
+    if (!req.body.password || !req.body.userName) {
+      return res
+        .status(400)
+        .send({ massege: "password and userName requiere" });
     }
 
     const id = req.params.id;
-    const user = await User.findById(id);
+    const response = await User.find({ userName: req.body.userName });
+    const user = response[0];
     const hashedPassword = user.password;
-    const isMatch = await signInAuth(req.body.password, hashedPassword);
+    const isMatch = await logInAuth(req.body.password, hashedPassword);
 
     if (isMatch === false) {
       return res
@@ -140,39 +115,20 @@ const signIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
-    const token = await creatToken(id, process.env.JWT_KEY);
+    const token = await creatToken(
+      id,
+      user.role ? user.role : "user",
+      process.env.JWT_KEY
+    );
 
-    res
-      .status(200)
-      .send({ success: true, message: "Login successfuly", token });
-  } catch (error) {
-    return res.status(500).send({ error });
-  }
-};
-
-const lightSignIn = async (req, res) => {
-  try {
-    console.log("baba");
-
-    const { userName, email } = req.body;
-    if (!userName || !email) {
-      return res.status(400).send({ massege: "userName and email required" });
-    }
-
-    const user = await User.find({ userName: userName });
-    console.log(user);
-
-    if (user.length === 0) {
-      return res.status(401).send({ massege: "wrong user Name" });
-    } else if (user[0].email !== email) {
-      return res.status(401).send({ massege: "wrong email" });
-    }
-
-    return res.status(200).send({
-      massege: "you are realy you!!",
-      userId: user[0]._id,
-      role: user[0].role,
+    res.cookie("jwt", token, {
+      httpOnly: false,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 3600000,
     });
+
+    res.status(200).json({ success: true, message: "Login successfuly" });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -219,12 +175,27 @@ const updateUser = async (req, res) => {
       filedsToUpdate.password = hashedPassword;
     }
 
+    if (filedsToUpdate.length === 0) {
+      return res.status(400).send({ messege: "no match fileds found" });
+    }
     await User.findByIdAndUpdate(id, filedsToUpdate, {
       runValidators: true,
     });
     res.send({ message: "updated successfully" });
   } catch (err) {
-    res.send({ error: `${err}` });
+    console.log(err.code);
+    if (err.code === 11000) {
+      return res.status(409).send({
+        message: "Duplicate key error. This user already exists.",
+        error: err.message,
+      });
+    } else if (err.name === "ValidationError") {
+      return res.status(400).send({
+        message: "Validation error occurred.",
+        error: err.message,
+      });
+    }
+    res.status(500).send({ error: `${err}` });
   }
 };
 
@@ -246,14 +217,41 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// get saved posts
+const getSavedPosts = async (req, res) => {};
+
+// add saved posts
+const addSavedPosts = async (req, res) => {
+  try {
+    const { userId, postId } = req.body;
+
+    const baba = await Saved.findByIdAndUpdate("6744c6087b328516091bf7d8", {
+      $push: { postId },
+    });
+
+    if (!userId || !postId) {
+      return res.status(400).send({ massege: "missing fileds" });
+    }
+
+    // const newSaved = new Saved({
+    //   userId,
+    //   postId,
+    // });
+    // const savedSaved = await newSaved.save();
+    // res.status(200).send({ message: "yey", savedSaved });
+    res.status(200).send({ message: "baba", baba });
+  } catch (error) {
+    return res.status(500).send({ massege: error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   addUser,
   getUsereById,
   updateUser,
   deleteUser,
-  signIn,
-  lightSignIn,
+  logIn,
   getSavedPosts,
   addSavedPosts,
 };

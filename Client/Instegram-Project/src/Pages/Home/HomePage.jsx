@@ -53,11 +53,13 @@ const HomePage = ({ isLogIn }) => {
     <div className="home-page">
       <main className={styles.feed}>
         {allPosts &&
-          allPosts.map((post) => {
+          allPosts.map((post, index) => {
+            console.log(post._id);
+
             return (
               <OnePost
                 setSelectedPost={setSelectedPost}
-                key={post._id}
+                key={post._id + index}
                 post={post}
               />
             );

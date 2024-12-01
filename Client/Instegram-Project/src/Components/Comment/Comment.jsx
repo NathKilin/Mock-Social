@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Comment.module.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const saveCommentApi = async (comment) => {
   try {
@@ -16,27 +17,10 @@ const saveCommentApi = async (comment) => {
 };
 
 const Comment = ({ selectedPost, setSelectedPost }) => {
-  console.log(selectedPost);
-
-  const [comments, setComments] = useState([]);
+  const userGlobalState = useSelector((state) => state.user);
   // holding value of new comment
   const [newComment, setNewComment] = useState("");
-  // fake API function to fetch
-  const fetchComments = () => {
-    // const allCommentsPerPost = axios.get("");
-    return [
-      { id: 1, user: "User 1", text: "My maaaan!" },
-      { id: 2, user: "User 2", text: "Mazal Tov" },
-    ];
-  };
-  // simulating loading comments when the modal opens
-  useEffect(() => {
-    // fake API call
-    const simulatedComments = fetchComments();
-    // Setting the fetched comments in the state
-    setComments(simulatedComments);
-    // Empty dependency array ensures this runs only once when the modal is rendered
-  }, []);
+
   // Function to handle adding a new comment
   const handleAddComment = async () => {
     // Prevents adding empty comments
@@ -44,14 +28,11 @@ const Comment = ({ selectedPost, setSelectedPost }) => {
     const newCommentObj = {
       postId: selectedPost._id,
       text: newComment,
-      authorId: "6743986b0b73dc1a2e25e4b0",
+      authorId: userGlobalState.user.id,
     };
     const saveComment = await saveCommentApi(newCommentObj);
     console.log(saveComment);
 
-    // Updates the comments state with the new comment
-    setComments([...comments, newCommentObj]);
-    // Clears the input field
     setNewComment("");
   };
   return (
@@ -61,15 +42,7 @@ const Comment = ({ selectedPost, setSelectedPost }) => {
         setSelectedPost(null);
       }}
     >
-      {/* Backdrop that closes the modal when clicked */}
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        {/* Modal content container; click events inside do not close the modal */}
-        <div className={styles.imagePlaceholder}>
-          {/* {selectedPost.imagePlaceholder}{" "} */}
-          {/* Displays the post's image or placeholder */}
-        </div>
-        {/* <p className={styles.caption}>{selectedPost.caption}</p> */}
-        {/* Displays the caption of the post */}
         <div className={styles.comments}>
           <h3>Comentários</h3>
           {/* Comments section header */}

@@ -9,7 +9,6 @@ const makeHashedPassword = async (password, superSecretKey, saltNum) => {
   try {
     const combainKey = password + superSecretKey;
     const hashedPassword = await bcrypt.hash(combainKey, Number(saltNum));
-    console.log(hashedPassword);
     return hashedPassword;
   } catch (error) {
     console.log(`server error: ${error}`);
@@ -17,16 +16,17 @@ const makeHashedPassword = async (password, superSecretKey, saltNum) => {
 };
 
 //login function to compare the input Password with stored hashed password
-const signInAuth = async (inputPassword, storedHashedPassword) => {
+const logInAuth = async (inputPassword, storedHashedPassword) => {
   try {
-    //combine the input password with our secret key
+    // combine the input password with our secret key
     const combinedPassword = inputPassword + process.env.BCRYPT_KEY;
 
-    //check if the combination of the two matches our stored password
+    // check if the combination of the two matches our stored password
     const isMatch = await bcrypt.compare(
       combinedPassword,
       storedHashedPassword
     );
+
     return isMatch;
   } catch (error) {
     console.log(`server error: ${error}`);
@@ -35,8 +35,18 @@ const signInAuth = async (inputPassword, storedHashedPassword) => {
 };
 
 // creating jwt token
-async function creatToken(userID, jwtKey) {
-  const token = jwt.sign({ userID }, jwtKey, { expiresIn: "1h" });
+async function creatToken(userID, role, jwtKey) {
+  const roles = [
+    "user",
+    "editor",
+    "moderator",
+    "admin",
+    "super admin",
+    "elchanan",
+  ];
+  !roles.includes(role) ? (role = "user") : role;
+  const token = jwt.sign({ userID, role }, jwtKey, { expiresIn: "1h" });
+
   return token;
 }
 
@@ -45,6 +55,6 @@ async function creatToken(userID, jwtKey) {
 
 module.exports = {
   makeHashedPassword,
-  signInAuth,
+  logInAuth,
   creatToken,
 };
