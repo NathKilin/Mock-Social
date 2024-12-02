@@ -1,27 +1,31 @@
 import styles from "./Footer.module.css";
 import { Link } from "react-router-dom";
 
-//todo route to other buttons
+const Footer = ({ setIsAccordionOpen }) => {
+  const toggleSearchAccotdion = () => {
+    setIsAccordionOpen((prev) => !prev);
+  };
 
-const Footer = () => {
+  const setFalseSearchAccotdion = () => {
+    setIsAccordionOpen((prev) => {
+      return (prev = false);
+    });
+  };
+
   return (
     <div className={styles.Footer}>
       <footer className={styles.footer}>
         <Link to="/">
-          <button>🏠</button>
+          <button onClick={setFalseSearchAccotdion}>🏠</button>
         </Link>
-        {/* <Link to="/search"> */}
-        <button>🔍</button>
-        {/* </Link> */}
+        <button onClick={toggleSearchAccotdion}>🔍</button>
         <Link to="/createPost">
-          <button>➕</button>
+          <button onClick={setFalseSearchAccotdion}>➕</button>
         </Link>
-        {/* <Link to="/movies"> */}
-        <button>🎥</button>
-        {/* </Link> */}
-        {/* <Link to="/profile"> */}
-        <button>👤</button>
-        {/* </Link> */}
+        <button onClick={setFalseSearchAccotdion}>🎥</button>
+        <Link to="/userProfile">
+          <button onClick={setFalseSearchAccotdion}>👤</button>
+        </Link>
       </footer>
     </div>
   );

@@ -5,7 +5,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import Comment from "../../Components/Comment/Comment.jsx";
-// import LoadingCircle from "../../Components/Loadin-Circle/Loading.jsx";
 
 const getAllPostApi = async () => {
   try {
@@ -25,6 +24,7 @@ const HomePage = ({ isLogIn }) => {
   if (!isLogIn) {
     return <Navigate to="/login" replace />;
   }
+
   const [selectedPost, setSelectedPost] = useState(null);
   const [allPosts, setallPosts] = useState([]);
   console.log(isLogIn);
@@ -71,7 +71,7 @@ const HomePage = ({ isLogIn }) => {
           setSelectedPost={setSelectedPost}
           selectedPost={selectedPost}
         />
-      )}{" "}
+      )}
     </div>
   );
 };

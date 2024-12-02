@@ -8,6 +8,7 @@ import HomePage from "./Pages/Home/HomePage.jsx";
 import LogIn from "./Pages/Log-in/LogIn.jsx";
 import Article from "./Pages/Article/Article.jsx";
 import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
+import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -23,6 +24,10 @@ function App() {
         {
           path: "/createPost",
           element: <CreatePost />,
+        },
+        {
+          path: "/userProfile",
+          element: <UserProfile />,
         },
       ],
     },
