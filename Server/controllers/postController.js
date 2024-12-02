@@ -15,7 +15,7 @@ const postController = {
         authorId,
         caption,
       });
-      console.log(newPost);
+      // console.log(newPost);
 
       const savedPost = await newPost.save();
 
