@@ -1,12 +1,15 @@
-const mongoose =require("mongoose")
+const mongoose = require("mongoose");
 
 const savedSchema = new mongoose.Schema({
-    userId:{
-        required: true,
-    },
-    postId:{
-        require: true,
-    }
-})
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  postId: {
+    type: Array,
+    default: "",
+  },
+});
 
-module.exports = mongoose.model("Saved" , savedSchema);
+module.exports = mongoose.model("Saved", savedSchema);

@@ -1,0 +1,12 @@
+no need for get all users function...
+need to add follow user and unfollow a user
+
+followers: {
+    type: Array,
+    default: [],
+}, 
+follwing: {
+    type: Array,
+    defualt: []
+}
+username password and email should have min and max, 

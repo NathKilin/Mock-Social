@@ -177,3 +177,16 @@
 .logInLink:hover {
     color: #FFD700;
 }
+
+
+
+
+
+/*Does not refer to dark or light mode */
+.errorMassege:empty {
+    display: none;
+}
+
+.errorMassege {
+    margin-top: 15px;
+}

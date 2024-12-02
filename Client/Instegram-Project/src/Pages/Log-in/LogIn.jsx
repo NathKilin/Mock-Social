@@ -1,32 +1,119 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { useState } from "react";
+// import { Link } from "react-router-dom";
+// import styles from "./LogIn.module.css";
+// import { useNavigate } from "react-router-dom";
+// import { handleLogInSabmit } from "../../api/login.js";
+// import getAuthTokenFromCookie from "../../auth/auth.js";
+
+// const LogIn = ({ setIsLogIn }) => {
+//   const navigate = useNavigate();
+//   const [userName, setUserName] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [failedLogText, setFailedLogText] = useState("");
+
+//   return (
+//     <div className={styles.logInContainer}>
+//       <h1 className={styles.logInTitle}>Log In</h1>
+//       <form
+//         className={styles.logInForm}
+//         onSubmit={(e) =>
+//           handleLogInSabmit(
+//             e,
+//             setFailedLogText,
+//             setUserName,
+//             setPassword,
+//             password,
+//             userName,
+//             navigate,
+//             setIsLogIn
+//           )
+//         }
+//       >
+//         <input
+//           className={styles.logInInput}
+//           placeholder="User Name..."
+//           type="text"
+//           value={userName}
+//           onChange={(e) => setUserName(e.target.value)}
+//           required
+//         />
+//         <hr className={styles.logInHr} />
+//         <input
+//           className={styles.logInInput}
+//           placeholder="Password..."
+//           type="text"
+//           value={password}
+//           onChange={(e) => setPassword(e.target.value)}
+//           required
+//         />
+//         <hr className={styles.logInHr} />
+//         <button type="submit" className={styles.logInButton}>
+//           Log In
+//         </button>
+//         <div className={styles.errorMassege}>{failedLogText}</div>
+//       </form>
+//       <p className={styles.logInParagraph}>
+//         Don't have an account?{" "}
+//         <Link to="/signup" className={styles.logInLink}>
+//           Sign Up
+//         </Link>
+//       </p>
+//     </div>
+//   );
+// };
+// export default LogIn;
+
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./LogIn.module.css";
+import { handleLogInSabmit, verifyAuth } from "../../api/login.js";
+import getAuthTokenFromCookie from "../../auth/auth.js";
 
-const logInApi = async (userName, email) => {
-  console.log("Logging in with:", userName, email);
-  return { userName, email };
-};
-
-const LogIn = () => {
+const LogIn = ({ setIsLogIn }) => {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [failedLogText, setFailedLogText] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const checkAuth = async () => {
     try {
-      const userData = await logInApi(userName, email);
-      console.log("User data:", userData);
+      const token = getAuthTokenFromCookie();
+      console.log(token);
+
+      if (token) {
+        const isAuthValid = await verifyAuth(token);
+        if (isAuthValid) {
+          setIsLogIn(true);
+          navigate("/");
+        }
+      }
     } catch (error) {
-      console.log("Error during login:", error);
+      console.error("Authentication check failed:", error);
     }
-    setUserName("");
-    setEmail("");
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [navigate]);
 
   return (
     <div className={styles.logInContainer}>
       <h1 className={styles.logInTitle}>Log In</h1>
-      <form className={styles.logInForm} onSubmit={handleSubmit}>
+      <form
+        className={styles.logInForm}
+        onSubmit={(e) =>
+          handleLogInSabmit(
+            e,
+            setFailedLogText,
+            setUserName,
+            setPassword,
+            password,
+            userName,
+            navigate,
+            setIsLogIn
+          )
+        }
+      >
         <input
           className={styles.logInInput}
           placeholder="User Name..."
@@ -38,18 +125,18 @@ const LogIn = () => {
         <hr className={styles.logInHr} />
         <input
           className={styles.logInInput}
-          placeholder="Email..."
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Password..."
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <hr className={styles.logInHr} />
         <button type="submit" className={styles.logInButton}>
           Log In
         </button>
+        <div className={styles.errorMassege}>{failedLogText}</div>
       </form>
-
       <p className={styles.logInParagraph}>
         Don't have an account?{" "}
         <Link to="/signup" className={styles.logInLink}>
