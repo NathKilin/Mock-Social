@@ -1,11 +1,12 @@
 const Post = require("../models/postModel.js");
+const mongoose = require("mongoose");
 
 const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { url, caption } = req.body;
-      const authorId = req.userID;
+      const { url, caption, authorId } = req.body;
+      // const authorId = req.userID;
 
       // data to be inserted via body
       const newPost = new Post({
@@ -44,12 +45,11 @@ const postController = {
   // Retrieve a specific post by ID
   getPostById: async (req, res) => {
     try {
-      const { id } = req.params;
-      console.log("Received Post ID:", id);
+      const { postId } = req.params;
 
-      const post = await Post.findById(id)
+      const post = await Post.findById(postId)
         .populate("authorId", "userName")
-        .populate("comments")
+        .populate("comments", "authorId likedBy text")
         .populate("likedBy", "userName");
 
       if (!post) {
@@ -67,19 +67,28 @@ const postController = {
   // Update a post
   updatePost: async (req, res) => {
     try {
-      const { id } = req.params;
-      const { url, caption } = req.body;
+      // const authorId = req.userID;
+      const { postId } = req.params;
+      const { url, caption, authorId } = req.body;
 
-      const updatedPost = await Post.findByIdAndUpdate(
-        id,
-        { url, caption },
-        { new: true }
-      );
+      const post = await Post.findById(postId);
 
-      if (!updatedPost) {
+      if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
 
+      // Check if the requesting user is the author of the post
+      if (post.authorId.toString() !== authorId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to edit this post" });
+      }
+
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { url, caption },
+        { new: true } // Ensures the updated document is returned
+      );
       res
         .status(200)
         .json({ message: "Post updated successfully", data: updatedPost });
@@ -93,13 +102,24 @@ const postController = {
   // Delete a post
   deletePost: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { postId } = req.params;
+      const { authorId } = req.body;
+      // const authorId = req.userID;
 
-      const deletedPost = await Post.findByIdAndDelete(id);
+      const post = await Post.findById(postId);
 
-      if (!deletedPost) {
+      if (!post) {
         return res.status(404).json({ message: "Post not found" });
       }
+
+      // Check if the requesting user is the author of the post
+      if (post.authorId.toString() !== authorId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to delete this post" });
+      }
+
+      await Post.findByIdAndDelete(postId);
 
       res.status(200).json({ message: "Post deleted successfully" });
     } catch (error) {
