@@ -5,6 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import Comment from "../../Components/Comment/Comment.jsx";
+// import LoadingCircle from "../../Components/Loadin-Circle/Loading.jsx";
 
 const getAllPostApi = async () => {
   try {
