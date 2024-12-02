@@ -1,6 +1,6 @@
 const express = require("express");
-
 const { verifySplitToken } = require("../middlewares/verifyToken.js");
+
 const {
   createPost,
   getAllPosts,

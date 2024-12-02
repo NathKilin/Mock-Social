@@ -5,7 +5,8 @@ const commentsController = {
   // Create a new comment
   createComment: async (req, res) => {
     try {
-      const { postId, text, authorId } = req.body;
+      const { postId, text } = req.body;
+      const authorId = req.userID;
 
       if (!postId || !text || !authorId) {
         return res.status(400).json({ message: "All fields are required" });

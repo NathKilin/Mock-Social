@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const {
   createComment,
@@ -11,7 +12,7 @@ const {
 const router = express.Router();
 
 // Create a new comment
-router.post("/add", createComment);
+router.post("/add", verifySplitToken, createComment);
 
 // Get All comments
 router.get("/all", getAllComments);
