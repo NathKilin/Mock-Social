@@ -31,7 +31,8 @@ const commentsController = {
     try {
       const comments = await Comment.find()
         .populate("postId", "url caption") // Populate author details
-        .populate("authorId", "userName email"); // Populate author details
+        .populate("authorId", "userName email") // Populate author details
+        .populate("likedBy", "userName");
 
       res.status(200).json(comments);
     } catch (error) {
@@ -45,13 +46,14 @@ const commentsController = {
   getCommentById: async (req, res) => {
     try {
       const { id } = req.params;
-      const comment = await Comment.findById(id).populate(
-        "postId",
-        "url caption authorId"
-      );
+      const comment = await Comment.findById(id)
+        .populate("postId", "url caption authorId")
+        .populate("likedBy", "userName");
+
       if (!comment) {
         return res.status(404).json({ message: "comment not found" });
       }
+
       res.status(200).json(comment);
     } catch (error) {
       res
