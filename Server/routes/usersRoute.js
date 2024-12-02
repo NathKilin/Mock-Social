@@ -42,6 +42,6 @@ router.post("/seved_posts", addSavedPosts);
 
 // verify token
 
-router.get("/verify_token", verifyToken);
+router.post("/verify_token", verifyToken);
 
 module.exports = router;

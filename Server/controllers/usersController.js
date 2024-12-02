@@ -256,9 +256,8 @@ const addSavedPosts = async (req, res) => {
 
 // verify token
 const verifyToken = async (req, res) => {
-  console.log("banana");
   try {
-    if (!req?.headers["authorization"])
+    if (!req.headers["authorization"])
       return res.status(400).send({ message: "token miss!" });
     const authHeader = req.headers["authorization"];
     const token = authHeader.split(" ")[1];
