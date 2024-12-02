@@ -28,7 +28,7 @@ function App() {
     },
     {
       path: "/login",
-      element: <LogIn setIsLogIn={setIsLogIn} />,
+      element: <LogIn isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
     },
     {
       path: "/signup",

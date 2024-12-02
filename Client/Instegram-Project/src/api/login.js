@@ -12,32 +12,36 @@ const handleLogInSabmit = async (
 ) => {
   e.preventDefault();
   setFailedLogText("Processing...");
+
   try {
-    console.log("in controller before axios");
     const response = await axios.post(
       "http://localhost:3000/api/user/log_in",
       { userName, password },
       { withCredentials: true }
     );
-    console.log(response);
 
-    setFailedLogText("Logging you in...");
-    setIsLogIn(true);
-    navigate("/");
-    console.log("in controller Response:", response.data);
-    return response.data; // save in storage
+    if (response.status === 200 && response.data.token) {
+      setFailedLogText("Logging you in...");
+      setIsLogIn(true);
+      navigate("/");
+    } else {
+      throw new Error("Unexpected response format or missing token.");
+    }
   } catch (error) {
-    console.log("w", error.response.data);
-    console.error("Error during sign-in:", error);
-    setFailedLogText("Invalid details, please try again.");
+    if (error.response?.status === 401) {
+      setFailedLogText("Invalid username or password. Please try again.");
+    } else {
+      setFailedLogText("An error occurred. Please try again later.");
+    }
+  } finally {
+    setUserName("");
+    setPassword("");
   }
-  setUserName("");
-  setPassword("");
 };
 
 const verifyAuth = async (token) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       "http://localhost:3000/api/user/verify_token",
       {},
       {
@@ -47,9 +51,9 @@ const verifyAuth = async (token) => {
         },
       }
     );
-    return response.data;
+    return true;
   } catch (error) {
-    console.error("Failed to verify auth:", error);
+    console.log(error);
     return false;
   }
 };
