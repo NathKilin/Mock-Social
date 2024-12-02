@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Comment.module.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import getAuthTokenFromCookie from "../../auth/auth";
 
 const saveCommentApi = async (comment) => {
   try {
+    const token = getAuthTokenFromCookie();
+    if (!token) {
+      console.log("no token");
+    }
     const save = await axios.post(
       "http://localhost:3000/api/comments/add",
-      comment
+      comment,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
+
     console.log(save);
     return save;
   } catch (error) {
@@ -17,7 +27,6 @@ const saveCommentApi = async (comment) => {
 };
 
 const Comment = ({ selectedPost, setSelectedPost }) => {
-  const userGlobalState = useSelector((state) => state.user);
   // holding value of new comment
   const [newComment, setNewComment] = useState("");
 
@@ -28,7 +37,6 @@ const Comment = ({ selectedPost, setSelectedPost }) => {
     const newCommentObj = {
       postId: selectedPost._id,
       text: newComment,
-      authorId: userGlobalState.user.id,
     };
     const saveComment = await saveCommentApi(newCommentObj);
     console.log(saveComment);

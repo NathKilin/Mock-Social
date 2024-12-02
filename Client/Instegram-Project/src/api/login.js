@@ -40,11 +40,10 @@ const handleLogInSabmit = async (
 };
 
 const verifyAuth = async (token) => {
-  console.log(token);
-
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       "http://localhost:3000/api/user/verify_token",
+      {},
       {
         headers: {
           "Content-Type": "application/json",
@@ -52,11 +51,9 @@ const verifyAuth = async (token) => {
         },
       }
     );
-
     return true;
   } catch (error) {
     console.log(error);
-
     return false;
   }
 };
