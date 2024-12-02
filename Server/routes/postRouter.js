@@ -11,8 +11,8 @@ const {
 
 const router = express.Router();
 // create new post
-// router.post("/add", verifySplitToken, createPost);
-router.post("/add", createPost);
+router.post("/add", verifySplitToken, createPost);
+// router.post("/add", createPost);
 
 // get all posts
 router.get("/all", getAllPosts);

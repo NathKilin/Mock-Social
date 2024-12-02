@@ -5,8 +5,9 @@ const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { url, caption, authorId } = req.body;
-      // const authorId = req.userID;
+      const { url, caption } = req.body;
+      const authorId = req.userID;
+      console.log("in server");
 
       // data to be inserted via body
       const newPost = new Post({
@@ -14,12 +15,17 @@ const postController = {
         authorId,
         caption,
       });
+      console.log(newPost);
 
       const savedPost = await newPost.save();
+
       res
         .status(201)
         .json({ message: "Post created successfully", data: savedPost });
     } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+      console.log(error.name);
       res
         .status(500)
         .json({ message: "Error creating post", error: error.message });
