@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import { handleLogInSabmit, verifyAuth } from "../../api/login.js";
 import getAuthTokenFromCookie from "../../auth/auth.js";
+//test
 
 const LogIn = ({ setIsLogIn, isLogIn }) => {
   const navigate = useNavigate();
