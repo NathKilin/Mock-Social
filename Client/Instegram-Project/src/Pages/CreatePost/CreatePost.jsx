@@ -7,11 +7,11 @@ import { postsCliant } from "../../api/axiosInstens.js";
 const creatPostApi = async (url, caption) => {
   try {
     const post = { url, caption };
-    console.log("baba");
+    
     const res = await postsCliant.post("/add", post);
-    console.log("baba");
+    
 
-    console.log(res);
+    console.log(res.data);
 
     return res;
   } catch (error) {
@@ -20,17 +20,6 @@ const creatPostApi = async (url, caption) => {
 };
 
 const CreatePost = () => {
-  //   const addPost = async (url, caption) => {
-  //     const post = {
-  //       url: "https://rapidapi.com/guides/custom-axios-instance",
-  //       caption: "fsdfsdfds",
-  //     };
-  //     const response =
-
-  //   };
-
-  // addPost("ff", "fd");
-
   const [url, setMediaUrl] = useState("");
   const [caption, setCaption] = useState("");
 
