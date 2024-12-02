@@ -37,6 +37,20 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "editor", "moderator", "admin", "super admin", "elchanan"],
     default: "user",
   },
+  userComments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+
+  userPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+
   password: {
     type: String,
     required: true,

@@ -39,15 +39,7 @@ async function getUsereById(req, res) {
 const addUser = async (req, res) => {
   const { firstName, lastName, userName, email, phone, password, role } =
     req.body;
-  if (
-    !firstName ||
-    !lastName ||
-    !userName ||
-    !email ||
-    !phone ||
-    !password ||
-    !role
-  ) {
+  if (!firstName || !lastName || !userName || !email || !phone || !password) {
     return res.status(401).send({ massege: "bad request" });
   }
 

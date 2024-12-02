@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
 import axios from "axios";
 import getAuthTokenFromCookie from "../../auth/auth.js";
+import { postsCliant } from "../../api/axiosInstens.js";
 
 const creatPostApi = async (url, caption) => {
   try {
     const token = getAuthTokenFromCookie();
-    console.log(token);
+    // console.log(token);
 
     if (!token) {
       throw new Error("User is not authenticated.");
@@ -24,6 +25,19 @@ const creatPostApi = async (url, caption) => {
 };
 
 const CreatePost = () => {
+  const addPost = async (url, caption) => {
+    const post = {
+      url: "https://rapidapi.com/guides/custom-axios-instance",
+      caption: "fsdfsdfds",
+    };
+    console.log("baba");
+
+    const response = await postsCliant.post("/add", post);
+    console.log(response);
+  };
+
+  addPost("ff", "fd");
+
   const [url, setMediaUrl] = useState("");
   const [caption, setCaption] = useState("");
 
