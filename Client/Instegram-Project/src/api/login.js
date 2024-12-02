@@ -15,7 +15,7 @@ const handleLogInSabmit = async (
   try {
     console.log("in controller before axios");
     const response = await axios.post(
-      "http://localhost:3000/api/user/sign",
+      "http://localhost:3000/api/user/log_in",
       { userName, password },
       { withCredentials: true }
     );
