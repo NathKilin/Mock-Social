@@ -1,12 +1,13 @@
 const Comment = require("../models/commentModel.js");
 const Post = require("../models/postModel.js");
+const mongoose = require("mongoose");
 
 const commentsController = {
   // Create a new comment
   createComment: async (req, res) => {
     try {
-      const { postId, text } = req.body;
-      const authorId = req.userID;
+      const { postId, text, authorId } = req.body;
+      // const authorId = req.userID;
 
       if (!postId || !text || !authorId) {
         return res.status(400).json({ message: "All fields are required" });
@@ -19,7 +20,9 @@ const commentsController = {
       }
       post.comments.push(savedComment._id);
       await post.save();
-      res.status(201).json({ commentId: savedComment._id });
+      res
+        .status(201)
+        .json({ message: "comment created successfully", data: savedComment });
     } catch (error) {
       res
         .status(500)
@@ -31,8 +34,8 @@ const commentsController = {
   getAllComments: async (req, res) => {
     try {
       const comments = await Comment.find()
-        .populate("postId", "url caption") // Populate author details
-        .populate("authorId", "userName email") // Populate author details
+        .populate("postId", "id") // Populate author details
+        .populate("authorId", "_id") // Populate author details
         .populate("likedBy", "userName");
 
       res.status(200).json(comments);
@@ -46,8 +49,9 @@ const commentsController = {
   // Get comment by ID
   getCommentById: async (req, res) => {
     try {
-      const { id } = req.params;
-      const comment = await Comment.findById(id)
+      const { commentId } = req.params;
+
+      const comment = await Comment.findById(commentId)
         .populate("postId", "url caption authorId")
         .populate("likedBy", "userName");
 
@@ -66,8 +70,9 @@ const commentsController = {
   // Update comment
   updateComment: async (req, res) => {
     try {
-      const { id } = req.params;
-      const { text } = req.body;
+      // const authorId = req.userID;
+      const { commentId } = req.params;
+      const { text, authorId } = req.body;
 
       if (!text) {
         return res
@@ -75,17 +80,29 @@ const commentsController = {
           .json({ message: "Text is required to update the comment" });
       }
 
-      const updatedComment = await Comment.findByIdAndUpdate(
-        id,
-        { text },
-        { new: true, runValidators: true }
-      );
+      const comment = await Comment.findById(commentId);
 
-      if (!updatedComment) {
+      if (!comment) {
         return res.status(404).json({ message: "Comment not found" });
       }
 
-      res.status(200).json(updatedComment);
+      // Check if the requesting user is the author of the Comment
+      if (comment.authorId.toString() !== authorId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to edit this Comment" });
+      }
+
+      const updatedComment = await Comment.findByIdAndUpdate(
+        commentId,
+        { text },
+        { new: true }
+      );
+
+      res.status(200).json({
+        message: "comment updated successfully",
+        data: updatedComment,
+      });
     } catch (error) {
       res
         .status(500)
@@ -96,12 +113,24 @@ const commentsController = {
   // Delete comment
   deleteComment: async (req, res) => {
     try {
-      const { id } = req.params;
-      const deletedComment = await Comment.findByIdAndDelete(id);
+      const { commentId } = req.params;
+      const { authorId } = req.body;
+      // const authorId = req.userID;
 
-      if (!deletedComment) {
+      const comment = await Comment.findById(commentId);
+
+      if (!comment) {
         return res.status(404).json({ message: "Comment not found" });
       }
+
+      // Check if the requesting user is the author of the comment
+      if (comment.authorId.toString() !== authorId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to delete this comment" });
+      }
+
+      await Comment.findByIdAndDelete(commentId);
 
       res.status(200).json({ message: "Comment deleted successfully" });
     } catch (error) {

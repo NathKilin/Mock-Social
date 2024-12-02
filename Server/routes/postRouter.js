@@ -10,20 +10,20 @@ const {
 } = require("../controllers/postController.js");
 
 const router = express.Router();
-
 // create new post
-router.post("/add", verifySplitToken, createPost);
+// router.post("/add", verifySplitToken, createPost);
+router.post("/add", createPost);
 
 // get all posts
 router.get("/all", getAllPosts);
 
 // get post by id
-router.get("/:id", getPostById);
+router.get("/:postId", getPostById);
 
 // delete post by id
-router.delete("/:id", deletePost);
+router.delete("/:postId", deletePost);
 
 // update post by id
-router.patch("/:id", updatePost);
+router.patch("/:postId", updatePost);
 
 module.exports = router;
