@@ -1,11 +1,11 @@
 const User = require("../models/usersModel.js");
 const Saved = require("../models/savedModel.js");
-
 const {
   makeHashedPassword,
   creatToken,
   logInAuth,
 } = require("../auth/auth.js");
+
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
@@ -103,9 +103,11 @@ const logIn = async (req, res) => {
         .send({ massege: "password and userName requiere" });
     }
 
-    const id = req.params.id;
     const response = await User.find({ userName: req.body.userName });
     const user = response[0];
+    console.log(user);
+    const id = user["_id"];
+
     const hashedPassword = user.password;
     const isMatch = await logInAuth(req.body.password, hashedPassword);
 
@@ -114,6 +116,7 @@ const logIn = async (req, res) => {
         .status(401)
         .send({ success: false, message: "Wrong password" });
     }
+    // console.log(id);
 
     const token = await creatToken(
       id,
@@ -128,7 +131,9 @@ const logIn = async (req, res) => {
       maxAge: 3600000,
     });
 
-    res.status(200).json({ success: true, message: "Login successfuly" });
+    res
+      .status(200)
+      .json({ token: token, success: true, message: "Login successfuly" });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -137,6 +142,9 @@ const logIn = async (req, res) => {
 //   update user
 const updateUser = async (req, res) => {
   try {
+    console.log(`req.role: ${req.role}`);
+    console.log(`req.userID: ${req.userID}`);
+
     const { id } = req.params;
     const { firstName, lastName, userName, phone, email, password, role } =
       req.body;
@@ -178,6 +186,7 @@ const updateUser = async (req, res) => {
     if (filedsToUpdate.length === 0) {
       return res.status(400).send({ messege: "no match fileds found" });
     }
+
     await User.findByIdAndUpdate(id, filedsToUpdate, {
       runValidators: true,
     });
@@ -245,6 +254,33 @@ const addSavedPosts = async (req, res) => {
   }
 };
 
+// verify token
+const verifyToken = async (req, res) => {
+  try {
+    if (!req.headers["authorization"])
+      return res.status(400).send({ message: "token miss!" });
+    const authHeader = req.headers["authorization"];
+    const token = authHeader.split(" ")[1];
+    console.log(token);
+
+    if (!token) {
+      return res.status(400).send({ message: "token miss!" });
+    }
+
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+      if (err) {
+        return res
+          .status(401)
+          .send({ valid: false, massage: "invalid token", err });
+      } else {
+        res.status(200).send({ valid: true, message: "valid token!" });
+      }
+    });
+  } catch (error) {
+    res.status(500).send({ massage: "server error", error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   addUser,
@@ -254,4 +290,5 @@ module.exports = {
   logIn,
   getSavedPosts,
   addSavedPosts,
+  verifyToken,
 };

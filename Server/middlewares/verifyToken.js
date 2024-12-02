@@ -1,16 +1,11 @@
 const jwt = require("jsonwebtoken");
-// const validate = (req, res, next) => {
-//   if (!req.body. || !req.body.) {
-//     return res.status(400).send({
-//       message: "Missing Fileds",
-//     });
-//   }
-//   next();
-// };
 
-const verifyToken = async (req, res, next) => {
+const verifySplitToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      return res.status(400).send({ message: "send headers" });
+    }
     const token = authHeader.split(" ")[1];
     if (!token) {
       return res.status(400).send({ message: "token miss!" });
@@ -22,10 +17,8 @@ const verifyToken = async (req, res, next) => {
       } else {
         //   reasiment to req (req is object so i cen add keys)
         req.userID = decoded.userID;
-        req.role ? (req.userRole = decoded.role) : "";
-        // console.log(decoded.userID);
-        // console.log(decoded.role);
-
+        decoded.role ? (req.role = decoded.role) : (req.role = "user");
+        console.log(`req- role: ${req.role} user id: ${req.userID}`);
         next();
       }
     });
@@ -35,5 +28,5 @@ const verifyToken = async (req, res, next) => {
 };
 
 module.exports = {
-  verifyToken,
+  verifySplitToken,
 };

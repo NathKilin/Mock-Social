@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { verifyToken } = require("../middlewares/verifyToken.js");
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const {
   getAllUsers,
@@ -11,6 +11,7 @@ const {
   getSavedPosts,
   addSavedPosts,
   logIn,
+  verifyToken,
 } = require("../controllers/usersController.js");
 
 const router = express.Router();
@@ -28,7 +29,7 @@ router.get("/:id", getUsereById);
 router.post("/log_in", logIn);
 
 // updete user by id
-router.patch("/:id", verifyToken, updateUser);
+router.patch("/:id", verifySplitToken, updateUser);
 
 // delete user by id
 router.delete("/:id", deleteUser);
@@ -38,5 +39,9 @@ router.get("/seved_posts", getSavedPosts);
 
 // add seved post
 router.post("/seved_posts", addSavedPosts);
+
+// verify token
+
+router.post("/verify_token", verifyToken);
 
 module.exports = router;
