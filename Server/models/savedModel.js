@@ -11,5 +11,5 @@ const savedSchema = new mongoose.Schema({
     default: "",
   },
 });
-("test elchanan");
+
 module.exports = mongoose.model("Saved", savedSchema);
