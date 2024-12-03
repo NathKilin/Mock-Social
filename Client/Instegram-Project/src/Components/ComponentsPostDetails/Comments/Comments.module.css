@@ -1,0 +1,42 @@
+.comments {
+    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 100px;
+    padding-right: 10px;
+}
+
+.comments::-webkit-scrollbar {
+    width: 8px;
+}
+
+.comments::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.comments::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.addComment {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.addComment input {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.addComment button {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}

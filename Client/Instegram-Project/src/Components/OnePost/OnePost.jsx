@@ -1,4 +1,5 @@
 import styles from "./OnePost.module.css";
+// import Likes from "../Likes/Likes.jsx";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
@@ -29,6 +30,7 @@ const OnePost = ({ post, setSelectedPostId }) => {
       >
         Comment
       </button>
+      {/* <Likes /> */}
     </div>
   );
 };

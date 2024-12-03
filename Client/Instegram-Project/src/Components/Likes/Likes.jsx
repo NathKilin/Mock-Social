@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import styles from './Likes.module.css';
+import styles from "./Likes.module.css";
 import axios from "axios";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp'; // Material-UI Icon
+import ThumbUpIcon from "@mui/icons-material/ThumbUp"; // Material-UI Icon
 
 const Likes = ({ postId }) => {
   const [likesCount, setLikesCount] = useState(0); // State for the number of likes
@@ -11,7 +11,9 @@ const Likes = ({ postId }) => {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/likes/${postId}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/likes/${postId}`
+        );
         setLikesCount(response.data.likesCount);
       } catch (error) {
         console.error("Error fetching likes:", error);
