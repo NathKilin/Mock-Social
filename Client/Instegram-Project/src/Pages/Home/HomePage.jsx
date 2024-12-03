@@ -12,7 +12,6 @@ const getAllPostApi = async () => {
     if (!posts) {
       console.log("Post couldn't be found");
     } else {
-      console.log(posts.data);
       return posts.data;
     }
   } catch (error) {
@@ -25,9 +24,10 @@ const HomePage = ({ isLogIn }) => {
     return <Navigate to="/login" replace />;
   }
 
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
   const [allPosts, setallPosts] = useState([]);
-  console.log(isLogIn);
+
+  const selectedPost = allPosts.find((post) => post._id === selectedPostId);
 
   const shufflePosts = (posts) => {
     return posts.sort(() => Math.random() - 0.5);
@@ -36,7 +36,6 @@ const HomePage = ({ isLogIn }) => {
   const posts = async () => {
     try {
       const getAllPosts = await getAllPostApi();
-      console.log(getAllPosts);
       setallPosts((prevPosts) => {
         return [...prevPosts, ...shufflePosts(getAllPosts)];
       });
@@ -55,21 +54,20 @@ const HomePage = ({ isLogIn }) => {
       <main className={styles.feed}>
         {allPosts &&
           allPosts.map((post, index) => {
-            console.log(post._id);
-
             return (
               <OnePost
-                setSelectedPost={setSelectedPost}
-                key={post._id + index}
+                key={post._id}
                 post={post}
+                setSelectedPostId={setSelectedPostId}
               />
             );
           })}
       </main>
       {selectedPost && (
         <Comment
-          setSelectedPost={setSelectedPost}
+          setSelectedPostId={setSelectedPostId}
           selectedPost={selectedPost}
+          setallPosts={setallPosts}
         />
       )}
     </div>

@@ -1,59 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Comment.module.css";
-import axios from "axios";
-import getAuthTokenFromCookie from "../../auth/auth";
+import commentApi from "../../api/commentApi.js";
 
-const saveCommentApi = async (comment) => {
-  try {
-    const token = getAuthTokenFromCookie();
-    if (!token) {
-      console.log("no token");
-    }
-    const save = await axios.post(
-      "http://localhost:3000/api/comments/add",
-      comment,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    console.log(save);
-    return save;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const Comment = ({ selectedPost, setSelectedPost }) => {
-  // holding value of new comment
+const Comment = ({ selectedPost, setSelectedPostId, setallPosts }) => {
   const [newComment, setNewComment] = useState("");
+  console.log(selectedPost);
 
-  // Function to handle adding a new comment
   const handleAddComment = async () => {
-    // Prevents adding empty comments
     if (newComment.trim() === "") return;
     const newCommentObj = {
       postId: selectedPost._id,
       text: newComment,
     };
-    const saveComment = await saveCommentApi(newCommentObj);
+    const saveComment = await commentApi.saveCommentApi(newCommentObj);
     console.log(saveComment);
 
+    setallPosts((prev) => {
+      const postToUpdateIdx = prev.findIndex(
+        (post) => post._id === selectedPost._id
+      );
+      console.log("postToUpdateIdx", postToUpdateIdx);
+      const clone = structuredClone(prev);
+      clone[postToUpdateIdx].comments.push(saveComment.data.data);
+      return clone;
+    });
+
+    console.log(saveComment);
     setNewComment("");
   };
   return (
     <div
       className={styles.modalBackdrop}
       onClick={() => {
-        setSelectedPost(null);
+        setSelectedPostId(null);
       }}
     >
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.comments}>
-          <h3>Comentários</h3>
-          {/* Comments section header */}
+          <h3>Comments</h3>
           <ul>
             {selectedPost.comments.map((comment) => (
               <li key={comment.id}>
@@ -69,15 +53,15 @@ const Comment = ({ selectedPost, setSelectedPost }) => {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          <button onClick={handleAddComment}>Enviar</button>
+          <button onClick={handleAddComment}>Add</button>
         </div>
         <button
           className={styles.closeButton}
           onClick={() => {
-            setSelectedPost(null);
+            setSelectedPostId(null);
           }}
         >
-          close
+          Close
         </button>
       </div>
     </div>

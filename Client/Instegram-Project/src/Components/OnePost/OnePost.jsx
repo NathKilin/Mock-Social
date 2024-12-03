@@ -2,7 +2,7 @@ import styles from "./OnePost.module.css";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
-const OnePost = ({ post, setSelectedPost }) => {
+const OnePost = ({ post, setSelectedPostId }) => {
   return (
     <div key={post._id} className={styles.post}>
       {isVideo(post.url) ? (
@@ -24,7 +24,7 @@ const OnePost = ({ post, setSelectedPost }) => {
       <p className={styles.caption}>{post.caption}</p>
       <button
         onClick={() => {
-          setSelectedPost(post);
+          setSelectedPostId(post._id);
         }}
       >
         Comment
