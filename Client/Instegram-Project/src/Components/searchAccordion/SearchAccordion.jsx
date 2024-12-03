@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
-// importing components from mui
+// Import axios for making HTTP requests
+import axios from "axios";
 import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
 
 const SearchAccordion = ({ isAccordionOpen }) => {
-  const users = [
-    "John Doe",
-    "Jane Smith",
-    "Alice Johnson",
-    "Bob Brown",
-    "Charlie White",
-    "Diana Prince",
-    "Clark Kent",
-    "Bruce Wayne",
-    "Peter Parker",
-    "Tony Stark",
-    "Natasha Romanoff",
-    "Steve Rogers",
-    "Wanda Maximoff",
-    "Stephen Strange",
-    "Scott Lang",
-  ];
   const [className, setClassName] = useState(styles.accordionHidden);
-  const [searchQuery, setSearchQuery] = useState(""); // State for the search input
-  const [filteredUsers, setFilteredUsers] = useState(users); // Filtered users to display
+  const [searchQuery, setSearchQuery] = useState("");
+  // Stores the users fetched from the backend
+  const [users, setUsers] = useState([]);
+  // Stores the filtered users for display
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   // Update class based on the isAccordionOpen prop
   useEffect(() => {
@@ -36,9 +23,29 @@ const SearchAccordion = ({ isAccordionOpen }) => {
     }
   }, [isAccordionOpen]);
 
+  // Fetch users from backend when component mounts
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/user/all");
+        // Transform the response to combine firstName and lastName
+        const formattedUsers = response.data.map(
+          (user) => `${user.firstName} ${user.lastName}`
+        );
+        setUsers(formattedUsers);
+        setFilteredUsers(formattedUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   // Filter and sort users whenever the search query changes
   useEffect(() => {
-    const lowerCaseQuery = searchQuery.toLowerCase(); // Convert to lowercase for case-insensitive matching
+    // Convert to lowercase for case-insensitive matching
+    const lowerCaseQuery = searchQuery.toLowerCase();
     const results = users
       .filter((user) => user.toLowerCase().includes(lowerCaseQuery)) // Filter users that match the query
       .sort((a, b) => {
@@ -64,8 +71,9 @@ const SearchAccordion = ({ isAccordionOpen }) => {
         fullWidth
         label="Search for users 🕵🏼"
         variant="outlined"
-        value={searchQuery} // Controlled input
-        onChange={(e) => setSearchQuery(e.target.value)} // Update the search query on input
+        value={searchQuery}
+        // Update the search query on input
+        onChange={(e) => setSearchQuery(e.target.value)}
         sx={{
           marginTop: "10px",
           marginLeft: "10px",
@@ -77,7 +85,7 @@ const SearchAccordion = ({ isAccordionOpen }) => {
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user, index) => (
             <Typography
-              style={{ cursor: "pointer"}}
+              style={{ cursor: "pointer" }}
               key={index}
               sx={{ marginLeft: "10px" }}
             >

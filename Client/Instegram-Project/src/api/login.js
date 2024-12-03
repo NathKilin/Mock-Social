@@ -19,11 +19,14 @@ const handleLogInSabmit = async (
       { userName, password },
       { withCredentials: true }
     );
+    console.log(response);
 
     if (response.status === 200 && response.data.token) {
       setFailedLogText("Logging you in...");
       setIsLogIn(true);
       navigate("/");
+      setUserName("");
+      setPassword("");
     } else {
       throw new Error("Unexpected response format or missing token.");
     }
@@ -33,9 +36,6 @@ const handleLogInSabmit = async (
     } else {
       setFailedLogText("An error occurred. Please try again later.");
     }
-  } finally {
-    setUserName("");
-    setPassword("");
   }
 };
 
@@ -51,6 +51,7 @@ const verifyAuth = async (token) => {
         },
       }
     );
+
     return true;
   } catch (error) {
     console.log(error);
