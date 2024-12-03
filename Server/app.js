@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cloudinary = require("cloudinary").v2;
 
 // routs
 const usersRoute = require("./routes/usersRoute.js");
@@ -12,6 +13,14 @@ const likesRouter = require("./routes/likesRouter.js");
 const cors = require("cors");
 
 dotenv.config();
+
+// setting up Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+  secure: true, // ensures HTTPS URLs for media files.
+});
 
 mongoose.connect(process.env.URI).then(() => {
   console.log("connected");
