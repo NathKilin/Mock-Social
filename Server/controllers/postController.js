@@ -5,12 +5,15 @@ const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { url, caption, authorId } = req.body;
+      const { caption, authorId } = req.body;
       // const authorId = req.userID;
 
-      // data to be inserted via body
+      // Get the uploaded image URL from Cloudinary (added by the middleware)
+      const imageUrl = req.file ? req.file.path : null;
+
+      // Create a new post object
       const newPost = new Post({
-        url,
+        url: imageUrl, // Save the image URL
         authorId,
         caption,
       });

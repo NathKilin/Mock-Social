@@ -4,14 +4,6 @@ const postSchema = new mongoose.Schema({
   url: {
     type: String, // URL of the img/video
     required: true,
-    // validate: {
-    //   // Regular expression to check if the URL ends with .png or .jpg
-    //   validator: function (value) {
-    //     return /\.(png|jpe?g|gif|bmp|webp)$/i.test(value);
-    //   },
-    //   message: (props) =>
-    //     `${props.value} is not a valid image URL! It must end with . png|jpe?g|gif|bmp|webp`,
-    // },
   },
   caption: {
     type: String,
