@@ -10,13 +10,10 @@ const {
 } = require("../controllers/postController.js");
 const router = express.Router();
 
-// create new post
-// router.post("/add", verifySplitToken, createPost);
-
 // Create new post with image upload
-// router.post("/add", verifySplitToken, upload.single("image"), (req, res, next) => {
 router.post(
   "/add",
+  verifySplitToken,
   upload.single("image"),
   (req, res, next) => {
     try {

@@ -37,6 +37,20 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "editor", "moderator", "admin", "super admin", "elchanan"],
     default: "user",
   },
+  userComments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
+
+  userPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+
   password: {
     type: String,
     required: true,
@@ -49,7 +63,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ phone: 1 }, { phone: true });
-
+("Uauauiua");
 //todo: virtual filed for fullName
 
 module.exports = mongoose.model("User", userSchema);

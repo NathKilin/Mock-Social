@@ -2,22 +2,18 @@ import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
 import axios from "axios";
 import getAuthTokenFromCookie from "../../auth/auth.js";
+import { postsCliant } from "../../api/axiosInstens.js";
 
 const creatPostApi = async (url, caption) => {
   try {
-    const token = getAuthTokenFromCookie();
-    console.log(token);
-
-    if (!token) {
-      throw new Error("User is not authenticated.");
-    }
     const post = { url, caption };
-    const res = await axios.post("http://localhost:3000/api/posts/add", post, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res.data;
+    
+    const res = await postsCliant.post("/add", post);
+    
+
+    console.log(res.data);
+
+    return res;
   } catch (error) {
     throw error;
   }

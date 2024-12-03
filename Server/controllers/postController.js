@@ -5,8 +5,9 @@ const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { caption, authorId } = req.body;
-      // const authorId = req.userID;
+      const { caption } = req.body;
+      const authorId = req.userID;
+      console.log("in server");
 
       // Get the uploaded image URL from Cloudinary (added by the middleware)
       const imageUrl = req.file ? req.file.path : null;
@@ -17,12 +18,17 @@ const postController = {
         authorId,
         caption,
       });
+      // console.log(newPost);
 
       const savedPost = await newPost.save();
+
       res
         .status(201)
         .json({ message: "Post created successfully", data: savedPost });
     } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+      console.log(error.name);
       res
         .status(500)
         .json({ message: "Error creating post", error: error.message });
