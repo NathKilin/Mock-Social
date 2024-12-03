@@ -14,8 +14,6 @@ const LogIn = ({ setIsLogIn, isLogIn }) => {
   const checkAuth = async () => {
     try {
       const token = getAuthTokenFromCookie();
-      console.log(token);
-
       if (token) {
         const isAuthValid = await verifyAuth(token);
         if (isAuthValid) {

@@ -13,7 +13,7 @@ const router = express.Router();
 
 // Create a new comment
 // router.post("/add", verifySplitToken, createComment);
-router.post("/add", createComment);
+router.post("/add", verifySplitToken, createComment);
 
 // Get All comments
 router.get("/all", getAllComments);
