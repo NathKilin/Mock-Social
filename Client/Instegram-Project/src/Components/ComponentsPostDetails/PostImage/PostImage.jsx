@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./PostDetails.module.css";
+import styles from "./postImage.module.css";
 
 const PostImage = ({ imageUrl }) => {
   return (

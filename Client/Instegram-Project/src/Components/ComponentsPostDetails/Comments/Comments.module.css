@@ -1,7 +1,8 @@
 .comments {
     margin-top: 20px;
     overflow-y: auto;
-    max-height: 100px;
+    max-height: 250px;
+    height: fit-content;
     padding-right: 10px;
 }
 
