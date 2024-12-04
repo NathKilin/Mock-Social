@@ -25,3 +25,7 @@
     font-size: 14px;
     color: #9B7E32;
 }
+
+.containerCommentLike {
+    display: flex;
+}
