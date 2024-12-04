@@ -1,6 +1,6 @@
 const express = require("express");
 const { verifySplitToken } = require("../middlewares/verifyToken.js");
-const { upload } = require("../middlewares/integrateCloudinary.js");
+
 const {
   createPost,
   getAllPosts,
@@ -11,23 +11,7 @@ const {
 const router = express.Router();
 
 // Create new post with image upload
-router.post(
-  "/add",
-  verifySplitToken,
-  upload.single("image"),
-  (req, res, next) => {
-    try {
-      // Add the image URL to req.body before passing to the controller
-      if (req.file) {
-        req.body.url = req.file.path; // Add the Cloudinary URL to req.body
-      }
-      next(); // Pass control to the createPost handler
-    } catch (error) {
-      res.status(500).json({ error: "Image upload failed" });
-    }
-  },
-  createPost
-);
+router.post("/add", verifySplitToken, createPost);
 
 // get all posts
 router.get("/all", getAllPosts);
