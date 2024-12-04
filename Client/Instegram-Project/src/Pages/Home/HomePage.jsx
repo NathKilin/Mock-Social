@@ -4,7 +4,7 @@ import OnePost from "../../Components/OnePost/OnePost";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
-import Comment from "../../Components/Comment/Comment.jsx";
+import PostDetails from "../../Components/ComponentsPostDetails/PostDetails.jsx";
 
 const getAllPostApi = async () => {
   try {
@@ -25,7 +25,7 @@ const HomePage = ({ isLogIn }) => {
   }
 
   const [selectedPostId, setSelectedPostId] = useState(null);
-  const [allPosts, setallPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
 
   const selectedPost = allPosts.find((post) => post._id === selectedPostId);
 
@@ -36,7 +36,7 @@ const HomePage = ({ isLogIn }) => {
   const posts = async () => {
     try {
       const getAllPosts = await getAllPostApi();
-      setallPosts((prevPosts) => {
+      setAllPosts((prevPosts) => {
         return [...prevPosts, ...shufflePosts(getAllPosts)];
       });
       return getAllPosts;
@@ -64,10 +64,10 @@ const HomePage = ({ isLogIn }) => {
           })}
       </main>
       {selectedPost && (
-        <Comment
+        <PostDetails
           setSelectedPostId={setSelectedPostId}
           selectedPost={selectedPost}
-          setallPosts={setallPosts}
+          setAllPosts={setAllPosts}
         />
       )}
     </div>
