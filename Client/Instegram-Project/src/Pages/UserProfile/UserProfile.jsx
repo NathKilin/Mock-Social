@@ -1,100 +1,94 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; // Get ID from URL
 import Header from "../../Components/Headeer/Header.jsx";
 import Footer from "../../Components/Footer/Footer.jsx";
 import ProfilePhoto from "../../Components/UserComponents/ProfilePhoto.jsx";
 import UserInfo from "../../Components/UserComponents/UserInfo.jsx";
 import PostGrid from "../../Components/UserComponents/PostGrid.jsx";
-import getAuthTokenFromCookie from "../../auth/auth.js";
-import { usersCliant } from "../../api/axiosInstens.js";
 import styles from "./UserProfile.module.css";
-// importing global varient
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; // Access logged-in user from Redux
 
 const UserProfile = () => {
-  // catching user ID from the route
-  const { id } = useParams();
-  // storing user's data
-  const [profileUser, setProfileUser] = useState(null);
-  // indicates if the profile belongs to the logged-in user
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
-  // stores the currently selected post
-  const [selectedPost, setSelectedPost] = useState(null);
+  // const [searchParams, setSearchParams] = useSearchParams('id') 
+  const params =  useParams()
+  console.log(params.id);
+    
+  const [profileUser, setProfileUser] = useState(null); // Profile data of the user being viewed
+  const [isCurrentUser, setIsCurrentUser] = useState(false); // Whether the logged-in user is viewing their own profile
 
-  // accessing the global user variable
-  const globalUser = useSelector((state) => state.user);
+  // Dummy data for testing
+  const dummyUsers = [
+    {
+      id: "1234",
+      userName: "Bob Bonson",
+      profilePhoto: "https://via.placeholder.com/80",
+      posts: [{ id: "1", content: "Post 1" }, { id: "2", content: "Post 2" }],
+    },
+    {
+      id: "5678",
+      userName: "Alice Smith",
+      profilePhoto: "https://via.placeholder.com/80",
+      posts: [{ id: "3", content: "Post 3" }],
+    },
+    {
+      id: "9101",
+      userName: "John Doe",
+      profilePhoto: "https://via.placeholder.com/80",
+      posts: [],
+    },
+  ];
 
-  // fetching user profile and verifying if the profile is the logged-in user's
+  // Get the logged-in user's data from Redux
+  const globalUser = useSelector((state) => state.user || { id: "1234" }); // Default to dummy logged-in user
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // if the user ID from the route matches the global user's ID,
-        // use the global user data instead of fetching it again
-        if (globalUser && globalUser.id === id) {
-          setProfileUser(globalUser);
-          setIsCurrentUser(true);
-          return; // No need to fetch data from the server
-        }
+    // Use dummy data to find the user being viewed
+    const user = dummyUsers.find((u) => u.id === params.id);
 
-        // getting token
-        const token = getAuthTokenFromCookie();
+    if (user) {
+      setProfileUser(user); // Set the profile data for the user being viewed
+    }
 
-        // checking the logged-in user's ID with token
-        const loggedUserResponse = await usersCliant.post(
-          "/verify_token",
-          {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const loggedUserId = loggedUserResponse.data.userID;
+    // Check if the logged-in user matches the profile being viewed
+    setIsCurrentUser(globalUser.id === params.id);
+  }, [params.id, globalUser]);
 
-        // checking if the logged user's ID matches the profile ID in the route
-        setIsCurrentUser(loggedUserId === id);
-
-        // fetching profile user data by ID
-        const profileResponse = await usersCliant.get(`/${id}`);
-        setProfileUser(profileResponse.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [id, globalUser]); // Add globalUser as a dependency to update if it changes
-
-  if (!profileUser) return <div>Loading...</div>; // Handle loading state
+  // Handle loading state
+  if (!profileUser) return <div>Loading...</div>;
 
   return (
     <div className={styles.userProfile}>
       <Header />
 
-      {/* user profile header */}
       <section className={styles.userHeader}>
+        {/* Display user profile photo */}
         <ProfilePhoto
           src={profileUser.profilePhoto || "https://via.placeholder.com/80"}
           alt="Profile"
         />
-        <UserInfo
-          username={profileUser.userName}
-          // counters
-          postsCount={profileUser.posts?.length || 0}
-          friendsCount={profileUser.friendsCount || 0}
-        />
+        {/* Display user info (username, post count, etc.) */}
+        <UserInfo username={profileUser.userName} />
 
-        {/* showing settings button IF the profile is the one user that logged-in */}
-        {isCurrentUser && (
+        {/* Conditionally render "Settings" or "Add Friend" button */}
+        {isCurrentUser ? (
           <button
             className={styles.settingsButton}
             onClick={() => alert("Open settings!")}
           >
             Settings
           </button>
+        ) : (
+          <button
+            className={styles.addFriendButton}
+            onClick={() => alert("Friend request sent!")}
+          >
+            Add Friend
+          </button>
         )}
       </section>
 
-      {/* showing user's posts */}
-      <PostGrid posts={profileUser.posts || []} onPostClick={setSelectedPost} />
+      {/* Display user's posts */}
+      <PostGrid posts={profileUser.posts || []} onPostClick={() => {}} />
 
       <Footer />
     </div>

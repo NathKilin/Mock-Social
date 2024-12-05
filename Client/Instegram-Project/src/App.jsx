@@ -26,7 +26,7 @@ function App() {
           element: <CreatePost />,
         },
         {
-          path: "/userProfile",
+          path: "/userProfile/:id",
           element: <UserProfile />,
         },
       ],

@@ -1,74 +1,51 @@
 import React, { useState, useEffect } from "react";
-// using navigation???
-import { useNavigate } from "react-router-dom"; 
-import axios from "axios";
+// Importing navigation hook
+import { useNavigate } from "react-router-dom";
 import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
 
 const SearchAccordion = ({ isAccordionOpen }) => {
-  // visibility of the accordion
-  const [className, setClassName] = useState(styles.accordionHidden); 
-  // stores the user's search query
-  const [searchQuery, setSearchQuery] = useState(""); 
-  // list of all users fetched from the backend
-  const [users, setUsers] = useState([]); 
-  // filtered list based on search 
-  const [filteredUsers, setFilteredUsers] = useState([]); 
-  // pulling navigation hook
-  const navigate = useNavigate(); 
+  // Controls the accordion visibility
+  const [className, setClassName] = useState(styles.accordionHidden);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // toggle visibility of the accordion based on the `isAccordionOpen` PROP
+  // Dummy data for users
+  const [users, setUsers] = useState([
+    {
+      userName: "Bob Bonson",
+      _id: "1234",
+      profilePhoto: null, 
+    },
+    {
+      userName: "Alice Smith",
+      _id: "5678",
+      // Example with a real image
+      profilePhoto: "https://via.placeholder.com/50", 
+    },
+    {
+      userName: "John Doe",
+      _id: "91011",
+      profilePhoto: null,
+    },
+  ]);
+
+  // State for filtered users
+  const [filteredUsers, setFilteredUsers] = useState(users);
+
+  // Hook for navigation
+  const navigate = useNavigate();
+
+  // Controls visibility of the accordion based on `isAccordionOpen`
   useEffect(() => {
-    if (isAccordionOpen) {
-      setClassName(styles.accordionVisible);
-    } else {
-      setClassName(styles.accordionHidden);
-    }
+    setClassName(isAccordionOpen ? styles.accordionVisible : styles.accordionHidden);
   }, [isAccordionOpen]);
 
-  // fetching all users when the component mounts
+  // Filters users based on the search query
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/user/all");
-        // saving fetched users to the state
-        setUsers(response.data); 
-        // Initialize filtered users???
-        setFilteredUsers(response.data); 
-      } catch (error) {
-        console.error("Error fetching users: ", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  // filter for search querry
-  useEffect(() => {
-    //to lowercase the searched string 
     const lowerCaseQuery = searchQuery.toLowerCase();
     const results = users
-      .filter(
-        (user) =>
-          `${user.firstName} ${user.lastName}`.toLowerCase().includes(lowerCaseQuery)
-      )
-      .sort((a, b) => {
-        // organizing according to the abc
-        const indexA = `${a.firstName} ${a.lastName}`
-          .toLowerCase()
-          .indexOf(lowerCaseQuery);
-        const indexB = `${b.firstName} ${b.lastName}`
-          .toLowerCase()
-          .indexOf(lowerCaseQuery);
-
-        if (indexA === indexB) {
-          return `${a.firstName} ${a.lastName}`.localeCompare(
-            `${b.firstName} ${b.lastName}`
-          );
-        }
-        return indexA - indexB;
-      });
-
+      .filter((user) => user.userName.toLowerCase().includes(lowerCaseQuery))
+      .slice(0, 10); // Limit results to 10
     setFilteredUsers(results);
   }, [searchQuery, users]);
 
@@ -89,23 +66,37 @@ const SearchAccordion = ({ isAccordionOpen }) => {
         }}
       />
       <div className={styles.userList}>
-        {/* cheching if ther´s any filtered results to display */}
+        {/* Display filtered results */}
         {filteredUsers.length > 0 ? (
-          // if there are filtered results, map over the list to render each user
           filteredUsers.map((user) => (
-            <Typography
+            <div
               key={user._id}
-              // using navigate to get to the user's profile
-              onClick={() => navigate(`/user/${user._id}`)} 
-              style={{ cursor: "pointer" }}
-              sx={{ marginLeft: "10px" }}
+              // Navigate to user profile when clicked
+              onClick={() => navigate(`/userProfile/${user._id}`)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                margin: "10px 0",
+              }}
             >
-              {/* display the user's first name and last name */}
-              {user.firstName} {user.lastName}
-            </Typography>
+              {/* Display user profile photo */}
+              <img
+                src={user.profilePhoto || "https://via.placeholder.com/50"}
+                alt="Profile"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  marginRight: "10px",
+                }}
+              />
+              {/* Display user name */}
+              <Typography>{user.userName}</Typography>
+            </div>
           ))
         ) : (
-              // if no users match the search, display not found message
+          // Show message if no users are found
           <Typography sx={{ marginLeft: "10px" }}>No users found.</Typography>
         )}
       </div>
