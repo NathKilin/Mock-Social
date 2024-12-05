@@ -8,34 +8,39 @@ const postController = {
     try {
       const { caption, url } = req.body;
       const authorId = req.userID;
+
       const results = await cloudinary.uploader.upload(url, {
         folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
       });
 
-      console.log(`before cloudenery`);
+      console.log(results);
 
-      const pic = cloudinary.url(results.public_id, {
-        transformation: [
-          { quality: "auto", fetch_format: "auto" },
-          {
-            width: 450,
-            height: 450,
-            crop: "fill",
-            gravity: "auto",
-          },
-        ],
-      });
+      // const pic = cloudinary.url(results.public_id, {
+      //   transformation: [
+      //     { quality: "auto", fetch_format: "auto" },
+      //     {
+      //       width: 450,
+      //       height: 450,
+      //       crop: "fill",
+      //       gravity: "auto",
+      //     },
+      //   ],
+      // });
       // console.log(pic);
-      console.log(`from cloudinary ${results}`);
+
       // Use the secure_url from the Cloudinary response
       const imageUrl = results.secure_url;
+      console.log(imageUrl);
+
       // Create a new post object
       const newPost = new Post({
+        url: imageUrl,
         url: imageUrl,
         authorId,
         caption,
       });
       console.log(newPost);
+
       const savedPost = await newPost.save();
       res
         .status(201)
@@ -55,7 +60,7 @@ const postController = {
     try {
       const posts = await Post.find()
         .populate("authorId", "userName") // Populate author details
-        .populate("comments", "text") // Populate comments
+        .populate("comments", "text authorId") // Populate comments
         .populate("likedBy", "userName");
 
       res.status(200).json(posts);

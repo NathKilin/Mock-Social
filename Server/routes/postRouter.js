@@ -8,10 +8,11 @@ const {
   updatePost,
   deletePost,
 } = require("../controllers/postController.js");
-const router = express.Router();
 
-// Create new post with image upload
+const router = express.Router();
+// create new post
 router.post("/add", verifySplitToken, createPost);
+// router.post("/add", createPost);
 
 // get all posts
 router.get("/all", getAllPosts);

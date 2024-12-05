@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const {
   addLike,
@@ -8,8 +9,6 @@ const {
 } = require("../controllers/likesController.js");
 
 const router = express.Router();
-
-const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 router.post("/add", verifySplitToken, addLike);
 router.delete("/remove", verifySplitToken, removeLike);
