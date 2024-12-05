@@ -1,3 +1,4 @@
+const cloudinary = require("cloudinary").v2;
 const Post = require("../models/postModel.js");
 const mongoose = require("mongoose");
 
@@ -5,20 +6,38 @@ const postController = {
   // Create a new post
   createPost: async (req, res) => {
     try {
-      const { caption } = req.body;
+      const { caption, url } = req.body;
       const authorId = req.userID;
-      console.log("in server");
 
-      // Get the uploaded image URL from Cloudinary (added by the middleware)
-      const imageUrl = req.file ? req.file.path : null;
+      const results = await cloudinary.uploader.upload(url, {
+        folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
+      });
+
+      const pic = cloudinary.url(results.public_id, {
+        transformation: [
+          { quality: "auto", fetch_format: "auto" },
+          {
+            width: 450,
+            height: 450,
+            crop: "fill",
+            gravity: "auto",
+          },
+        ],
+      });
+      console.log(pic);
+
+      console.log(results);
+
+      // Use the secure_url from the Cloudinary response
+      const imageUrl = results.secure_url;
 
       // Create a new post object
       const newPost = new Post({
-        url: imageUrl, // Save the image URL
+        url: imageUrl,
         authorId,
         caption,
       });
-      // console.log(newPost);
+      console.log(newPost);
 
       const savedPost = await newPost.save();
 
