@@ -11,6 +11,9 @@ const postController = {
       const results = await cloudinary.uploader.upload(url, {
         folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
       });
+
+      console.log(`before cloudenery`);
+
       const pic = cloudinary.url(results.public_id, {
         transformation: [
           { quality: "auto", fetch_format: "auto" },
@@ -22,8 +25,8 @@ const postController = {
           },
         ],
       });
-      console.log(pic);
-      console.log(results);
+      // console.log(pic);
+      console.log(`from cloudinary ${results}`);
       // Use the secure_url from the Cloudinary response
       const imageUrl = results.secure_url;
       // Create a new post object
