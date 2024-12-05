@@ -3,19 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./LogIn.module.css";
 import { handleLogInSabmit, verifyAuth } from "../../api/login.js";
 import getAuthTokenFromCookie from "../../auth/auth.js";
-//test
+import { useDispatch } from "react-redux";
 
-const LogIn = ({ setIsLogIn, isLogIn }) => {
+const LogIn = ({ setIsLogIn }) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [failedLogText, setFailedLogText] = useState("");
-
+  const dispatch = useDispatch();
   const checkAuth = async () => {
     try {
       const token = getAuthTokenFromCookie();
-      console.log(token);
-
       if (token) {
         const isAuthValid = await verifyAuth(token);
         if (isAuthValid) {
@@ -46,7 +44,8 @@ const LogIn = ({ setIsLogIn, isLogIn }) => {
             password,
             userName,
             navigate,
-            setIsLogIn
+            setIsLogIn,
+            dispatch
           )
         }
       >

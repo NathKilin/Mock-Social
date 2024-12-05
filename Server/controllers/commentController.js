@@ -6,8 +6,8 @@ const commentsController = {
   // Create a new comment
   createComment: async (req, res) => {
     try {
-      const { postId, text, authorId } = req.body;
-      // const authorId = req.userID;
+      const { postId, text } = req.body;
+      const authorId = req.userID;
 
       if (!postId || !text || !authorId) {
         return res.status(400).json({ message: "All fields are required" });
@@ -114,8 +114,8 @@ const commentsController = {
   deleteComment: async (req, res) => {
     try {
       const { commentId } = req.params;
-      const { authorId } = req.body;
-      // const authorId = req.userID;
+      // const { authorId } = req.body;
+      const authorId = req.userID;
 
       const comment = await Comment.findById(commentId);
 
@@ -124,11 +124,11 @@ const commentsController = {
       }
 
       // Check if the requesting user is the author of the comment
-      if (comment.authorId.toString() !== authorId) {
-        return res
-          .status(403)
-          .json({ message: "You are not authorized to delete this comment" });
-      }
+      // if (comment.authorId.toString() !== authorId) {
+      //   return res
+      //     .status(403)
+      //     .json({ message: "You are not authorized to delete this comment" });
+      // }
 
       await Comment.findByIdAndDelete(commentId);
 

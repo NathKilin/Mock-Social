@@ -1,10 +1,9 @@
-import { Navigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import OnePost from "../../Components/OnePost/OnePost";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
-import Comment from "../../Components/Comment/Comment.jsx";
+import PostDetails from "../../Components/ComponentsPostDetails/PostDetails.jsx";
 
 const getAllPostApi = async () => {
   try {
@@ -12,7 +11,6 @@ const getAllPostApi = async () => {
     if (!posts) {
       console.log("Post couldn't be found");
     } else {
-      console.log(posts.data);
       return posts.data;
     }
   } catch (error) {
@@ -20,14 +18,11 @@ const getAllPostApi = async () => {
   }
 };
 
-const HomePage = ({ isLogIn }) => {
-  if (!isLogIn) {
-    return <Navigate to="/login" replace />;
-  }
+const HomePage = () => {
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
 
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [allPosts, setallPosts] = useState([]);
-  console.log(isLogIn);
+  const selectedPost = allPosts.find((post) => post._id === selectedPostId);
 
   const shufflePosts = (posts) => {
     return posts.sort(() => Math.random() - 0.5);
@@ -36,8 +31,7 @@ const HomePage = ({ isLogIn }) => {
   const posts = async () => {
     try {
       const getAllPosts = await getAllPostApi();
-      console.log(getAllPosts);
-      setallPosts((prevPosts) => {
+      setAllPosts((prevPosts) => {
         return [...prevPosts, ...shufflePosts(getAllPosts)];
       });
       return getAllPosts;
@@ -55,21 +49,21 @@ const HomePage = ({ isLogIn }) => {
       <main className={styles.feed}>
         {allPosts &&
           allPosts.map((post, index) => {
-            console.log(post._id);
-
             return (
               <OnePost
-                setSelectedPost={setSelectedPost}
-                key={post._id + index}
+                key={post._id}
                 post={post}
+                setSelectedPostId={setSelectedPostId}
               />
             );
           })}
       </main>
       {selectedPost && (
-        <Comment
-          setSelectedPost={setSelectedPost}
+        <PostDetails
+          setSelectedPostId={setSelectedPostId}
           selectedPost={selectedPost}
+          setAllPosts={setAllPosts}
+          selectedPostId={selectedPostId}
         />
       )}
     </div>

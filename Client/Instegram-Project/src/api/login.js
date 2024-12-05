@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setUser } from "../store/slices/userSlice.js";
 
 const handleLogInSabmit = async (
   e,
@@ -8,22 +9,29 @@ const handleLogInSabmit = async (
   password,
   userName,
   navigate,
-  setIsLogIn
+  setIsLogIn,
+  dispatch
 ) => {
   e.preventDefault();
   setFailedLogText("Processing...");
-
   try {
     const response = await axios.post(
       "http://localhost:3000/api/user/log_in",
       { userName, password },
       { withCredentials: true }
     );
+    console.log(response);
 
     if (response.status === 200 && response.data.token) {
       setFailedLogText("Logging you in...");
+      dispatch(setUser(response.data.user));
       setIsLogIn(true);
       navigate("/");
+
+      sessionStorage.setItem("userId", response.data.user._id);
+
+      setUserName("");
+      setPassword("");
     } else {
       throw new Error("Unexpected response format or missing token.");
     }
@@ -33,9 +41,6 @@ const handleLogInSabmit = async (
     } else {
       setFailedLogText("An error occurred. Please try again later.");
     }
-  } finally {
-    setUserName("");
-    setPassword("");
   }
 };
 
@@ -51,6 +56,7 @@ const verifyAuth = async (token) => {
         },
       }
     );
+
     return true;
   } catch (error) {
     console.log(error);

@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
-import axios from "axios";
-import getAuthTokenFromCookie from "../../auth/auth.js";
 import { postsCliant } from "../../api/axiosInstens.js";
 
 const creatPostApi = async (url, caption) => {
   try {
     const post = { url, caption };
-    
+
     const res = await postsCliant.post("/add", post);
-    
 
     console.log(res.data);
 
@@ -47,7 +44,7 @@ const CreatePost = () => {
         <div className={styles.containerMediaUrl}>
           <label htmlFor="media-url">Image/Video URL:</label>
           <input
-            type="url"
+            type="file"
             id="media-url"
             value={url}
             onChange={(e) => setMediaUrl(e.target.value)}

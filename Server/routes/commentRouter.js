@@ -13,7 +13,7 @@ const router = express.Router();
 
 // Create a new comment
 // router.post("/add", verifySplitToken, createComment);
-router.post("/add", createComment);
+router.post("/add", verifySplitToken, createComment);
 
 // Get All comments
 router.get("/all", getAllComments);
@@ -22,7 +22,7 @@ router.get("/all", getAllComments);
 router.get("/:commentId", getCommentById);
 
 // Delete a comment
-router.delete("/:commentId", deleteComment);
+router.delete("/:commentId", verifySplitToken, deleteComment);
 
 // update comment
 router.patch("/:commentId", updateComment);

@@ -1,10 +1,15 @@
 import styles from "./OnePost.module.css";
+import Likes from "../Likes/Likes.jsx";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
-const OnePost = ({ post, setSelectedPost }) => {
+const OnePost = ({ post, setSelectedPostId }) => {
   return (
-    <div key={post._id} className={styles.post}>
+    <div
+      onClick={() => setSelectedPostId(post._id)}
+      key={post._id}
+      className={styles.post}
+    >
       {isVideo(post.url) ? (
         <video
           className={styles.imagePlaceholder}
@@ -22,13 +27,18 @@ const OnePost = ({ post, setSelectedPost }) => {
         />
       )}
       <p className={styles.caption}>{post.caption}</p>
-      <button
-        onClick={() => {
-          setSelectedPost(post);
-        }}
-      >
-        Comment
-      </button>
+      <div className={styles.containerCommentLike}>
+        <button
+          onClick={() => {
+            setSelectedPostId(post._id);
+          }}
+        >
+          Comment
+        </button>
+        <div onClick={(event) => event.stopPropagation()}>
+          <Likes postId={post._id} />
+        </div>
+      </div>
     </div>
   );
 };

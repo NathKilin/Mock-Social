@@ -30,11 +30,11 @@ const postController = {
 
       // Use the secure_url from the Cloudinary response
       const imageUrl = results.secure_url;
-
       console.log(imageUrl);
 
       // Create a new post object
       const newPost = new Post({
+        url: imageUrl,
         url: imageUrl,
         authorId,
         caption,
@@ -42,7 +42,6 @@ const postController = {
       console.log(newPost);
 
       const savedPost = await newPost.save();
-
       res
         .status(201)
         .json({ message: "Post created successfully", data: savedPost });

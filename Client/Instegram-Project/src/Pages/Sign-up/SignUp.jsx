@@ -1,21 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import axios from "axios";
-
-const signUpApi = async (userData) => {
-  try {
-    const res = await axios.post("http://localhost:3000/api/user", userData);
-    console.log("User registered successfully:", res.data);
-    return res.data;
-  } catch (error) {
-    console.error(
-      "Error during sign-up:",
-      error.response?.data || error.message
-    );
-    throw error;
-  }
-};
+import signUpApi from "../../api/signUp.js";
 
 const SignUp = () => {
   const [failedText, setFailedText] = useState("");
@@ -39,19 +25,29 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await signUpApi(userData);
+      const formattedUserData = {
+        ...userData,
+        userName: userData.userName.toLowerCase(),
+      };
+      const response = await signUpApi.signUpApi(
+        formattedUserData,
+        setFailedText
+      );
       console.log("User data:", response);
+      if (response) {
+        setFailedText("");
+        setUserData({
+          userName: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          phone: "",
+        });
+      }
     } catch (error) {
-      console.log("Error during sign up:", error);
+      console.log("Error during sign-up:", error);
     }
-    setUserData({
-      userName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      phone: "",
-    });
   };
 
   return (
@@ -110,7 +106,7 @@ const SignUp = () => {
         <hr className={styles.signUpHr} />
         <input
           className={styles.signUpInput}
-          placeholder="phone number..."
+          placeholder="Phone number..."
           type="tel"
           id="phone"
           pattern="[0-9]{10}"
@@ -122,7 +118,7 @@ const SignUp = () => {
         <button type="submit" className={styles.signUpButton}>
           Sign Up
         </button>
-        <div>{failedText}</div>
+        {failedText && <div className={styles.failedText}>{failedText}</div>}
       </form>
 
       <p className={styles.signUpParagraph}>

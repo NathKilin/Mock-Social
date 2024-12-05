@@ -1,5 +1,8 @@
 const User = require("../models/usersModel.js");
 const Saved = require("../models/savedPostsModel.js");
+const Post = require("../models/postModel.js");
+const Comment = require("../models/commentModel.js");
+
 const {
   makeHashedPassword,
   creatToken,
@@ -22,7 +25,7 @@ const getAllUsers = async (req, res) => {
 };
 
 // get user by id
-async function getUsereById(req, res) {
+async function getUserById(req, res) {
   let user;
   try {
     user = await User.findById(req.params.id);
@@ -95,20 +98,39 @@ const logIn = async (req, res) => {
         .send({ massege: "password and userName requiere" });
     }
 
-    const response = await User.find({ userName: req.body.userName });
+    // because I want to add key to object thet came from mongoose
+    //  i need to make it regular js object so i use .lean (it's like .toObject() )
+    const response = await User.find({ userName: req.body.userName }).lean();
     const user = response[0];
-    console.log(user);
     const id = user["_id"];
+    const userPosts = await Post.find({ authorId: id })
+      .populate({
+        path: "comments",
+        select: { text: 1, likes: 1 },
+        populate: {
+          path: "likedBy",
+          select: { userName: 1 },
+        },
+        populate: {
+          path: "authorId",
+          select: { userName: 1 },
+        },
+      })
+      .lean();
+    const userComments = await Comment.find({ authorId: id })
+      .populate("likedBy", "userName")
+      .select("-_id")
+      .lean();
+    user.userPosts = userPosts;
+    user.userComments = userComments;
 
     const hashedPassword = user.password;
     const isMatch = await logInAuth(req.body.password, hashedPassword);
-
     if (isMatch === false) {
       return res
         .status(401)
         .send({ success: false, message: "Wrong password" });
     }
-    // console.log(id);
 
     const token = await creatToken(
       id,
@@ -123,9 +145,15 @@ const logIn = async (req, res) => {
       maxAge: 3600000,
     });
 
-    res
-      .status(200)
-      .json({ token: token, success: true, message: "Login successfuly" });
+    // in general better to not bring the id from db at all, but here I need to check if valid..
+    delete user.password;
+
+    res.status(200).json({
+      user,
+      token: token,
+      success: true,
+      message: "Login successfuly",
+    });
   } catch (error) {
     return res.status(500).send({ error });
   }
@@ -276,7 +304,7 @@ const verifyToken = async (req, res) => {
 module.exports = {
   getAllUsers,
   addUser,
-  getUsereById,
+  getUserById,
   updateUser,
   deleteUser,
   logIn,
