@@ -99,10 +99,13 @@ const logIn = async (req, res) => {
 
     // because I want to add key to object thet came from mongoose
     //  i need to make it regular js object so i use .lean (it's like .toObject() )
-    const response = await User.find({ userName: req.body.userName }).lean();
+    const response = await User.find({ userName: req.body.userName })
+      .select("+password")
+      .lean();
     const user = response[0];
     const id = user["_id"];
     const userPosts = await Post.find({ authorId: id })
+
       .populate({
         path: "comments",
         select: { text: 1, likes: 1 },
@@ -112,7 +115,7 @@ const logIn = async (req, res) => {
         },
         populate: {
           path: "authorId",
-          select: { userName: 1 },
+          select: { pass: 1 },
         },
       })
       .lean();
