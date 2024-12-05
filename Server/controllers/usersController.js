@@ -1,5 +1,5 @@
 const User = require("../models/usersModel.js");
-const Saved = require("../models/savedModel.js");
+const Saved = require("../models/savedPostsModel.js");
 const {
   makeHashedPassword,
   creatToken,

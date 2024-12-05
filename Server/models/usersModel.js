@@ -43,14 +43,12 @@ const userSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
-
   userPosts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
   ],
-
   password: {
     type: String,
     required: true,

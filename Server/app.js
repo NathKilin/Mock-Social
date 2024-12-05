@@ -9,6 +9,7 @@ const usersRoute = require("./routes/usersRoute.js");
 const postsRouter = require("./routes/postRouter.js");
 const commentsRouter = require("./routes/commentRouter.js");
 const likesRouter = require("./routes/likesRouter.js");
+const savedPostsRouter = require("./routes/savedPostsRouter.js");
 
 const cors = require("cors");
 
@@ -50,6 +51,8 @@ app.use("/api/posts", postsRouter);
 app.use("/api/comments", commentsRouter);
 
 app.use("/api/likes", likesRouter);
+
+app.use("/api/saved_posts", savedPostsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port${PORT}`);

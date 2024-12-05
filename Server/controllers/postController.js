@@ -13,23 +13,25 @@ const postController = {
         folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
       });
 
-      const pic = cloudinary.url(results.public_id, {
-        transformation: [
-          { quality: "auto", fetch_format: "auto" },
-          {
-            width: 450,
-            height: 450,
-            crop: "fill",
-            gravity: "auto",
-          },
-        ],
-      });
-      console.log(pic);
-
       console.log(results);
+
+      // const pic = cloudinary.url(results.public_id, {
+      //   transformation: [
+      //     { quality: "auto", fetch_format: "auto" },
+      //     {
+      //       width: 450,
+      //       height: 450,
+      //       crop: "fill",
+      //       gravity: "auto",
+      //     },
+      //   ],
+      // });
+      // console.log(pic);
 
       // Use the secure_url from the Cloudinary response
       const imageUrl = results.secure_url;
+
+      console.log(imageUrl);
 
       // Create a new post object
       const newPost = new Post({
@@ -59,7 +61,7 @@ const postController = {
     try {
       const posts = await Post.find()
         .populate("authorId", "userName") // Populate author details
-        .populate("comments", "text") // Populate comments
+        .populate("comments", "text authorId") // Populate comments
         .populate("likedBy", "userName");
 
       res.status(200).json(posts);
