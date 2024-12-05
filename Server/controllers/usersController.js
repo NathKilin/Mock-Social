@@ -105,12 +105,21 @@ const logIn = async (req, res) => {
     const userPosts = await Post.find({ authorId: id })
       .populate({
         path: "comments",
+        select: { text: 1, likes: 1 },
+        populate: {
+          path: "likedBy",
+          select: { userName: 1 },
+        },
         populate: {
           path: "authorId",
+          select: { userName: 1 },
         },
       })
       .lean();
-    const userComments = await Comment.find({ authorId: id }).lean();
+    const userComments = await Comment.find({ authorId: id })
+      .populate("likedBy", "userName")
+      .select("-_id")
+      .lean();
     user.userPosts = userPosts;
     user.userComments = userComments;
 
@@ -135,6 +144,7 @@ const logIn = async (req, res) => {
       maxAge: 3600000,
     });
 
+    // in general better to not bring the id from db at all, but here I need to check if valid..
     delete user.password;
 
     res.status(200).json({

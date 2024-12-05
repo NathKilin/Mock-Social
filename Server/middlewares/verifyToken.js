@@ -3,10 +3,14 @@ const jwt = require("jsonwebtoken");
 const verifySplitToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
+    console.log(`authHeader ${authHeader}`);
+
     if (!authHeader) {
       return res.status(400).send({ message: "send headers" });
     }
     const token = authHeader.split(" ")[1];
+    console.log(`token ${token}`);
+
     if (!token) {
       return res.status(400).send({ message: "token miss!" });
     }

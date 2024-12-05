@@ -1,8 +1,11 @@
 import axios from "axios";
 
-const cookies = document.cookie.split("; ");
-const tokenCookie = cookies.find((cookie) => cookie.startsWith("jwt"));
-const token = tokenCookie?.split("=")[1];
+const getAuthTokenFromCookie = () => {
+  const cookies = document.cookie.split("; ");
+  const tokenCookie = cookies.find((cookie) => cookie.startsWith("jwt"));
+  return tokenCookie ? tokenCookie.split("=")[1] : null;
+};
+const token = getAuthTokenFromCookie();
 
 const usersCliant = axios.create({
   baseURL: "http://localhost:3000/api/user",
