@@ -5,7 +5,7 @@ const { verifySplitToken } = require("../middlewares/verifyToken.js");
 const {
   getAllUsers,
   addUser,
-  getUsereById,
+  getUserById,
   updateUser,
   deleteUser,
   getSavedPosts,
@@ -23,7 +23,7 @@ router.get("/all", getAllUsers);
 router.post("/", addUser);
 
 // get user by id
-router.get("/:id", getUsereById);
+router.get("/:id", getUserById);
 
 // log in
 router.post("/log_in", logIn);
