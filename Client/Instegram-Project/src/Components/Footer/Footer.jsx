@@ -23,7 +23,7 @@ const Footer = ({ setIsAccordionOpen }) => {
           <button onClick={setFalseSearchAccotdion}>➕</button>
         </Link>
         <button onClick={setFalseSearchAccotdion}>🎥</button>
-        <Link to="/userProfile">
+        < Link to="/userProfile/:id">
           <button onClick={setFalseSearchAccotdion}>👤</button>
         </Link>
       </footer>
