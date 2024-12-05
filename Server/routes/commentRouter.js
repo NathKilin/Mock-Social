@@ -22,7 +22,7 @@ router.get("/all", getAllComments);
 router.get("/:commentId", getCommentById);
 
 // Delete a comment
-router.delete("/:commentId", deleteComment);
+router.delete("/:commentId", verifySplitToken, deleteComment);
 
 // update comment
 router.patch("/:commentId", updateComment);
