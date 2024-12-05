@@ -34,7 +34,7 @@ const commentsController = {
   getAllComments: async (req, res) => {
     try {
       const comments = await Comment.find()
-        .populate("postId", "id") // Populate author details
+        .populate("postId", "id")
         .populate("authorId", "_id") // Populate author details
         .populate("likedBy", "userName");
 
@@ -114,8 +114,8 @@ const commentsController = {
   deleteComment: async (req, res) => {
     try {
       const { commentId } = req.params;
-      const { authorId } = req.body;
-      // const authorId = req.userID;
+      // const { authorId } = req.body;
+      const authorId = req.userID;
 
       const comment = await Comment.findById(commentId);
 
@@ -124,11 +124,11 @@ const commentsController = {
       }
 
       // Check if the requesting user is the author of the comment
-      if (comment.authorId.toString() !== authorId) {
-        return res
-          .status(403)
-          .json({ message: "You are not authorized to delete this comment" });
-      }
+      // if (comment.authorId.toString() !== authorId) {
+      //   return res
+      //     .status(403)
+      //     .json({ message: "You are not authorized to delete this comment" });
+      // }
 
       await Comment.findByIdAndDelete(commentId);
 

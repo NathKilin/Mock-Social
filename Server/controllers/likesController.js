@@ -4,7 +4,8 @@ const Comment = require("../models/commentModel.js");
 
 const likesController = {
   addLike: async (req, res) => {
-    const { userId, postId, commentId } = req.body; // change to token later
+    const { postId, commentId } = req.body; // change to token later
+    const userId = req.userID;
 
     try {
       if (postId) {
@@ -84,7 +85,8 @@ const likesController = {
   },
 
   removeLike: async (req, res) => {
-    const { userId, postId, commentId } = req.body; // Replace with token logic if needed
+    const { postId, commentId } = req.body; // Replace with token logic if needed
+    const userId = req.userID;
 
     try {
       if (postId) {

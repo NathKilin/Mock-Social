@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import styles from "./Likes.module.css";
 import axios from "axios";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { useSelector } from "react-redux";
 
 const Likes = ({ postId }) => {
   const [likesCount, setLikesCount] = useState(0); // State for the number of likes
   const [hasLiked, setHasLiked] = useState(false); // State to track if the user has liked the post
+  const globalUserHost = useSelector((state) => state.user);
 
-  // Fetch initial likes count
   useEffect(() => {
     const fetchLikes = async () => {
       try {
@@ -20,14 +21,17 @@ const Likes = ({ postId }) => {
             },
           }
         );
-        console.log(response);
-        response.data.likedBy.find((user) => {
-          user._id === globalUser.id;
-        });
-        setLikesCount(response.data.likesCount);
 
-        setHasLiked((prev) => !prev); // Assuming API response includes hasLiked
-        //response.data.hasLiked
+        const checkLiked = response.data.likedBy.some(
+          (user) => user?._id === globalUserHost?.user?._id
+        );
+
+        if (checkLiked) {
+          setHasLiked(true);
+        } else {
+          setHasLiked(false);
+        }
+        setLikesCount(response.data.likesCount);
       } catch (error) {
         console.error("Error fetching likes:", error);
       }

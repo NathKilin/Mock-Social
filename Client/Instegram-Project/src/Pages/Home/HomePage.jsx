@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import OnePost from "../../Components/OnePost/OnePost";
 import axios from "axios";
@@ -19,11 +18,7 @@ const getAllPostApi = async () => {
   }
 };
 
-const HomePage = ({ isLogIn }) => {
-  if (!isLogIn) {
-    return <Navigate to="/login" replace />;
-  }
-
+const HomePage = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
 
@@ -68,6 +63,7 @@ const HomePage = ({ isLogIn }) => {
           setSelectedPostId={setSelectedPostId}
           selectedPost={selectedPost}
           setAllPosts={setAllPosts}
+          selectedPostId={selectedPostId}
         />
       )}
     </div>

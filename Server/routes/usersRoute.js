@@ -1,5 +1,4 @@
 const express = require("express");
-
 const { verifySplitToken } = require("../middlewares/verifyToken.js");
 
 const {
@@ -41,7 +40,6 @@ router.get("/seved_posts", getSavedPosts);
 router.post("/seved_posts", addSavedPosts);
 
 // verify token
-
 router.post("/verify_token", verifyToken);
 
 module.exports = router;

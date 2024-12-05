@@ -1,78 +1,62 @@
 import React, { useState, useEffect } from "react";
-// Import axios for making HTTP requests
-import axios from "axios";
+// Importing navigation hook
+import { useNavigate } from "react-router-dom";
 import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
 
 const SearchAccordion = ({ isAccordionOpen }) => {
+  // Controls the accordion visibility
   const [className, setClassName] = useState(styles.accordionHidden);
   const [searchQuery, setSearchQuery] = useState("");
-  // Stores the users fetched from the backend
-  const [users, setUsers] = useState([]);
-  // Stores the filtered users for display
-  const [filteredUsers, setFilteredUsers] = useState([]);
 
-  // Update class based on the isAccordionOpen prop
+  // Dummy data for users
+  const [users, setUsers] = useState([
+    {
+      userName: "Bob Bonson",
+      _id: "1234",
+      profilePhoto: null, 
+    },
+    {
+      userName: "Alice Smith",
+      _id: "5678",
+      // Example with a real image
+      profilePhoto: "https://via.placeholder.com/50", 
+    },
+    {
+      userName: "John Doe",
+      _id: "91011",
+      profilePhoto: null,
+    },
+  ]);
+
+  // State for filtered users
+  const [filteredUsers, setFilteredUsers] = useState(users);
+
+  // Hook for navigation
+  const navigate = useNavigate();
+
+  // Controls visibility of the accordion based on `isAccordionOpen`
   useEffect(() => {
-    if (isAccordionOpen) {
-      // styles for visible
-      setClassName(styles.accordionVisible);
-    } else {
-      // styles for hidden
-      setClassName(styles.accordionHidden);
-    }
+    setClassName(isAccordionOpen ? styles.accordionVisible : styles.accordionHidden);
   }, [isAccordionOpen]);
 
-  // Fetch users from backend when component mounts
+  // Filters users based on the search query
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/user/all");
-        // Transform the response to combine firstName and lastName
-        const formattedUsers = response.data.map(
-          (user) => `${user.firstName} ${user.lastName}`
-        );
-        setUsers(formattedUsers);
-        setFilteredUsers(formattedUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  // Filter and sort users whenever the search query changes
-  useEffect(() => {
-    // Convert to lowercase for case-insensitive matching
     const lowerCaseQuery = searchQuery.toLowerCase();
     const results = users
-      .filter((user) => user.toLowerCase().includes(lowerCaseQuery)) // Filter users that match the query
-      .sort((a, b) => {
-        // Sort users by the position of the match (lower index = higher rank)
-        const indexA = a.toLowerCase().indexOf(lowerCaseQuery);
-        const indexB = b.toLowerCase().indexOf(lowerCaseQuery);
-
-        if (indexA === indexB) {
-          // If indices are equal, sort alphabetically
-          return a.localeCompare(b);
-        }
-        return indexA - indexB; // Lower index first
-      });
-
+      .filter((user) => user.userName.toLowerCase().includes(lowerCaseQuery))
+      .slice(0, 10); // Limit results to 10
     setFilteredUsers(results);
   }, [searchQuery, users]);
 
-  // Render the search and results
   return (
     <div className={className}>
-      <Typography variant="h6" />
+      <Typography variant="h6">Search Users</Typography>
       <TextField
         fullWidth
-        label="Search for users 🕵🏼"
+        label="Search for users"
         variant="outlined"
         value={searchQuery}
-        // Update the search query on input
         onChange={(e) => setSearchQuery(e.target.value)}
         sx={{
           marginTop: "10px",
@@ -82,17 +66,37 @@ const SearchAccordion = ({ isAccordionOpen }) => {
         }}
       />
       <div className={styles.userList}>
+        {/* Display filtered results */}
         {filteredUsers.length > 0 ? (
-          filteredUsers.map((user, index) => (
-            <Typography
-              style={{ cursor: "pointer" }}
-              key={index}
-              sx={{ marginLeft: "10px" }}
+          filteredUsers.map((user) => (
+            <div
+              key={user._id}
+              // Navigate to user profile when clicked
+              onClick={() => navigate(`/userProfile/${user._id}`)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                margin: "10px 0",
+              }}
             >
-              {user}
-            </Typography>
+              {/* Display user profile photo */}
+              <img
+                src={user.profilePhoto || "https://via.placeholder.com/50"}
+                alt="Profile"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  marginRight: "10px",
+                }}
+              />
+              {/* Display user name */}
+              <Typography>{user.userName}</Typography>
+            </div>
           ))
         ) : (
+          // Show message if no users are found
           <Typography sx={{ marginLeft: "10px" }}>No users found.</Typography>
         )}
       </div>
