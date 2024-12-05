@@ -12,6 +12,7 @@ import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -26,7 +27,7 @@ function App() {
           element: <CreatePost />,
         },
         {
-          path: "/userProfile",
+          path: "/userProfile/:id",
           element: <UserProfile />,
         },
       ],

@@ -41,3 +41,18 @@
     font-size: 14px;
     cursor: pointer;
 }
+
+.liComment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deleteIcon {
+    transition: transform 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.deleteIcon:hover {
+    transform: scale(1.2);
+    color: red;
+}
