@@ -1,78 +1,85 @@
 import React, { useState, useEffect } from "react";
-// Import axios for making HTTP requests
+// using navigation???
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
 
 const SearchAccordion = ({ isAccordionOpen }) => {
-  const [className, setClassName] = useState(styles.accordionHidden);
-  const [searchQuery, setSearchQuery] = useState("");
-  // Stores the users fetched from the backend
-  const [users, setUsers] = useState([]);
-  // Stores the filtered users for display
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  // visibility of the accordion
+  const [className, setClassName] = useState(styles.accordionHidden); 
+  // stores the user's search query
+  const [searchQuery, setSearchQuery] = useState(""); 
+  // list of all users fetched from the backend
+  const [users, setUsers] = useState([]); 
+  // filtered list based on search 
+  const [filteredUsers, setFilteredUsers] = useState([]); 
+  // pulling navigation hook
+  const navigate = useNavigate(); 
 
-  // Update class based on the isAccordionOpen prop
+  // toggle visibility of the accordion based on the `isAccordionOpen` PROP
   useEffect(() => {
     if (isAccordionOpen) {
-      // styles for visible
       setClassName(styles.accordionVisible);
     } else {
-      // styles for hidden
       setClassName(styles.accordionHidden);
     }
   }, [isAccordionOpen]);
 
-  // Fetch users from backend when component mounts
+  // fetching all users when the component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/user/all");
-        // Transform the response to combine firstName and lastName
-        const formattedUsers = response.data.map(
-          (user) => `${user.firstName} ${user.lastName}`
-        );
-        setUsers(formattedUsers);
-        setFilteredUsers(formattedUsers);
+        // saving fetched users to the state
+        setUsers(response.data); 
+        // Initialize filtered users???
+        setFilteredUsers(response.data); 
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching users: ", error);
       }
     };
 
     fetchUsers();
   }, []);
 
-  // Filter and sort users whenever the search query changes
+  // filter for search querry
   useEffect(() => {
-    // Convert to lowercase for case-insensitive matching
+    //to lowercase the searched string 
     const lowerCaseQuery = searchQuery.toLowerCase();
     const results = users
-      .filter((user) => user.toLowerCase().includes(lowerCaseQuery)) // Filter users that match the query
+      .filter(
+        (user) =>
+          `${user.firstName} ${user.lastName}`.toLowerCase().includes(lowerCaseQuery)
+      )
       .sort((a, b) => {
-        // Sort users by the position of the match (lower index = higher rank)
-        const indexA = a.toLowerCase().indexOf(lowerCaseQuery);
-        const indexB = b.toLowerCase().indexOf(lowerCaseQuery);
+        // organizing according to the abc
+        const indexA = `${a.firstName} ${a.lastName}`
+          .toLowerCase()
+          .indexOf(lowerCaseQuery);
+        const indexB = `${b.firstName} ${b.lastName}`
+          .toLowerCase()
+          .indexOf(lowerCaseQuery);
 
         if (indexA === indexB) {
-          // If indices are equal, sort alphabetically
-          return a.localeCompare(b);
+          return `${a.firstName} ${a.lastName}`.localeCompare(
+            `${b.firstName} ${b.lastName}`
+          );
         }
-        return indexA - indexB; // Lower index first
+        return indexA - indexB;
       });
 
     setFilteredUsers(results);
   }, [searchQuery, users]);
 
-  // Render the search and results
   return (
     <div className={className}>
-      <Typography variant="h6" />
+      <Typography variant="h6">Search Users</Typography>
       <TextField
         fullWidth
-        label="Search for users 🕵🏼"
+        label="Search for users"
         variant="outlined"
         value={searchQuery}
-        // Update the search query on input
         onChange={(e) => setSearchQuery(e.target.value)}
         sx={{
           marginTop: "10px",
@@ -82,17 +89,23 @@ const SearchAccordion = ({ isAccordionOpen }) => {
         }}
       />
       <div className={styles.userList}>
+        {/* cheching if ther´s any filtered results to display */}
         {filteredUsers.length > 0 ? (
-          filteredUsers.map((user, index) => (
+          // if there are filtered results, map over the list to render each user
+          filteredUsers.map((user) => (
             <Typography
+              key={user._id}
+              // using navigate to get to the user's profile
+              onClick={() => navigate(`/user/${user._id}`)} 
               style={{ cursor: "pointer" }}
-              key={index}
               sx={{ marginLeft: "10px" }}
             >
-              {user}
+              {/* display the user's first name and last name */}
+              {user.firstName} {user.lastName}
             </Typography>
           ))
         ) : (
+              // if no users match the search, display not found message
           <Typography sx={{ marginLeft: "10px" }}>No users found.</Typography>
         )}
       </div>
