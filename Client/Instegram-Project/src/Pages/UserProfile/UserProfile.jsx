@@ -9,10 +9,10 @@ import styles from "./UserProfile.module.css";
 import { useSelector } from "react-redux"; // Access logged-in user from Redux
 
 const UserProfile = () => {
-  // const [searchParams, setSearchParams] = useSearchParams('id') 
-  const params =  useParams()
+  // const [searchParams, setSearchParams] = useSearchParams('id')
+  const params = useParams();
   console.log(params.id);
-    
+
   const [profileUser, setProfileUser] = useState(null); // Profile data of the user being viewed
   const [isCurrentUser, setIsCurrentUser] = useState(false); // Whether the logged-in user is viewing their own profile
 
@@ -22,7 +22,10 @@ const UserProfile = () => {
       id: "1234",
       userName: "Bob Bonson",
       profilePhoto: "https://via.placeholder.com/80",
-      posts: [{ id: "1", content: "Post 1" }, { id: "2", content: "Post 2" }],
+      posts: [
+        { id: "1", content: "Post 1" },
+        { id: "2", content: "Post 2" },
+      ],
     },
     {
       id: "5678",

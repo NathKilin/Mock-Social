@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
 
   profileImage: {
     type: String,
+    default: "https://via.placeholder.com/80",
   },
 
   friends: [
