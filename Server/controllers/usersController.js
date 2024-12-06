@@ -10,13 +10,11 @@ const {
 } = require("../auth/auth.js");
 
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
-
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -26,14 +24,48 @@ const getAllUsers = async (req, res) => {
 
 // get user by id
 async function getUserById(req, res) {
-  let user;
   try {
-    user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).lean();
+    const id = user._id;
+    const userPosts = await Post.find({ authorId: id })
+      .populate({
+        path: "comments",
+        select: { text: 1, likes: 1 },
+        populate: [
+          {
+            path: "likedBy",
+            select: { userName: 1 },
+          },
+          {
+            path: "authorId", // כאן השם של השדה ב-Comment
+            select: { userName: 1 },
+          },
+        ],
+      })
+      .lean();
+    const userComments = await Comment.find({ authorId: id })
+      .populate({
+        path: "likedBy",
+        select: { userName: 1 },
+      })
+      .populate({
+        path: "postId",
+        select: { caption: 1, url: 1 },
+      })
+      .lean();
+
+    //* add posts and comments to user
+    user.userPosts = userPosts;
+    user.userComments = userComments;
+
     if (user === null) {
       return res.status(404).json({ massege: "id not found" });
     }
+
     res.status(200).send({ user });
   } catch (error) {
+    console.log(error.name);
+
     return res.status(500).json({ massege: error.massege });
   }
 }
@@ -101,29 +133,35 @@ const logIn = async (req, res) => {
     // because I want to add key to object thet came from mongoose
     //  i need to make it regular js object so i use .lean (it's like .toObject() )
     const response = await User.find({ userName: req.body.userName })
-      .select("+password")
+      .select("+password +phone +role")
       .lean();
     const user = response[0];
     const id = user["_id"];
     const userPosts = await Post.find({ authorId: id })
-
       .populate({
         path: "comments",
         select: { text: 1, likes: 1 },
         populate: {
-          path: "likedBy",
+          path: "authorId",
           select: { userName: 1 },
         },
         populate: {
-          path: "authorId",
-          select: { pass: 1 },
+          path: "likedBy",
+          select: { userName: 1 },
         },
       })
       .lean();
     const userComments = await Comment.find({ authorId: id })
-      .populate("likedBy", "userName")
-      .select("-_id")
+      .populate({
+        path: "likedBy",
+        select: { userName: 1 },
+      })
+      .populate({
+        path: "postId",
+        select: { caption: 1, url: 1 },
+      })
       .lean();
+
     user.userPosts = userPosts;
     user.userComments = userComments;
 
