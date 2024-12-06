@@ -6,7 +6,9 @@ import styles from "./SearchAccordion.module.css";
 
 const SearchAccordion = ({ isAccordionOpen }) => {
   // Controls the accordion visibility
-  const [className, setClassName] = useState(styles.accordionHidden);
+  const [hiddenVisibleToggle, setHiddenVisibleToggle] = useState(
+    styles.accordionHidden
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
   // Dummy data for users
@@ -14,18 +16,18 @@ const SearchAccordion = ({ isAccordionOpen }) => {
     {
       userName: "Bob Bonson",
       _id: "1234",
-      profilePhoto: null, 
+      profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "Alice Smith",
       _id: "5678",
       // Example with a real image
-      profilePhoto: "https://via.placeholder.com/50", 
+      profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "John Doe",
       _id: "91011",
-      profilePhoto: null,
+      profilePhoto: "https://via.placeholder.com/50",
     },
   ]);
 
@@ -37,7 +39,9 @@ const SearchAccordion = ({ isAccordionOpen }) => {
 
   // Controls visibility of the accordion based on `isAccordionOpen`
   useEffect(() => {
-    setClassName(isAccordionOpen ? styles.accordionVisible : styles.accordionHidden);
+    setHiddenVisibleToggle(
+      isAccordionOpen ? styles.accordionVisible : styles.accordionHidden
+    );
   }, [isAccordionOpen]);
 
   // Filters users based on the search query
@@ -50,7 +54,7 @@ const SearchAccordion = ({ isAccordionOpen }) => {
   }, [searchQuery, users]);
 
   return (
-    <div className={className}>
+    <div className={hiddenVisibleToggle}>
       <Typography variant="h6">Search Users</Typography>
       <TextField
         fullWidth
