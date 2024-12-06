@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./PostDetails.module.css";
-import commentApi from "../../api/commentApi.js";
+import { saveCommentApi } from "../../api/commentApi.js";
 import PostComments from "./Comments/Comments.jsx";
 import PostImage from "./PostImage/PostImage.jsx";
 
@@ -17,7 +17,7 @@ const PostDetails = ({
 
     try {
       const newCommentObj = { postId: selectedPost._id, text: newComment };
-      const saveComment = await commentApi.saveCommentApi(newCommentObj);
+      const saveComment = await saveCommentApi(newCommentObj);
 
       if (saveComment?.data?.data) {
         const newCommentData = saveComment.data.data;

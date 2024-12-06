@@ -24,4 +24,19 @@ const saveCommentApi = async (comment) => {
   }
 };
 
-export default { saveCommentApi };
+const deleteCommentApi = async (id) => {
+  const token = getAuthTokenFromCookie();
+
+  try {
+    const res = await axios.delete(`http://localhost:3000/api/comments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { saveCommentApi, deleteCommentApi };
