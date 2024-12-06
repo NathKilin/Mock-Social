@@ -25,11 +25,11 @@ const postSchema = new mongoose.Schema({
       default: [], // defualt to empty arr if no comments
     },
   ],
-  likes: {
-    type: Number,
-    ref: "Likes",
-    default: 0,
-  },
+  // likes: {
+  //   type: Number,
+  //   ref: "Likes",
+  //   default: 0,
+  // },
   likedBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,6 +37,19 @@ const postSchema = new mongoose.Schema({
     },
   ],
 });
+
+// virtuals
+postSchema.virtual("commentsCount").get(function () {
+  return this.comments?.length;
+});
+
+postSchema.virtual("likes").get(function () {
+  return this.likedBy?.length;
+});
+
+// to enable virtuales
+postSchema.set("toObject", { virtuals: true });
+postSchema.set("toJSON", { virtuals: true });
 
 const Post = mongoose.model("Post", postSchema);
 

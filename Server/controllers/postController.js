@@ -8,6 +8,7 @@ const postController = {
     try {
       const { caption, url } = req.body;
       const authorId = req.userID;
+      console.log(`caption: ${caption} url: ${url}`);
 
       const results = await cloudinary.uploader.upload(url, {
         folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
@@ -30,7 +31,7 @@ const postController = {
 
       // Use the secure_url from the Cloudinary response
       const imageUrl = results.secure_url;
-      console.log(imageUrl);
+      console.log(`imageUrl: ${imageUrl}`);
 
       // Create a new post object
       const newPost = new Post({
@@ -39,7 +40,7 @@ const postController = {
         authorId,
         caption,
       });
-      console.log(newPost);
+      console.log(`newPost: ${newPost}`);
 
       const savedPost = await newPost.save();
       res
@@ -58,10 +59,12 @@ const postController = {
   // Get all posts
   getAllPosts: async (req, res) => {
     try {
+      console.log("in get all posts");
       const posts = await Post.find()
         .populate("authorId", "userName") // Populate author details
         .populate("comments", "text authorId") // Populate comments
         .populate("likedBy", "userName");
+      console.log("in get all posts");
 
       res.status(200).json(posts);
     } catch (error) {

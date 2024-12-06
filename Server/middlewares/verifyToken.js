@@ -3,13 +3,13 @@ const jwt = require("jsonwebtoken");
 const verifySplitToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
-    console.log(`authHeader ${authHeader}`);
+    // console.log(`authHeader ${authHeader}`);
 
     if (!authHeader) {
       return res.status(400).send({ message: "send headers" });
     }
     const token = authHeader.split(" ")[1];
-    console.log(`token ${token}`);
+    // console.log(`token ${token}`);
 
     if (!token) {
       return res.status(400).send({ message: "token miss!" });
@@ -22,7 +22,7 @@ const verifySplitToken = async (req, res, next) => {
         //   reasiment to req (req is object so i cen add keys)
         req.userID = decoded.userID;
         decoded.role ? (req.role = decoded.role) : (req.role = "user");
-        console.log(`req- role: ${req.role} user id: ${req.userID}`);
+        // console.log(`req- role: ${req.role} user id: ${req.userID}`);
         next();
       }
     });

@@ -29,19 +29,37 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: "Email address is required",
     validate: [validateEmail, "Please fill a valid email address"],
+    select: false,
   },
 
   phone: {
     type: String,
     required: true,
     unique: true,
+    select: false,
   },
 
   role: {
     type: String,
     enum: ["user", "editor", "moderator", "admin", "super admin", "elchanan"],
     default: "user",
+    select: false,
   },
+
+  profileImage: {
+    type: String,
+  },
+
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      addedDate: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 
   userComments: [
     {
@@ -49,15 +67,18 @@ const userSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
+
   userPosts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
   ],
+
   password: {
     type: String,
     required: true,
+    select: false,
   },
 
   createdAt: {
@@ -65,9 +86,18 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-// userSchema.virtual("fullName").get(function () {
-//   return `${this.firstName} ${this.lastName}`;
-// });
+
+userSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+userSchema.virtual("friendsCount").get(function () {
+  return this.friends?.length;
+});
+
+// to enable virtuales
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ phone: 1 }, { phone: true });
