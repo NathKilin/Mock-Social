@@ -4,10 +4,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import PostDetails from "../../Components/ComponentsPostDetails/PostDetails.jsx";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const getAllPostApi = async () => {
   try {
     const posts = await axios.get("http://localhost:3000/api/posts/all");
+    console.log(posts);
+
     if (!posts) {
       console.log("Post couldn't be found");
     } else {
@@ -18,31 +22,52 @@ const getAllPostApi = async () => {
   }
 };
 
+const sortPostsByDate = (posts) => {
+  return posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+};
+
+const shufflePosts = (posts) => {
+  return [...posts].sort(() => Math.random() - 0.5);
+};
+
 const HomePage = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
 
   const selectedPost = allPosts.find((post) => post._id === selectedPostId);
 
-  const shufflePosts = (posts) => {
-    return posts.sort(() => Math.random() - 0.5);
-  };
-
   const posts = async () => {
     try {
       const getAllPosts = await getAllPostApi();
-      setAllPosts((prevPosts) => {
-        return [...prevPosts, ...shufflePosts(getAllPosts)];
-      });
-      return getAllPosts;
+      if (getAllPosts && getAllPosts.length > 0) {
+        const sortedPosts = sortPostsByDate(getAllPosts);
+        setAllPosts(sortedPosts);
+      } else {
+        console.log("No posts found");
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching posts:", error);
     }
   };
 
   useEffect(() => {
     posts();
   }, []);
+
+  if (allPosts.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div className="home-page">

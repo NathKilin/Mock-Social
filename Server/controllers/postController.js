@@ -61,10 +61,18 @@ const postController = {
     try {
       console.log("in get all posts");
       const posts = await Post.find()
-        .populate("authorId", "userName") // Populate author details
-        .populate("comments", "text authorId") // Populate comments
+        .populate({
+          path: "authorId",
+          select: { userName: 1, profileImage: 1 },
+        }) // Populate author details
+        .populate({
+          path: "comments",
+          populate: {
+            path: "authorId",
+            select: { userName: 1, profileImage: 1 },
+          },
+        }) // Populate comments
         .populate("likedBy", "userName");
-      console.log("in get all posts");
 
       res.status(200).json(posts);
     } catch (error) {
