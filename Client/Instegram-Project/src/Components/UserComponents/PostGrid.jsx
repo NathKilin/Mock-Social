@@ -2,9 +2,7 @@ import React from "react";
 import Post from "./Post";
 import styles from "./PostGrid.module.css";
 
-const PostGrid = ({ posts, onPostClick }) => {
-  console.log(posts);
-
+const PostGrid = ({ posts }) => {
   return (
     <section className={styles.postsGrid}>
       {posts.map((post) => (
@@ -14,7 +12,7 @@ const PostGrid = ({ posts, onPostClick }) => {
           text={post.caption}
           likes={post.likes}
           comments={post.comments}
-          onClick={() => onPostClick(post)}
+          // onclick={(e) => {e.target}}
         />
       ))}
     </section>

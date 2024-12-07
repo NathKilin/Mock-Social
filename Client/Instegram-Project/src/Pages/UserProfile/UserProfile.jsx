@@ -78,7 +78,7 @@ const UserProfile = () => {
         )}
       </section>
 
-      <PostGrid posts={profileData.userPosts || []} onPostClick={() => {}} />
+      <PostGrid posts={profileData.userPosts || []} />
     </div>
   );
 };
