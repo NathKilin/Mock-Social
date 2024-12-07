@@ -4,13 +4,20 @@ import styles from "./LogIn.module.css";
 import { handleLogInSabmit, verifyAuth } from "../../api/login.js";
 import getAuthTokenFromCookie from "../../auth/auth.js";
 import { useDispatch } from "react-redux";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LogIn = ({ setIsLogIn }) => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [failedLogText, setFailedLogText] = useState("");
   const dispatch = useDispatch();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const checkAuth = async () => {
     try {
       const token = getAuthTokenFromCookie();
@@ -58,14 +65,19 @@ const LogIn = ({ setIsLogIn }) => {
           required
         />
         <hr className={styles.logInHr} />
-        <input
-          className={styles.logInInput}
-          placeholder="Password..."
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className={styles.passwordContainer}>
+          <input
+            className={`${styles.logInInput} ${styles.passwordInput}`}
+            placeholder="Password..."
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
         <hr className={styles.logInHr} />
         <button type="submit" className={styles.logInButton}>
           Log In

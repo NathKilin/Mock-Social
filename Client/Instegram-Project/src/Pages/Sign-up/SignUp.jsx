@@ -11,6 +11,7 @@ const SignUp = () => {
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     phone: "",
   });
 
@@ -24,6 +25,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (userData.password !== userData.confirmPassword) {
+      setFailedText("Passwords do not match.");
+      return;
+    }
     try {
       const formattedUserData = {
         ...userData,
@@ -33,7 +38,6 @@ const SignUp = () => {
         formattedUserData,
         setFailedText
       );
-      console.log("User data:", response);
       if (response) {
         setFailedText("");
         setUserData({
@@ -42,7 +46,8 @@ const SignUp = () => {
           lastName: "",
           email: "",
           password: "",
-          phone: "",          
+          confirmPassword: "",
+          phone: "",
         });
         alert("Sign-up successful! Welcome to the platform.");
       }
@@ -101,6 +106,16 @@ const SignUp = () => {
           type="password"
           id="password"
           value={userData.password}
+          onChange={handleChange}
+          required
+        />
+        <hr className={styles.signUpHr} />
+        <input
+          className={styles.signUpInput}
+          placeholder="Confirm password..."
+          type="password"
+          id="confirmPassword"
+          value={userData.confirmPassword}
           onChange={handleChange}
           required
         />

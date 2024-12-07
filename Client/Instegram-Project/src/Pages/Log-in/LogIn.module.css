@@ -182,11 +182,36 @@
 
 
 
-/*Does not refer to dark or light mode */
+
+
 .errorMassege:empty {
     display: none;
 }
 
 .errorMassege {
     margin-top: 15px;
+}
+
+.passwordContainer {
+    position: relative;
+    width: 100%;
+}
+
+.passwordInput {
+    padding-right: 40px;
+}
+
+.eyeIcon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.eyeIcon:hover {
+    color: #FFD700;
 }
