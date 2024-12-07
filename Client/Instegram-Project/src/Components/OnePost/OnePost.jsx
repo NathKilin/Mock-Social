@@ -1,6 +1,6 @@
 import styles from "./OnePost.module.css";
 import Likes from "../Likes/Likes.jsx";
-import TextsmsIcon from "@mui/icons-material/Textsms";
+import CommentIcon from "../../assets/comment1.png";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
@@ -30,12 +30,12 @@ const OnePost = ({ post, setSelectedPostId }) => {
       <p className={styles.caption}>{post.caption}</p>
       <div className={styles.containerCommentLike}>
         <button
-          style={{}}
+          className={styles.commentIcon}
           onClick={() => {
             setSelectedPostId(post._id);
           }}
         >
-          <TextsmsIcon />
+          <img src={CommentIcon} alt="Comment Icon" />
         </button>
         <div onClick={(event) => event.stopPropagation()}>
           <Likes postId={post._id} />

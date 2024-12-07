@@ -2,23 +2,28 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 60px;
-    background-color: rgb(250, 195, 77);
+    height: 80px;
+    background-color: transparent;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid #DBDBDB;
     z-index: 1000;
 }
 
 .footer button {
-    border: none;
-    font-size: 20px;
-    transition: 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    background-color: transparent; 
+    border: none; 
+    transition: 0.21s ease;
     cursor: pointer;
-    background-color: rgb(250, 195, 77);
+    padding: 5px; 
 }
 
 .footer button:hover {
-    font-size: 22px;
+    background-color: rgba(58, 58, 64, 0.7);
 }

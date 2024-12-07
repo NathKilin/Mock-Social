@@ -42,8 +42,9 @@ const SignUp = () => {
           lastName: "",
           email: "",
           password: "",
-          phone: "",
+          phone: "",          
         });
+        alert("Sign-up successful! Welcome to the platform.");
       }
     } catch (error) {
       console.log("Error during sign-up:", error);

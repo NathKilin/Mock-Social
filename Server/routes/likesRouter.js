@@ -13,6 +13,6 @@ const router = express.Router();
 router.post("/add", verifySplitToken, addLike);
 router.delete("/remove", verifySplitToken, removeLike);
 router.get("/:postId", getPostLikes);
-router.get("/:commentId", getCommentsLikes);
+router.get("/comments/:commentId", getCommentsLikes);
 
 module.exports = router;
