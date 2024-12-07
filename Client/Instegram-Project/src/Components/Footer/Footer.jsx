@@ -12,6 +12,8 @@ const Footer = ({ setIsAccordionOpen }) => {
     });
   };
 
+  const globalUserID = useSelector((state) => state.user._id);
+
   return (
     <div className={styles.Footer}>
       <footer className={styles.footer}>
@@ -23,7 +25,7 @@ const Footer = ({ setIsAccordionOpen }) => {
           <button onClick={setFalseSearchAccotdion}>➕</button>
         </Link>
         <button onClick={setFalseSearchAccotdion}>🎥</button>
-        < Link to="/userProfile/:id">
+        <Link to="/userProfile/:id">
           <button onClick={setFalseSearchAccotdion}>👤</button>
         </Link>
       </footer>
