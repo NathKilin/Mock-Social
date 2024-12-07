@@ -14,27 +14,31 @@ const PostDetails = ({
 
   const handleAddComment = async () => {
     if (newComment.trim() === "") return;
-
     try {
       const newCommentObj = { postId: selectedPost._id, text: newComment };
       const saveComment = await saveCommentApi(newCommentObj);
-
       if (saveComment?.data?.data) {
         const newCommentData = saveComment.data.data;
-
         setAllPosts((prev) =>
           prev.map((post) =>
             post._id === selectedPost._id
-              ? { ...post, comments: [...post.comments, newCommentData] }
+              ? {
+                  ...post,
+                  comments: [
+                    ...post.comments,
+                    {
+                      ...newCommentData,
+                      userName: saveComment.data.data.userName || "Unknown",
+                    },
+                  ],
+                }
               : post
           )
         );
         setNewComment("");
-      } else {
-        console.error("Failed to save comment");
       }
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error(error);
     }
   };
 

@@ -8,14 +8,12 @@ import Like from "../../Likes/Likes.jsx";
 
 const deleteCommentApi = async (id) => {
   const token = getAuthTokenFromCookie();
-
   try {
-    const res = await axios.delete(`http://localhost:3000/api/comments/${id}`, {
+    await axios.delete(`http://localhost:3000/api/comments/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
   } catch (error) {
     console.error(error);
   }
@@ -30,47 +28,56 @@ const PostComments = ({
   selectedPostId,
 }) => {
   const userGlobal = useSelector((state) => state.user);
-  console.log(userGlobal);
 
-  const deleteComment = (id) => {
-    deleteCommentApi(id);
-
-    setAllPosts((prev) =>
-      prev.map((post) =>
-        post._id === selectedPostId
-          ? {
-              ...post,
-              comments: post.comments.filter((comment) => comment._id !== id),
-            }
-          : post
-      )
-    );
+  const deleteComment = async (id) => {
+    try {
+      await deleteCommentApi(id);
+      setAllPosts((prev) =>
+        prev.map((post) =>
+          post._id === selectedPostId
+            ? {
+                ...post,
+                comments: post.comments.filter((comment) => comment._id !== id),
+              }
+            : post
+        )
+      );
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
+    }
   };
 
   return (
     <div className={styles.commentsSection}>
       <div className={styles.comments}>
         <ul>
-          {comments.map((comment, index) => (
-            <li className={styles.liComment} key={index}>
-              <div className="containerUserAndText">
-                <strong>
-                  user {comment?.userName ? comment.authorId : index}{" "}
-                  {comment.user}:
-                </strong>
-                {comment.text}
-              </div>
-              <Like commentId={comment._id} />
-              <div className="containerDelete">
-                {comment.authorId._id === userGlobal?.user?._id && (
-                  <DeleteOutlineIcon
-                    onClick={() => deleteComment(comment._id)}
-                    className={styles.deleteIcon}
-                  />
-                )}
-              </div>
-            </li>
-          ))}
+          {comments.length > 0 ? (
+            comments.map((comment, index) => (
+              <li className={styles.liComment} key={index}>
+                <div className="containerUserAndText">
+                  <strong>
+                    {comment?.authorId === userGlobal?.user?._id
+                      ? "You"
+                      : "Unknown User"}
+                    :
+                  </strong>
+                  {comment.text}
+                </div>
+                <Like commentId={comment._id} />
+                <div className="containerDelete">
+                  {(comment?.authorId?._id === userGlobal?.user?._id ||
+                    comment?.authorId === userGlobal?.user?._id) && (
+                    <DeleteOutlineIcon
+                      onClick={() => deleteComment(comment._id)}
+                      className={styles.deleteIcon}
+                    />
+                  )}
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>No comments yet. Be the first to comment!</p>
+          )}
         </ul>
       </div>
       <div className={styles.addComment}>
