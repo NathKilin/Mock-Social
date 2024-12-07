@@ -18,7 +18,7 @@
 
 .icons {
     display: flex;
-    gap: 10px; 
+    gap: 30px; 
 }
 
 .icons button {
@@ -28,18 +28,15 @@
     width: 40px; 
     height: 40px; 
     border-radius: 50%; 
-    background-color: #21212d; 
+    background-color: transparent; 
     border: none; 
     transition: 0.21s ease;
     cursor: pointer;
-    padding: 5px; 
-}
-
-.icons button img {
-    width: 24px; 
-    height: 24px; 
+    padding: 0px; 
 }
 
 .icons button:hover {
-    background-color: #373746; 
+    background-color: transparent; 
+    width: 50px; 
+    height: 50px; 
 }

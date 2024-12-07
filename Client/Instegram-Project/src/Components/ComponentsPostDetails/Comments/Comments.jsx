@@ -4,6 +4,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import axios from "axios";
 import getAuthTokenFromCookie from "../../../auth/auth.js";
 import { useSelector } from "react-redux";
+import Like from "../../Likes/Likes.jsx";
 
 const deleteCommentApi = async (id) => {
   const token = getAuthTokenFromCookie();
@@ -58,13 +59,14 @@ const PostComments = ({
                 </strong>
                 {comment.text}
               </div>
+              <Like commentId={comment._id} />
               <div className="containerDelete">
-                {/* {comment.authorId === userGlobal.user._id && ( */}
+                {comment.authorId === userGlobal?.user?._id && (
                 <DeleteOutlineIcon
                   onClick={() => deleteComment(comment._id)}
                   className={styles.deleteIcon}
                 />
-                {/* )} */}
+                )} 
               </div>
             </li>
           ))}

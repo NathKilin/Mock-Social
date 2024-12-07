@@ -2,16 +2,17 @@ import getAuthTokenFromCookie from "../../auth/auth.js";
 import React, { useState, useEffect } from "react";
 import styles from "./Likes.module.css";
 import axios from "axios";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useSelector } from "react-redux";
+import heart1 from "../../assets/heart1.png";
+import heart2 from "../../assets/heart2.png";
 
-const Likes = ({ postId }) => {
-  const [likesCount, setLikesCount] = useState(0); // State for the number of likes
-  const [hasLiked, setHasLiked] = useState(false); // State to track if the user has liked the post
+const Likes = ({ postId, commentId }) => {
+  const [likesCount, setLikesCount] = useState(0);
+  const [hasLiked, setHasLiked] = useState(false);
   const globalUserHost = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchLikes = async () => {
+    const fetchLikesPost = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/api/likes/${postId}`,
@@ -21,11 +22,9 @@ const Likes = ({ postId }) => {
             },
           }
         );
-
         const checkLiked = response.data.likedBy.some(
           (user) => user?._id === globalUserHost?.user?._id
         );
-
         if (checkLiked) {
           setHasLiked(true);
         } else {
@@ -36,30 +35,57 @@ const Likes = ({ postId }) => {
         console.error("Error fetching likes:", error);
       }
     };
+    const fetchLikesComment = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/likes/comments/${commentId}`, // Change to use commentId instead of postId
+          {
+            headers: {
+              Authorization: `Bearer ${getAuthTokenFromCookie()}`, // Using the token from cookies
+            },
+          }
+        );
+        console.log(response);
+        const checkLiked = response.data.likedBy.some(
+          (user) => user?._id === globalUserHost?.user?._id
+        );
+        if (checkLiked) {
+          setHasLiked(true);
+        } else {
+          setHasLiked(false);
+        }
+        setLikesCount(response.data.likesCount);
+      } catch (error) {
+        console.error("Error fetching likes:", error);
+      }
+    };
+    commentId && fetchLikesComment();
+    !commentId && fetchLikesPost();
+  }, [postId, globalUserHost]);
+  
 
-    fetchLikes();
-  }, [postId]);
-
-  // Handle like button click
   const handleLike = async () => {
     try {
       const token = getAuthTokenFromCookie(); // Get token before API call
-
+      const data = commentId ? { commentId } : { postId }; // Check if commentId exists, otherwise use postId
       if (hasLiked) {
         // Remove like
+        console.log(commentId + "remove");
         await axios.delete(`http://localhost:3000/api/likes/remove`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          data: { postId },
+          data, // Sending data dynamically based on the condition
         });
         setLikesCount((prev) => Math.max(prev - 1, 0));
         setHasLiked(false);
+        console.log("delete");
       } else {
         // Add like
+        console.log(commentId + "add");
         await axios.post(
           `http://localhost:3000/api/likes/add`,
-          { postId },
+          data, // Sending data dynamically based on the condition
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,6 +94,7 @@ const Likes = ({ postId }) => {
         );
         setLikesCount((prev) => prev + 1);
         setHasLiked(true);
+        console.log("add");
       }
     } catch (error) {
       console.error("Error updating like:", error);
@@ -77,9 +104,17 @@ const Likes = ({ postId }) => {
   return (
     <div className={styles.likes}>
       <button onClick={handleLike} className={styles.likeButton}>
-        <ThumbUpIcon
-          color={hasLiked ? "primary" : "disabled"}
-          fontSize="small"
+        <img
+          src={heart1}
+          alt="Like Icon"
+          className={`${styles.heartIcon} ${!hasLiked ? styles.active : ""}`}
+          style={{ width: "28px", height: "28px" }}
+        />
+        <img
+          src={heart2}
+          alt="Liked Icon"
+          className={`${styles.heartIcon} ${hasLiked ? styles.active : ""}`}
+          style={{ width: "32px", height: "32px" }}
         />
       </button>
       <span className={styles.likeCount}>{likesCount}</span>

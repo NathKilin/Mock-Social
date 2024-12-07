@@ -19,7 +19,7 @@ const Header = ({ setIsLogIn }) => {
         <img
               src={NotificationIcon}
               alt="Create Post"
-              style={{ width: "30px", height: "30px" }}
+              style={{ width: "40px", height: "40px" }}
             />
         </button>
         <button className={styles.logoutButton}>
@@ -32,7 +32,7 @@ const Header = ({ setIsLogIn }) => {
               setIsLogIn(false);
               navigate("/");
             }}
-            style={{ width: "30px", height: "30px", cursor: "pointer" }} // Define estilo para a imagem
+            style={{ width: "40px", height: "40px", cursor: "pointer" }} // Define estilo para a imagem
           />
         </button>
       </div>
