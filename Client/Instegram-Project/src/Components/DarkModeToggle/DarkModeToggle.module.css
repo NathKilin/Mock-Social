@@ -1,0 +1,48 @@
+.toggleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80px;
+    height: 40px;
+    background-color: #1e2a47;
+    border-radius: 25px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.toggleBall {
+    position: absolute;
+    left: 5px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.light {
+    transform: translateX(0);
+    background-color: #f1f1f1;
+}
+
+.dark {
+    transform: translateX(40px);
+    background-color: #4b5a91;
+}
+
+.icon {
+    font-size: 18px;
+    color: #1e2a47;
+}
+
+.toggleContainer:hover {
+    background-color: #2f3c6c;
+}

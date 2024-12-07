@@ -1,11 +1,23 @@
 import React from "react";
 import styles from "./Post.module.css";
 
-const Post = ({ image, text, likes, comments, onclick }) => {
+const Post = ({
+  postId,
+  image,
+  text,
+  likes,
+  comments,
+  onclick,
+  setSelectedPostId,
+}) => {
   console.log(text);
+  console.log(postId);
 
   return (
-    <div className={styles.postContainer} onClick={onclick}>
+    <div
+      className={styles.postContainer}
+      onClick={() => setSelectedPostId(postId)}
+    >
       <img src={image} alt="Post" className={styles.postImage} />
       <div className={styles.postHover}>
         <p className={styles.postText}>
