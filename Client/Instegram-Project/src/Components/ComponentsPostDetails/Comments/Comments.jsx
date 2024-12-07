@@ -30,6 +30,7 @@ const PostComments = ({
   selectedPostId,
 }) => {
   const userGlobal = useSelector((state) => state.user);
+  console.log(userGlobal);
 
   const deleteComment = (id) => {
     deleteCommentApi(id);
@@ -61,12 +62,12 @@ const PostComments = ({
               </div>
               <Like commentId={comment._id} />
               <div className="containerDelete">
-                {comment.authorId === userGlobal?.user?._id && (
-                <DeleteOutlineIcon
-                  onClick={() => deleteComment(comment._id)}
-                  className={styles.deleteIcon}
-                />
-                )} 
+                {comment.authorId._id === userGlobal?.user?._id && (
+                  <DeleteOutlineIcon
+                    onClick={() => deleteComment(comment._id)}
+                    className={styles.deleteIcon}
+                  />
+                )}
               </div>
             </li>
           ))}
