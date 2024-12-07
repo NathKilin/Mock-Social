@@ -1,6 +1,9 @@
 import styles from "./Footer.module.css";
 import { Link } from "react-router-dom";
 
+// redux
+import { useSelector } from "react-redux";
+
 const Footer = ({ setIsAccordionOpen }) => {
   const toggleSearchAccotdion = () => {
     setIsAccordionOpen((prev) => !prev);
@@ -11,6 +14,9 @@ const Footer = ({ setIsAccordionOpen }) => {
       return (prev = false);
     });
   };
+
+  const globalUserID = useSelector((state) => state.user?.user?._id);
+  console.log(globalUserID);
 
   return (
     <div className={styles.Footer}>
@@ -23,7 +29,7 @@ const Footer = ({ setIsAccordionOpen }) => {
           <button onClick={setFalseSearchAccotdion}>➕</button>
         </Link>
         <button onClick={setFalseSearchAccotdion}>🎥</button>
-        < Link to="/userProfile/:id">
+        <Link to={`/userProfile/${globalUserID}`}>
           <button onClick={setFalseSearchAccotdion}>👤</button>
         </Link>
       </footer>

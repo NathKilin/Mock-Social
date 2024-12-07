@@ -9,37 +9,42 @@ import LogIn from "./Pages/Log-in/LogIn.jsx";
 import Article from "./Pages/Article/Article.jsx";
 import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
 import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
+import ErrorPage from "./Pages/ErorPage/ErorPage.jsx";
 
-function App() {
-  const [isLogIn, setIsLogIn] = useState(false);
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Article isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
-      children: [
+    function App() {
+      const [isLogIn, setIsLogIn] = useState(false);
+      
+      const router = createBrowserRouter([
         {
           path: "/",
-          element: <HomePage isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+          element: <Article isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+          children: [
+            {
+              path: "/",
+              element: <HomePage isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+            },
+            {
+              path: "/createPost",
+              element: <CreatePost />,
+            },
+            {
+              path: "/userProfile/:id",
+              element: <UserProfile />,
+            },
+          ],
         },
         {
-          path: "/createPost",
-          element: <CreatePost />,
+          path: "/login",
+          element: <LogIn isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
         },
         {
-          path: "/userProfile/:id",
-          element: <UserProfile />,
+          path: "/signup",
+          element: <SignUp />,
         },
-      ],
-    },
-    {
-      path: "/login",
-      element: <LogIn isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
-    },
+        {
+          path: "/error",
+          element: <ErrorPage />,
+        },
   ]);
 
   return <RouterProvider router={router} />;

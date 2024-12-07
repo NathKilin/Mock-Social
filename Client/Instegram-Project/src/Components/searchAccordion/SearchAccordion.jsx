@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
 
-const SearchAccordion = ({ isAccordionOpen }) => {
+const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   // Controls the accordion visibility
   const [hiddenVisibleToggle, setHiddenVisibleToggle] = useState(
     styles.accordionHidden
@@ -15,23 +15,23 @@ const SearchAccordion = ({ isAccordionOpen }) => {
   const [users, setUsers] = useState([
     {
       userName: "Bob Bonson",
-      _id: "1234",
+      _id: "675494939a1ba10d51925707",
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "Alice Smith",
-      _id: "5678",
+      _id: "675494939a1ba10d51925x707",
       // Example with a real image
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "John Doe",
-      _id: "91011",
+      _id: "675494939a1ba10d51925707",
       profilePhoto: "https://via.placeholder.com/50",
     },
   ]);
 
-  // State for filtered users
+  // // State for filtered users
   const [filteredUsers, setFilteredUsers] = useState(users);
 
   // Hook for navigation
@@ -76,7 +76,10 @@ const SearchAccordion = ({ isAccordionOpen }) => {
             <div
               key={user._id}
               // Navigate to user profile when clicked
-              onClick={() => navigate(`/userProfile/${user._id}`)}
+              onClick={() => {
+                setIsAccordionOpen((prev) => !prev);
+                navigate(`/userProfile/${user._id}`);
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",
