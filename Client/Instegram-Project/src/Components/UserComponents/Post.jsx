@@ -1,15 +1,23 @@
 import styles from "./Post.module.css";
 
-const Post = ({ image, text, likes, comments, onclick }) => {
-  console.log(comments);
+const Post = ({
+  postId,
+  image,
+  text,
+  likes,
+  comments,
+  onclick,
+  setSelectedPostId,
+}) => {
+  console.log(text);
+  console.log(postId);
 
   return (
-    <div className={styles.postContainer} onClick={onclick}>
-      <img
-        src={image || "https://via.placeholder.com/80"}
-        alt="Post"
-        className={styles.postImage}
-      />
+    <div
+      className={styles.postContainer}
+      onClick={() => setSelectedPostId(postId)}
+    >
+      <img src={image} alt="Post" className={styles.postImage} />
       <div className={styles.postHover}>
         <p className={styles.postText}>
           {text?.length > 20 ? `${text?.slice(0, 20)}...` : text}
