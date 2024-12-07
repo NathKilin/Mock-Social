@@ -7,49 +7,23 @@ const postController = {
   createPost: async (req, res) => {
     try {
       const { caption, url } = req.body;
-      const authorId = req.userID;
-      console.log(`caption: ${caption} url: ${url}`);
+      const authorId = req.userID; // Assumes userID is passed in middleware
+      if (!url) {
+        return res.status(400).json({ message: "Image URL is required" });
+      }
 
-      const results = await cloudinary.uploader.upload(url, {
-        folder: "Social_Media_Posts", // Replace with your Cloudinary folder name
-      });
-
-      console.log(results);
-
-      // const pic = cloudinary.url(results.public_id, {
-      //   transformation: [
-      //     { quality: "auto", fetch_format: "auto" },
-      //     {
-      //       width: 450,
-      //       height: 450,
-      //       crop: "fill",
-      //       gravity: "auto",
-      //     },
-      //   ],
-      // });
-      // console.log(pic);
-
-      // Use the secure_url from the Cloudinary response
-      const imageUrl = results.secure_url;
-      console.log(`imageUrl: ${imageUrl}`);
-
-      // Create a new post object
       const newPost = new Post({
-        url: imageUrl,
-        url: imageUrl,
-        authorId,
+        url,
         caption,
+        authorId,
       });
-      console.log(`newPost: ${newPost}`);
 
       const savedPost = await newPost.save();
       res
         .status(201)
         .json({ message: "Post created successfully", data: savedPost });
     } catch (error) {
-      console.log(error.code);
-      console.log(error.message);
-      console.log(error.name);
+      console.error(error);
       res
         .status(500)
         .json({ message: "Error creating post", error: error.message });
