@@ -15,18 +15,18 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   const [users, setUsers] = useState([
     {
       userName: "Bob Bonson",
-      _id: "1234",
+      _id: "675494939a1ba10d51925707",
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "Alice Smith",
-      _id: "5678",
+      _id: "675494939a1ba10d51925x707",
       // Example with a real image
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "John Doe",
-      _id: "91011",
+      _id: "675494939a1ba10d51925707",
       profilePhoto: "https://via.placeholder.com/50",
     },
   ]);
