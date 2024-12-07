@@ -1,32 +1,165 @@
 .post {
+    max-width: 500px; 
     width: 90%;
-    max-width: 500px;
-    background-color: white;
-    margin: 16px 0;
-    border-radius: 8px;
+    margin: 10px auto; 
     overflow: hidden;
     cursor: pointer;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    position: relative; 
+}
+
+.commentIcon {
+    background-color: transparent; 
+    border-radius: 20%; 
+    width: 60px;
+    height: 60px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    transition: transform 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+    border: none; 
+    cursor: pointer; 
+    padding: 0; 
+}
+
+.commentIcon:hover {
+    filter:hue-rotate(-40deg);
+    background-color: transparent;
+    /* background-color: rgba(58, 58, 64, 0.7); */
+}
+
+.commentIcon img {
+    width: 60%; 
+    height: 80%; 
+    object-fit: contain; 
+    filter: none; 
+}
+
+
+.post::after {
+    content: "";
+    display: block; 
+    width: 150%;
+    max-width: 1500px;
+    height: 1px; 
+    background: linear-gradient(
+        to right,
+        rgba(59, 59, 62, 0) 5%,
+        #3b3b3e 50%,
+        rgba(59, 59, 62, 0) 95%
+    );
+    margin: 100px auto; 
+    position: relative;
+    left: -25%; 
 }
 
 .post .imagePlaceholder {
-    width: 100%;
-    height: 300px;
-    background-color: #FFF8AF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(51, 39, 51);
-    border: 3px;
-    font-size: 2rem;
-    font-weight: bold;
+    width: 100%; 
+    max-width: 500px; 
+    border-radius: 3px;
+    height: auto; 
+    aspect-ratio: 4 / 5; 
+    object-fit: cover; 
+    background-color: transparent; 
+}
+
+.post .imagePlaceholder.landscape {
+    aspect-ratio: 1.91 / 1; 
+    object-fit: contain; 
+}
+
+.post .imagePlaceholder.square {
+    aspect-ratio: 1 / 1; 
+    object-fit: cover;
 }
 
 .post .caption {
     padding: 16px;
     font-size: 14px;
-    color: #9B7E32;
+    color: #f3f3fc;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: normal;
+    text-align: center;
 }
 
 .containerCommentLike {
     display: flex;
+    justify-content: flex-start; 
+    gap: 10px; 
+    width: 100%; 
+    padding-left: 80px; 
+}
+
+
+@media (max-width: 480px) {
+    .post {
+        max-width: 100%; 
+    }
+
+    .post::after {
+        width: 180%;
+        max-width: 500px;
+        left: -40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .post {
+        max-width: 100%; 
+    }
+
+    .post .imagePlaceholder {
+        aspect-ratio: 1 / 1; 
+        max-height: 300px;
+    }
+
+    .post::after {
+        width: 180%;
+        left: -40%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .post {
+        max-width: 450px; 
+    }
+
+    .post .imagePlaceholder {
+        aspect-ratio: 4 / 5; 
+        max-height: 400px;
+    }
+
+    .post::after {
+        width: 170%;
+        left: -35%;
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1920px) {
+    .post {
+        max-width: 500px; 
+    }
+
+    .post .imagePlaceholder {
+        aspect-ratio: 4 / 5; 
+        max-height: 500px;
+    }
+
+    .post::after {
+        width: 160%;
+        left: -30%;
+    }
+}
+
+@media (min-width: 1921px) {
+    .post {
+        max-width: 700px; 
+    }
+
+    .post::after {
+        width: 155%;
+        left: -27.5%;
+    }
 }

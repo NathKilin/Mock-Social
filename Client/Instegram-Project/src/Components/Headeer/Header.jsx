@@ -1,23 +1,38 @@
 import { FaSignOutAlt } from "react-icons/fa";
 import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
+import NotificationIcon from "../../assets/notification1.png"
+import LogOutIcon from "../../assets/log-out1.png"
+import Logo from "../../assets/PENN.png"
 
 const Header = ({ setIsLogIn }) => {
   const navigate = useNavigate();
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>Mock Social</div>
-      <div className={styles.icons}>
-        <button>❤️</button>
-        <button>✉️</button>
+    <img
+        src={Logo}
+        alt="Logo"
+        className={styles.logo} 
+        style={{ width: "80px", height: "auto" }} 
+      />      <div className={styles.icons}>
+        <button>
+        <img
+              src={NotificationIcon}
+              alt="Create Post"
+              style={{ width: "40px", height: "40px" }}
+            />
+        </button>
         <button className={styles.logoutButton}>
-          <FaSignOutAlt
+          <img
+            src={LogOutIcon}
+            alt="Log Out"
             onClick={() => {
               document.cookie =
                 "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               setIsLogIn(false);
               navigate("/");
             }}
+            style={{ width: "40px", height: "40px", cursor: "pointer" }} // Define estilo para a imagem
           />
         </button>
       </div>
