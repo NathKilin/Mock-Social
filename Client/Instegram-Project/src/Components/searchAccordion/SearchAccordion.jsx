@@ -15,18 +15,18 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   const [users, setUsers] = useState([
     {
       userName: "Bob Bonson",
-      _id: "675494939a1ba10d51925707",
+      _id: "67508bf0a29a70d328be3e68",
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "Alice Smith",
-      _id: "675494939a1ba10d51925x707",
+      _id: "67508bf0a29a70d328be3e68",
       // Example with a real image
       profilePhoto: "https://via.placeholder.com/50",
     },
     {
       userName: "John Doe",
-      _id: "675494939a1ba10d51925707",
+      _id: "67508bf0a29a70d328be3e68",
       profilePhoto: "https://via.placeholder.com/50",
     },
   ]);
@@ -70,12 +70,10 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
         }}
       />
       <div className={styles.userList}>
-        {/* Display filtered results */}
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <div
               key={user._id}
-              // Navigate to user profile when clicked
               onClick={() => {
                 setIsAccordionOpen((prev) => !prev);
                 navigate(`/userProfile/${user._id}`);
@@ -87,7 +85,6 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
                 margin: "10px 0",
               }}
             >
-              {/* Display user profile photo */}
               <img
                 src={user.profilePhoto || "https://via.placeholder.com/50"}
                 alt="Profile"
@@ -98,12 +95,11 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
                   marginRight: "10px",
                 }}
               />
-              {/* Display user name */}
+
               <Typography>{user.userName}</Typography>
             </div>
           ))
         ) : (
-          // Show message if no users are found
           <Typography sx={{ marginLeft: "10px" }}>No users found.</Typography>
         )}
       </div>
