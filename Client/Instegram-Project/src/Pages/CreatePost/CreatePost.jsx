@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
 import addPostIcon from "../../assets/new-post.png";
-import { postsCliant } from "../../api/axiosInstens.js";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../store/slices/userSlice.js";
+import getAuthTokenFromCookie from "../../auth/auth.js";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUDINARY_PRESET;
@@ -9,6 +11,10 @@ const uploadPreset = import.meta.env.VITE_CLOUDINARY_PRESET;
 const CreatePost = () => {
   const [caption, setCaption] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+  console.log(user.user);
 
   const handleOpenWidget = () => {
     window.cloudinary.openUploadWidget(
@@ -38,9 +44,37 @@ const CreatePost = () => {
 
     try {
       const formData = { url: imageUrl, caption };
-      await postsCliant.post("/add", formData);
+
+      const response = await fetch("http://localhost:3000/api/posts/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthTokenFromCookie()}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create post.");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      const newPost = data.data;
+      const updatedUser = {
+        ...user.user,
+        userPosts: [...user.user.userPosts, newPost],
+      };
+
+      dispatch(setUser(updatedUser));
       setImageUrl(null);
       setCaption("");
+      alert(
+        `🚀 Your post has taken flight! 🚀 \n\n"${newPost.caption}" is now in the air!`
+      );
+      console.log(user.user.userPosts);
+      return true;
     } catch (error) {
       console.error("Error creating post:", error);
       alert("Failed to create post. Please try again.");

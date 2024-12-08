@@ -26,7 +26,6 @@ const logInAuth = async (inputPassword, storedHashedPassword) => {
       combinedPassword,
       storedHashedPassword
     );
-    console.log(isMatch);
 
     return isMatch;
   } catch (error) {
@@ -36,7 +35,7 @@ const logInAuth = async (inputPassword, storedHashedPassword) => {
 };
 
 // creating jwt token
-async function creatToken(userID, role, jwtKey) {
+async function creatToken(userID, role, email, phone, jwtKey) {
   const roles = [
     "user",
     "editor",
@@ -50,7 +49,9 @@ async function creatToken(userID, role, jwtKey) {
   // console.log(`role id in creat token ${role}`);
 
   !roles.includes(role) ? (role = "user") : role;
-  const token = jwt.sign({ userID, role }, jwtKey, { expiresIn: "1h" });
+  const token = jwt.sign({ userID, role, email, phone }, jwtKey, {
+    expiresIn: "1h",
+  });
 
   return token;
 }

@@ -8,6 +8,7 @@ const verifySplitToken = async (req, res, next) => {
     if (!authHeader) {
       return res.status(400).send({ message: "send headers" });
     }
+
     const token = authHeader.split(" ")[1];
     // console.log(`token ${token}`);
 
@@ -20,9 +21,12 @@ const verifySplitToken = async (req, res, next) => {
         return res.status(401).send({ massage: "invalid token", err });
       } else {
         //   reasiment to req (req is object so i cen add keys)
+
         req.userID = decoded.userID;
         decoded.role ? (req.role = decoded.role) : (req.role = "user");
-        // console.log(`req- role: ${req.role} user id: ${req.userID}`);
+        req.phone = decoded.phone;
+        req.email = decoded.email;
+
         next();
       }
     });

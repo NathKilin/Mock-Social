@@ -179,17 +179,13 @@
 }
 
 
-
-
-
-
-
 .errorMassege:empty {
     display: none;
 }
 
 .errorMassege {
     margin-top: 15px;
+    text-align: center;
 }
 
 .passwordContainer {

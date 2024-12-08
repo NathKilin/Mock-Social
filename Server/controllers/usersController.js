@@ -173,9 +173,13 @@ const logIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
+    console.log(`user.email ${user.email}`);
+
     const token = await creatToken(
       id,
       user.role ? user.role : "user",
+      user.email,
+      user.phone,
       process.env.JWT_KEY
     );
 
@@ -203,39 +207,53 @@ const logIn = async (req, res) => {
 //   update user
 const updateUser = async (req, res) => {
   try {
-    console.log(`req.role: ${req.role}`);
-    console.log(`req.userID: ${req.userID}`);
+    // console.log(`req.role: ${req.role}`);
+    // console.log(`req.userID: ${req.userID}`);
 
     const { id } = req.params;
-    const { firstName, lastName, userName, phone, email, password, role } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      userName,
+      phone,
+      email,
+      password,
+      role,
+      profileImage,
+    } = req.body;
     const filedsToUpdate = {};
 
-    if (firstName || firstName !== "") {
+    console.log(profileImage);
+
+    if (firstName && firstName !== "") {
       filedsToUpdate.firstName = firstName;
     }
 
-    if (lastName || lastName !== "") {
+    if (lastName && lastName !== "") {
       filedsToUpdate.lastName = lastName;
     }
 
-    if (userName || userName !== "") {
+    if (userName && userName !== "") {
       filedsToUpdate.userName = userName;
     }
 
-    if (phone || phone !== "") {
+    if (phone && phone !== "") {
       filedsToUpdate.phone = phone;
     }
 
-    if (email || email !== "") {
+    if (email && email !== "") {
       filedsToUpdate.email = email;
     }
 
-    if (role || role !== "") {
+    if (profileImage && profileImage !== "") {
+      filedsToUpdate.profileImage = profileImage;
+    }
+
+    if (role && role !== "") {
       filedsToUpdate.role = role;
     }
 
-    if (password || password !== "") {
+    if (password && password !== "") {
       const hashedPassword = await makeHashedPassword(
         password,
         process.env.BCRYPT_KEY,
@@ -248,9 +266,12 @@ const updateUser = async (req, res) => {
       return res.status(400).send({ messege: "no match fileds found" });
     }
 
+    console.log(filedsToUpdate);
+
     await User.findByIdAndUpdate(id, filedsToUpdate, {
       runValidators: true,
     });
+
     res.send({ message: "updated successfully" });
   } catch (err) {
     console.log(err.code);
@@ -290,7 +311,7 @@ const deleteUser = async (req, res) => {
 // searchUsers
 const searchUsers = async (req, res) => {
   try {
-    const { letters, number } = req.body;
+    const { contain, letters, number } = req.body;
 
     if (!letters) {
       const randomUsers = await User.aggregate([
@@ -298,17 +319,19 @@ const searchUsers = async (req, res) => {
       ]);
 
       return res.status(200).json({
-        messege: "no letters were sent so I'm sending random users",
+        messege: "no letters were sent so sending random users",
         users: randomUsers,
       });
     }
 
-    if (req.body.contain === true) {
+    if (contain === true) {
       const containLettersUsers = await User.find({
         userName: {
           $regex: new RegExp(letters, "i"),
         },
-      }).limit(number);
+      })
+        .limit(number)
+        .select("profileImage _id userName");
 
       return containLettersUsers.length > 0
         ? res.status(200).json({ users: containLettersUsers })
@@ -322,7 +345,10 @@ const searchUsers = async (req, res) => {
       userName: {
         $regex: new RegExp("^" + letters, "i"),
       },
-    }).limit(number);
+    })
+      .limit(number)
+      .select("profileImage _id userName");
+    console.log(matchUsers);
 
     return matchUsers.length > 0
       ? res.status(200).json({ users: matchUsers })
