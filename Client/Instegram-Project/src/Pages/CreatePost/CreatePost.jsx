@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./CreatePost.module.css";
-import addPostIcon from "../../assets/addPost.png";
+import addPostIcon from "../../assets/new-post.png";
 import { postsCliant } from "../../api/axiosInstens.js";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
@@ -13,8 +13,8 @@ const CreatePost = () => {
   const handleOpenWidget = () => {
     window.cloudinary.openUploadWidget(
       {
-        cloudName: cloudName,
-        uploadPreset: uploadPreset,
+        cloudName,
+        uploadPreset,
         sources: ["local", "url", "camera"],
         folder: "Social_Media_Posts",
       },
@@ -51,8 +51,7 @@ const CreatePost = () => {
     <div className={styles.createPost}>
       <form className={styles.formPost} onSubmit={handleSubmit}>
         <div className={styles.uploadContainer}>
-          {/* Ícone no início */}
-          {!imageUrl && (
+          {!imageUrl ? (
             <>
               <img
                 src={addPostIcon}
@@ -67,17 +66,17 @@ const CreatePost = () => {
                 Upload Image/Video
               </button>
             </>
-          )}
-          {imageUrl && (
+          ) : (
             <>
               <div className={styles.preview}>
+                <label htmlFor="create">Create New Post</label>
                 <img src={imageUrl} alt="Uploaded media" />
                 <button
                   type="button"
                   className={styles.uploadButton}
                   onClick={handleOpenWidget}
                 >
-                  Chose a different Upload
+                  Choose a Different Upload
                 </button>
               </div>
               <div className={styles.captionContainer}>
@@ -90,10 +89,7 @@ const CreatePost = () => {
                   placeholder="Enter a caption"
                   required
                 />
-                <button
-                  type="submit"
-                  className={styles.createPostButton}
-                >
+                <button type="submit" className={styles.createPostButton}>
                   Create Post
                 </button>
               </div>
