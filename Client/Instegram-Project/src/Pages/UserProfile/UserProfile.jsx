@@ -8,6 +8,7 @@ import PostDetails from "../../Components/ComponentsPostDetails/PostDetails.jsx"
 import { useSelector } from "react-redux";
 import axios from "axios";
 import EditProfileDialog from "../../Components/UserComponents/EditProfileDialog.jsx"; // ייבוא של הדיאלוג
+import Follow from "../Follow/Follow.jsx";
 
 const UserProfile = () => {
   const params = useParams();
@@ -22,7 +23,7 @@ const UserProfile = () => {
     (post) => post._id === selectedPostId
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  console.log(globalUser);
+  const [iFollow, setIFollow] = useState(false);
 
   const counter = (friends) => +friends.length;
 
@@ -79,16 +80,20 @@ const UserProfile = () => {
                   className={styles.settingsButton}
                   onClick={() => alert("Friend request sent!")}
                 >
-                  Add Friend
+                  <Follow
+                    // friendId={friendId}
+                    iFollow={iFollow}
+                    setIFollow={setIFollow}
+                  />
                 </button>
               )}
               <div className={styles.followersPostsContainer}>
                 <li>
-                  <span>POST</span>
+                  <span>POSTS</span>
                   {yourFollowers}
                 </li>
                 <li>
-                  <span>FOLLOWER</span>
+                  <span>FOLLOWERS</span>
                   {postNumbs}
                 </li>
               </div>
