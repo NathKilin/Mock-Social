@@ -173,9 +173,13 @@ const logIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
+    console.log(`user.email ${user.email}`);
+
     const token = await creatToken(
       id,
       user.role ? user.role : "user",
+      user.email,
+      user.phone,
       process.env.JWT_KEY
     );
 
