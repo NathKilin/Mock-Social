@@ -1,9 +1,11 @@
 .postsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    margin-right: 20px;
-    margin-left: 20px;
-    justify-items: center;
-    margin-top: 3rem;
-    margin-bottom: 5rem;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1.5fr));
+  margin-right: 20px;
+  margin-left: 20px;
+  justify-content: space-around;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  padding: 10rem;
 }
