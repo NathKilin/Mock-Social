@@ -63,6 +63,8 @@ const EditProfileDialog = ({ userProfile, onClose, setmakeToCheck }) => {
       }
     );
   };
+  console.log(userProfile.profileImage);
+
   const handleSave = async () => {
     const updatedData = {};
     console.log(userProfile);
@@ -102,6 +104,7 @@ const EditProfileDialog = ({ userProfile, onClose, setmakeToCheck }) => {
       console.log(user);
     }
   };
+
   const handleChangePassword = () => {
     navigate("/change-password");
   };
