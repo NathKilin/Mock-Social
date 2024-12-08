@@ -6,9 +6,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
 const OnePost = ({ post, setSelectedPostId }) => {
-  console.log(post.authorId?.profileImage);
-  console.log(post);
-
   return (
     <div
       onClick={() => setSelectedPostId(post._id)}
@@ -43,7 +40,7 @@ const OnePost = ({ post, setSelectedPostId }) => {
             }}
           >
             <img src={CommentIcon} alt="Comment Icon" />
-            <p>count</p>
+            <p>{post.commentsCount}</p>
           </button>
           <div onClick={(event) => event.stopPropagation()}>
             <Likes postId={post._id} />
@@ -55,8 +52,9 @@ const OnePost = ({ post, setSelectedPostId }) => {
               src={post.authorId?.profileImage}
               alt="profile-picture"
             />
-            <AvatarFallback></AvatarFallback>
-            {/* <AvatarFallback>{user.username.slice(0, 2)}</AvatarFallback> */}
+            <AvatarFallback>
+              {post.authorId?.userName.slice(0, 2)}
+            </AvatarFallback>
           </Avatar>
           <p className={styles.caption}>{post.caption}</p>
         </div>
