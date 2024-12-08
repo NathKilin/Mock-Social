@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-// Importing navigation hook
-import { useNavigate } from "react-router-dom";
-import { TextField, Typography } from "@mui/material";
 import styles from "./SearchAccordion.module.css";
+import React, { useState, useEffect } from "react";
+
+// react router
+import { useNavigate } from "react-router-dom";
+
+// MUI
+import { TextField, Typography } from "@mui/material";
 
 const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
-  // Controls the accordion visibility
   const [hiddenVisibleToggle, setHiddenVisibleToggle] = useState(
     styles.accordionHidden
   );
@@ -31,7 +33,6 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
     },
   ]);
 
-  // // State for filtered users
   const [filteredUsers, setFilteredUsers] = useState(users);
 
   // Hook for navigation

@@ -133,7 +133,7 @@ const logIn = async (req, res) => {
     // because I want to add key to object thet came from mongoose
     //  i need to make it regular js object so i use .lean (it's like .toObject() )
     const response = await User.find({ userName: req.body.userName })
-      .select("+password +phone +role")
+      .select("+password +phone +role +email")
       .lean();
     const user = response[0];
     const id = user["_id"];
@@ -287,6 +287,52 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// searchUsers
+const searchUsers = async (req, res) => {
+  try {
+    const { letters, number } = req.body;
+
+    if (!letters) {
+      const randomUsers = await User.aggregate([
+        { $sample: { size: parseInt(req.body.number) } },
+      ]);
+
+      return res.status(200).json({
+        messege: "no letters were sent so I'm sending random users",
+        users: randomUsers,
+      });
+    }
+
+    if (req.body.contain === true) {
+      const containLettersUsers = await User.find({
+        userName: {
+          $regex: new RegExp(letters, "i"),
+        },
+      }).limit(number);
+
+      return containLettersUsers.length > 0
+        ? res.status(200).json({ users: containLettersUsers })
+        : res.status(404).json({ message: "no users contain this letters" });
+    }
+
+    // $regax - enable to create regular expretion and
+    // "new RegExp" enable to use veriables
+
+    const matchUsers = await User.find({
+      userName: {
+        $regex: new RegExp("^" + letters, "i"),
+      },
+    }).limit(number);
+
+    return matchUsers.length > 0
+      ? res.status(200).json({ users: matchUsers })
+      : res.status(404).json({ message: "no match" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
+};
+
 // get saved posts
 const getSavedPosts = async (req, res) => {};
 
@@ -328,11 +374,20 @@ const verifyToken = async (req, res) => {
       return res.status(400).send({ message: "token miss!" });
     }
 
-    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_KEY, async (err, decoded) => {
       if (err) {
         return res
           .status(401)
           .send({ valid: false, massage: "invalid token", err });
+      } else if (req.body.password) {
+        const user = await User.findById(decoded.userID).select("+password");
+
+        const isMatch = await logInAuth(req.body.password, user.password);
+        console.log(`decoded ${decoded.userID}`);
+
+        return isMatch === true
+          ? res.status(200).send({ valid: true, message: "valid password!" })
+          : res.status(401).send({ valid: false, massage: "invalid password" });
       } else {
         res.status(200).send({ valid: true, message: "valid token!" });
       }
@@ -348,6 +403,7 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  searchUsers,
   logIn,
   getSavedPosts,
   addSavedPosts,

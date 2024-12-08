@@ -26,6 +26,7 @@ const logInAuth = async (inputPassword, storedHashedPassword) => {
       combinedPassword,
       storedHashedPassword
     );
+    console.log(isMatch);
 
     return isMatch;
   } catch (error) {

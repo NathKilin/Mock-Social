@@ -48,7 +48,8 @@ const userSchema = new mongoose.Schema({
 
   profileImage: {
     type: String,
-    default: "https://via.placeholder.com/80",
+    default:
+      "https://files.oaiusercontent.com/file-JUQ2DU1tkmMTvkyd5j54Xt?se=2024-12-08T08%3A41%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D53f18caf-b073-499a-aaf6-a2c4fb5bec85.webp&sig=Vpv7emoXfuQxrDMoh4wjkJbaea4qhLMovda4wDRK95E%3D",
   },
 
   friends: [
@@ -102,5 +103,6 @@ userSchema.set("toJSON", { virtuals: true });
 
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ phone: 1 }, { phone: true });
+userSchema.index({ userName: 1 }, { userName: true });
 
 module.exports = mongoose.model("User", userSchema);
