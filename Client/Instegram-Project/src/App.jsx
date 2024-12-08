@@ -1,4 +1,4 @@
-import "./App.css";
+import "./global.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState } from "react";
 
@@ -11,40 +11,40 @@ import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
 import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 import ErrorPage from "./Pages/ErorPage/ErorPage.jsx";
 
-    function App() {
-      const [isLogIn, setIsLogIn] = useState(false);
-      
-      const router = createBrowserRouter([
+function App() {
+  const [isLogIn, setIsLogIn] = useState(false);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Article isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+      children: [
         {
           path: "/",
-          element: <Article isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
-          children: [
-            {
-              path: "/",
-              element: <HomePage isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
-            },
-            {
-              path: "/createPost",
-              element: <CreatePost />,
-            },
-            {
-              path: "/userProfile/:id",
-              element: <UserProfile />,
-            },
-          ],
+          element: <HomePage isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
         },
         {
-          path: "/login",
-          element: <LogIn isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+          path: "/createPost",
+          element: <CreatePost />,
         },
         {
-          path: "/signup",
-          element: <SignUp />,
+          path: "/userProfile/:id",
+          element: <UserProfile />,
         },
-        {
-          path: "/error",
-          element: <ErrorPage />,
-        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <LogIn isLogIn={isLogIn} setIsLogIn={setIsLogIn} />,
+    },
+    {
+      path: "/signup",
+      element: <SignUp />,
+    },
+    {
+      path: "/error",
+      element: <ErrorPage />,
+    },
   ]);
 
   return <RouterProvider router={router} />;

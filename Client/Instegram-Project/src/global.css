@@ -1,0 +1,26 @@
+:root {
+  --indigo-dye: #094074ff;
+  --columbia-blue: #b6cce2ff;
+  --eggshell: #eeebd3ff;
+  --dark-orange-web: #f58f29ff;
+  --bistre: #241909ff;
+}
+
+:root {
+  --background-color: var(--eggshell);
+}
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+hr {
+  width: 80%;
+}
