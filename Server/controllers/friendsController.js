@@ -39,8 +39,24 @@ const addFriend = async (req, res) => {
   }
 };
 
-const removeFriend = async (params) => {
+const removeFriend = async (req, res) => {
   try {
+    const friendId = req.body.friendId;
+    const userId = req.userID;
+    console.log(friendId);
+    console.log(userId);
+
+    const result = await User.updateOne(
+      { _id: userId },
+      { $pull: { friends: friendId } }
+    );
+    console.log(result.modifiedCount === 0);
+    console.log(result);
+
+    if (result.modifiedCount === 0) {
+      return res.status(400).json({ messege: "you'r already enemies!" });
+    }
+    return res.status(200).json({ messege: "yey! you are enemis!" });
   } catch (error) {
     console.log(error);
 

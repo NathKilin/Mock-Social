@@ -11,5 +11,5 @@ const router = express.Router();
 
 router.post("/add", verifySplitToken, addFriend);
 
-router.patch("/remove", removeFriend);
+router.patch("/remove", verifySplitToken, removeFriend);
 module.exports = router;
