@@ -1,7 +1,7 @@
 import styles from "./OnePost.module.css";
 import Likes from "../Likes/Likes.jsx";
 import CommentIcon from "../../assets/comment1.png";
-import ProfilePhoto from "../UserComponents/ProfilePhoto.jsx";
+import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
@@ -40,15 +40,23 @@ const OnePost = ({ post, setSelectedPostId }) => {
             }}
           >
             <img src={CommentIcon} alt="Comment Icon" />
-            <p>count</p>
+            <p>{post.commentsCount}</p>
           </button>
           <div onClick={(event) => event.stopPropagation()}>
             <Likes postId={post._id} />
           </div>
         </div>
         <div className={styles.captionContainer}>
-        <ProfilePhoto src={post.authorId?.profileImage} alt="user photo" />
-        <p className={styles.caption}>{post.caption}</p>
+          <Avatar>
+            <AvatarImage
+              src={post.authorId?.profileImage}
+              alt="profile-picture"
+            />
+            <AvatarFallback>
+              {post.authorId?.userName.slice(0, 2)}
+            </AvatarFallback>
+          </Avatar>
+          <p className={styles.caption}>{post.caption}</p>
         </div>
         <p style={{ padding: "12px" }}>
           view all <span>(add number)</span> comments
