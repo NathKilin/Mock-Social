@@ -10,7 +10,7 @@ const postsRouter = require("./routes/postRouter.js");
 const commentsRouter = require("./routes/commentRouter.js");
 const likesRouter = require("./routes/likesRouter.js");
 const savedPostsRouter = require("./routes/savedPostsRouter.js");
-
+const friendsRouter = require("./routes/friendsRouter.js");
 const cors = require("cors");
 
 dotenv.config();
@@ -49,6 +49,8 @@ app.use("/api/user", usersRoute);
 app.use("/api/posts", postsRouter);
 
 app.use("/api/comments", commentsRouter);
+
+app.use("/api/friend", friendsRouter);
 
 app.use("/api/likes", likesRouter);
 

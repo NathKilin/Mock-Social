@@ -173,9 +173,13 @@ const logIn = async (req, res) => {
         .send({ success: false, message: "Wrong password" });
     }
 
+    console.log(`user.email ${user.email}`);
+
     const token = await creatToken(
       id,
       user.role ? user.role : "user",
+      user.email,
+      user.phone,
       process.env.JWT_KEY
     );
 
@@ -290,7 +294,7 @@ const deleteUser = async (req, res) => {
 // searchUsers
 const searchUsers = async (req, res) => {
   try {
-    const { letters, number } = req.body;
+    const { contain, letters, number } = req.body;
 
     if (!letters) {
       const randomUsers = await User.aggregate([
@@ -298,12 +302,12 @@ const searchUsers = async (req, res) => {
       ]);
 
       return res.status(200).json({
-        messege: "no letters were sent so I'm sending random users",
+        messege: "no letters were sent so sending random users",
         users: randomUsers,
       });
     }
 
-    if (req.body.contain === true) {
+    if (contain === true) {
       const containLettersUsers = await User.find({
         userName: {
           $regex: new RegExp(letters, "i"),
@@ -323,6 +327,7 @@ const searchUsers = async (req, res) => {
         $regex: new RegExp("^" + letters, "i"),
       },
     }).limit(number);
+    console.log(matchUsers);
 
     return matchUsers.length > 0
       ? res.status(200).json({ users: matchUsers })
