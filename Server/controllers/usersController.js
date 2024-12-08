@@ -133,7 +133,7 @@ const logIn = async (req, res) => {
     // because I want to add key to object thet came from mongoose
     //  i need to make it regular js object so i use .lean (it's like .toObject() )
     const response = await User.find({ userName: req.body.userName })
-      .select("+password +phone +role")
+      .select("+password +phone +role +email")
       .lean();
     const user = response[0];
     const id = user["_id"];
@@ -287,6 +287,52 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// searchUsers
+const searchUsers = async (req, res) => {
+  try {
+    const { letters, number } = req.body;
+
+    if (!letters) {
+      const randomUsers = await User.aggregate([
+        { $sample: { size: parseInt(req.body.number) } },
+      ]);
+
+      return res.status(200).json({
+        messege: "no letters were sent so I'm sending random users",
+        users: randomUsers,
+      });
+    }
+
+    if (req.body.contain === true) {
+      const containLettersUsers = await User.find({
+        userName: {
+          $regex: new RegExp(letters, "i"),
+        },
+      }).limit(number);
+
+      return containLettersUsers.length > 0
+        ? res.status(200).json({ users: containLettersUsers })
+        : res.status(404).json({ message: "no users contain this letters" });
+    }
+
+    // $regax - enable to create regular expretion and
+    // "new RegExp" enable to use veriables
+
+    const matchUsers = await User.find({
+      userName: {
+        $regex: new RegExp("^" + letters, "i"),
+      },
+    }).limit(number);
+
+    return matchUsers.length > 0
+      ? res.status(200).json({ users: matchUsers })
+      : res.status(404).json({ message: "no match" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error });
+  }
+};
+
 // get saved posts
 const getSavedPosts = async (req, res) => {};
 
@@ -348,6 +394,7 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  searchUsers,
   logIn,
   getSavedPosts,
   addSavedPosts,

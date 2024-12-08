@@ -9,6 +9,7 @@ const {
   deleteUser,
   getSavedPosts,
   addSavedPosts,
+  searchUsers,
   logIn,
   verifyToken,
 } = require("../controllers/usersController.js");
@@ -32,6 +33,9 @@ router.patch("/:id", verifySplitToken, updateUser);
 
 // delete user by id
 router.delete("/:id", deleteUser);
+
+// search users
+router.post("/search", searchUsers);
 
 // get seved post
 router.get("/seved_posts", getSavedPosts);
