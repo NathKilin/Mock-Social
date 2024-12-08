@@ -1,40 +1,38 @@
 .likes {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 40px; /* Adjust size to fit the heart icon better */
+  height: 40px;
 }
 
 .likeButton {
   margin-top: -10px;
-  background: none;
-  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px; /* Ajustado para acomodar o ícone maior */
-  height: 80px;
+  border: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent; /* Ensure no visible background color */
+  transition: transform 0.2s ease-in-out; /* Add hover animation */
   position: relative;
 }
 
 .likeButton:hover {
-  background-color: transparent;
-  box-shadow: none;
+  transform: scale(1.2); /* Slight enlargement on hover */
 }
 
-.heartIcon {
-  position: absolute;
-  object-fit: contain;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+.liked {
+  background-image: url("../../assets/heart2.png"); /* Active state heart image */
 }
 
-.heartIcon.active {
-  opacity: 1;
-  transform: scale(1.2); /* Efeito de escala quando ativo */
+.notLiked {
+  background-image: url("../../assets/heart1.png"); /* Default heart image */
 }
 
 .likeCount {
   margin-left: 5px;
   font-size: 14px;
-  color: #555;
+  color: var(--bistre);
 }

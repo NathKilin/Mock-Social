@@ -62,7 +62,6 @@ const Likes = ({ postId, commentId }) => {
     commentId && fetchLikesComment();
     !commentId && fetchLikesPost();
   }, [postId, globalUserHost]);
-  
 
   const handleLike = async () => {
     try {
@@ -103,20 +102,20 @@ const Likes = ({ postId, commentId }) => {
 
   return (
     <div className={styles.likes}>
-      <button onClick={handleLike} className={styles.likeButton}>
-        <img
-          src={heart1}
-          alt="Like Icon"
-          className={`${styles.heartIcon} ${!hasLiked ? styles.active : ""}`}
-          style={{ width: "28px", height: "28px" }}
-        />
-        <img
-          src={heart2}
-          alt="Liked Icon"
-          className={`${styles.heartIcon} ${hasLiked ? styles.active : ""}`}
-          style={{ width: "32px", height: "32px" }}
-        />
-      </button>
+      <button
+        onClick={handleLike}
+        className={`${styles.likeButton} ${hasLiked ? styles.liked : ""}`}
+        style={{
+          backgroundImage: `url(${hasLiked ? heart2 : heart1})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          width: "50px",
+          height: "50px",
+          border: "none",
+          cursor: "pointer",
+        }}
+      ></button>
       <span className={styles.likeCount}>{likesCount}</span>
     </div>
   );
