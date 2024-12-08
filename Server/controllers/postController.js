@@ -7,7 +7,7 @@ const postController = {
   createPost: async (req, res) => {
     try {
       const { caption, url } = req.body;
-      const authorId = req.userID; // Assumes userID is passed in middleware
+      const authorId = req.userID;
       if (!url) {
         return res.status(400).json({ message: "Image URL is required" });
       }

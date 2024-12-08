@@ -1,109 +1,137 @@
 .createPost {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #F6EECE;
-    color: #262626;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-}
-
-.createPost h2 {
-    font-family: 'Grand Hotel', cursive;
-    font-size: 2.5rem;
-    color: #9B7E32;
-    margin-bottom: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to top,
+      var(--columbia-blue) 70%,
+      var(--indigo-dye) 100%);
+  min-height: 100vh;
+  /* Full page height */
+  color: #262626;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .formPost {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    gap: 15px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 90%;
+  height: 90%;
+  max-width: 400px;
+  max-height: 60vh;
+  /* Restrict height to 60% of the viewport */
+  gap: 15px;
+  background-color: var(--background-color);
+  padding: 20px 20px 40px;
+  /* Consolidated padding */
+  border-radius: var(--cards-border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.containerMediaUrl,
-.containerCaption {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
 }
 
-.containerMediaUrl label,
-.containerCaption label {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #9B7E32;
+.addPostIcon {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
 }
 
-.containerMediaUrl input,
-.containerCaption input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 2px solid #FFF8AF;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s;
+.preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Ensures vertical stacking */
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  max-width: 80%;
+  border-radius: var(--cards-border-radius);
+  overflow: hidden;
 }
 
-.containerMediaUrl input:focus,
-.containerCaption input:focus {
-    border-color: #9B7E32;
+.Create label {
+  margin-bottom: 10px;
+  /* Adds space between label and image */
+  font-size: 1rem;
+  color: var(--bistre);
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    background-color: #FFF8AF;
-    color: #262626;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.preview img {
+  max-width: 80%;
+  border-radius: 8px;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-button:hover {
-    background-color: #9B7E32;
-    color: white;
+.preview:hover img {
+  transform: scale(1.05);
+  filter: brightness(0.7);
 }
 
-.postPreview {
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
+.preview label {
+  margin-bottom: 10px;
+  /* Adds space between label and image */
+  font-size: 1rem;
+  color: var(--bistre);
 }
 
-.postPreview img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 10px;
+.uploadButton {
+  background-color: var(--columbia-blue);
+  width: 90%;
+  padding: 8px;
+  border-radius: 16px;
+  border: none;
+  color: var(--indigo-dye);
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
 }
 
-.postPreview p {
-    font-size: 1rem;
-    color: #9B7E32;
+.uploadButton:hover {
+  transform: translateY(-3px);
+  background-color: var(--dark-orange-web);
 }
 
-.contaunerImg {
-    width: 100%;
-    background-color: #9B7E32;
+.captionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.captionContainer input {
+  width: 90%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--cards-border-radius);
+  outline: none;
+}
+
+.createPostButton {
+  color: var(--beige);
+  border: none;
+  background-color: var(--indigo-dye);
+  margin-top: 24px;
+  width: 40%;
+  height: 40px;
+  border-radius: var(--cards-border-radius);
+}
+
+.createPostButton:hover {
+  background-color: var(--dark-orange-web);
+}
+
+.createPostButton:hover {
+  cursor: pointer;
+  background-color: #ef6b7c;
 }

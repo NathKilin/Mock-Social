@@ -1,105 +1,3 @@
-/* .modalBackdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-}
-
-.modalContent {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-} */
-/* 
-.modalBackdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 50px 0;
-    z-index: 10000;
-    overflow-y: auto;
-}
-
-.modalContent {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 80%;
-    overflow-y: hidden;
-}
-
-.dialogContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.contentSection {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-@media (min-width: 600px) {
-    .modalContent {
-        max-width: 80%;
-    }
-
-    .dialogContainer {
-        flex-direction: row;
-        gap: 30px;
-    }
-
-    .contentSection {
-        flex: 1;
-    }
-
-    .dialogContainer img {
-        width: 50%;
-        max-height: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-}
-
-.closeButton {
-    margin-top: 20px;
-    padding: 8px 12px;
-    font-size: 14px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-} */
-
-
-
 .modalBackdrop {
     position: fixed;
     top: 0;
@@ -118,32 +16,47 @@
 .modalContent {
     background: #fff;
     border-radius: 10px;
-    width: 100%;
+    width: 90%; /* Adjust width for smaller screens */
     max-width: 800px;
-    max-height: calc(100vh - 40px);
+    max-height: 80vh; /* Prevent modal from overflowing vertically */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
+    overflow: hidden; /* Prevent scrollbars from appearing unnecessarily */
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px; /* Reduced gap for better alignment */
+    padding: 20px;
 }
 
 .dialogContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
+    width: 100%;
+    flex: 1; /* Ensures the container fills available space */
+}
+
+.imageSection {
+    flex: 1; /* Makes the image section adjust proportionally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .contentSection {
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* Ensures the content stretches */
     width: 100%;
     padding: 10px;
+    flex-grow: 1; /* Makes the section expand to fill the remaining space */
+    overflow-y: auto; /* Ensures scrolling for long content */
 }
 
 .caption {
-    font-size: 18px;
+    font-size: 1.2rem; /* Relative font size for better scaling */
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .closeButton {
@@ -153,23 +66,68 @@
     border: none;
     border-radius: 5px;
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .closeButton:hover {
     background: darkred;
 }
 
-@media (min-width: 6000px) {
+@media (min-width: 600px) {
+    .modalContent {
+        max-width: 600px;
+        padding: 15px;
+    }
+
     .dialogContainer {
-        flex-direction: row;
+        gap: 20px;
+    }
+
+    .contentSection {
+        padding: 10px;
+    }
+
+    .caption {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .modalContent {
+        max-width: 800px;
+        max-height: 70vh;
+        padding: 20px;
+    }
+
+    .dialogContainer {
         gap: 30px;
     }
 
     .contentSection {
-        width: 50%;
+        padding: 15px;
+    }
+
+    .caption {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalContent {
+        max-width: 95%;
+        max-height: 90vh;
+        padding: 10px;
+    }
+
+    .caption {
+        font-size: 1rem;
+    }
+
+    .closeButton {
+        padding: 6px 10px;
+        font-size: 0.9rem;
     }
 }

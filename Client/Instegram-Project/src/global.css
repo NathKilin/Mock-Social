@@ -1,13 +1,14 @@
 :root {
   --indigo-dye: #094074ff;
   --columbia-blue: #b6cce2ff;
-  --eggshell: #eeebd3ff;
+  --beige: #f2f4e2ff;
   --dark-orange-web: #f58f29ff;
   --bistre: #241909ff;
 }
 
 :root {
-  --background-color: var(--eggshell);
+  --background-color: var(--beige);
+  --cards-border-radius: 16px;
 }
 
 body,
