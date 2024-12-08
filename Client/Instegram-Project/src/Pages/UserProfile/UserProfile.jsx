@@ -42,14 +42,13 @@ const UserProfile = () => {
   return (
     <div className={styles.userProfile}>
       <section className={styles.userHeader}>
-        Display user profile photo
         <ProfilePhoto
           src={profileData.profileImage || "https://via.placeholder.com/80"}
           alt="Profile"
         />
-        Display user info (username, post count, etc.)
+
         <UserInfo username={profileData.userName} />
-        Conditionally render "Settings" or "Add Friend" button
+
         {isCurrentUser ? (
           <button
             className={styles.settingsButton}
