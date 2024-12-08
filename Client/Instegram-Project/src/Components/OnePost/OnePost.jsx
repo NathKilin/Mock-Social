@@ -47,8 +47,8 @@ const OnePost = ({ post, setSelectedPostId }) => {
           </div>
         </div>
         <div className={styles.captionContainer}>
-          <ProfilePhoto />
-          <p className={styles.caption}>{post.caption}</p>
+        <ProfilePhoto src={post.authorId?.profileImage} alt="user photo" />
+        <p className={styles.caption}>{post.caption}</p>
         </div>
         <p style={{ padding: "12px" }}>
           view all <span>(add number)</span> comments

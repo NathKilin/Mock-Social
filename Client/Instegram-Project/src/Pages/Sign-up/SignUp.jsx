@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import signUpApi from "../../api/signUp.js";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [failedText, setFailedText] = useState("");
   const [userData, setUserData] = useState({
     userName: "",
@@ -50,6 +51,7 @@ const SignUp = () => {
           phone: "",
         });
         alert("Sign-up successful! Welcome to the platform.");
+        navigate("/login")  
       }
     } catch (error) {
       console.log("Error during sign-up:", error);
