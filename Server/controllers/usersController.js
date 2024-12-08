@@ -312,7 +312,9 @@ const searchUsers = async (req, res) => {
         userName: {
           $regex: new RegExp(letters, "i"),
         },
-      }).limit(number);
+      })
+        .limit(number)
+        .select("profileImage _id userName");
 
       return containLettersUsers.length > 0
         ? res.status(200).json({ users: containLettersUsers })
@@ -326,7 +328,9 @@ const searchUsers = async (req, res) => {
       userName: {
         $regex: new RegExp("^" + letters, "i"),
       },
-    }).limit(number);
+    })
+      .limit(number)
+      .select("profileImage _id userName");
     console.log(matchUsers);
 
     return matchUsers.length > 0
