@@ -374,11 +374,20 @@ const verifyToken = async (req, res) => {
       return res.status(400).send({ message: "token miss!" });
     }
 
-    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_KEY, async (err, decoded) => {
       if (err) {
         return res
           .status(401)
           .send({ valid: false, massage: "invalid token", err });
+      } else if (req.body.password) {
+        const user = await User.findById(decoded.userID).select("+password");
+
+        const isMatch = await logInAuth(req.body.password, user.password);
+        console.log(`decoded ${decoded.userID}`);
+
+        return isMatch === true
+          ? res.status(200).send({ valid: true, message: "valid password!" })
+          : res.status(401).send({ valid: false, massage: "invalid password" });
       } else {
         res.status(200).send({ valid: true, message: "valid token!" });
       }
