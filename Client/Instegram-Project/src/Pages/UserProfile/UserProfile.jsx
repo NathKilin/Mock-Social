@@ -90,11 +90,11 @@ const UserProfile = () => {
               <div className={styles.followersPostsContainer}>
                 <li>
                   <span>POSTS</span>
-                  {yourFollowers}
+                  {postNumbs}
                 </li>
                 <li>
                   <span>FOLLOWERS</span>
-                  {postNumbs}
+                  {yourFollowers}
                 </li>
               </div>
             </div>
