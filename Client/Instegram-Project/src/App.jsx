@@ -10,6 +10,8 @@ import Article from "./Pages/Article/Article.jsx";
 import CreatePost from "./Pages/CreatePost/CreatePost.jsx";
 import UserProfile from "./Pages/UserProfile/UserProfile.jsx";
 import ErrorPage from "./Pages/ErorPage/ErorPage.jsx";
+import ChangePassword from "./Pages/ChangePassword/ChangePassword.jsx";
+import ContactUs from "./Pages/ContactUs/ContactUs.jsx";
 
 function App() {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -31,6 +33,10 @@ function App() {
           path: "/userProfile/:id",
           element: <UserProfile />,
         },
+        {
+          path: "/change-password",
+          element: <ChangePassword />,
+        },
       ],
     },
     {
@@ -44,6 +50,10 @@ function App() {
     {
       path: "/error",
       element: <ErrorPage />,
+    },
+    {
+      path: "/contactUs",
+      element: <ContactUs />,
     },
   ]);
 

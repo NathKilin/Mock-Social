@@ -1,11 +1,10 @@
 .createPost {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(
-    to top,
-    var(--columbia-blue) 70%,
-    var(--indigo-dye) 100%
-  );
-  min-height: 100vh; /* Full page height */
+  background: linear-gradient(to top,
+      var(--columbia-blue) 70%,
+      var(--indigo-dye) 100%);
+  min-height: 100vh;
+  /* Full page height */
   color: #262626;
   display: flex;
   justify-content: center;
@@ -22,10 +21,12 @@
   width: 90%;
   height: 90%;
   max-width: 400px;
-  max-height: 60vh; /* Restrict height to 60% of the viewport */
+  max-height: 60vh;
+  /* Restrict height to 60% of the viewport */
   gap: 15px;
   background-color: var(--background-color);
-  padding: 20px 20px 40px; /* Consolidated padding */
+  padding: 20px 20px 40px;
+  /* Consolidated padding */
   border-radius: var(--cards-border-radius);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -46,7 +47,8 @@
 .preview {
   position: relative;
   display: flex;
-  flex-direction: column; /* Ensures vertical stacking */
+  flex-direction: column;
+  /* Ensures vertical stacking */
   justify-content: center;
   align-items: center;
   margin-top: 15px;
@@ -56,7 +58,8 @@
 }
 
 .Create label {
-  margin-bottom: 10px; /* Adds space between label and image */
+  margin-bottom: 10px;
+  /* Adds space between label and image */
   font-size: 1rem;
   color: var(--bistre);
 }
@@ -73,7 +76,8 @@
 }
 
 .preview label {
-  margin-bottom: 10px; /* Adds space between label and image */
+  margin-bottom: 10px;
+  /* Adds space between label and image */
   font-size: 1rem;
   color: var(--bistre);
 }
@@ -125,4 +129,9 @@
 
 .createPostButton:hover {
   background-color: var(--dark-orange-web);
+}
+
+.createPostButton:hover {
+  cursor: pointer;
+  background-color: #ef6b7c;
 }
