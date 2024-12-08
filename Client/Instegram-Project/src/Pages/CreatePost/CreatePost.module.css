@@ -97,31 +97,6 @@
 }
 
 .captionContainer {
-<<<<<<< HEAD
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-    width: 100%;
-}
-
-.captionContainer label {
-    font-size: 1rem;
-    color: #F37F8E;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.captionContainer input {
-    width: 90%;
-    padding: 8px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    margin: 3px auto; 
-    align-self: center;
-=======
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,23 +111,9 @@
   border: 1px solid #ccc;
   border-radius: var(--cards-border-radius);
   outline: none;
->>>>>>> 6267159d93f179b61add2522b1a3b3fcb3d0a779
 }
 
 .createPostButton {
-<<<<<<< HEAD
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    color: rgb(255, 235, 235);
-    border: none;
-    border-radius: 4px;
-    background-color: #F37F8E;
-    margin-top: 70px;
-    width: 40%;
-    height: 60px;
-    transition: ease 0.2s
-=======
   color: var(--beige);
   border: none;
   background-color: var(--indigo-dye);
@@ -164,7 +125,6 @@
 
 .createPostButton:hover {
   background-color: var(--dark-orange-web);
->>>>>>> 6267159d93f179b61add2522b1a3b3fcb3d0a779
 }
 .createPostButton:hover {
     cursor: pointer;
