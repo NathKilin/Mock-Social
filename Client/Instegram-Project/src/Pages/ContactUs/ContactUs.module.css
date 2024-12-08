@@ -1,0 +1,64 @@
+.contactUsContainer {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.header {
+    font-size: 24px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contactDetails {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.contactDetails p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #34495e;
+}
+
+.contactDetails strong {
+    color: #2980b9;
+}
+
+.footer {
+    text-align: center;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.footer p {
+    margin-top: 10px;
+}
+
+.footer p:last-child {
+    font-weight: bold;
+    color: #16a085;
+}
+
+.homeButton {
+    background-color: #16a085;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.homeButton:hover {
+    background-color: #1abc9c;
+}
