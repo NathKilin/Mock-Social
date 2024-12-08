@@ -48,26 +48,28 @@ const PostDetails = ({
       onClick={() => setSelectedPostId(null)}
     >
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.dialogContainer}>
-          <PostImage imageUrl={selectedPost.url} />
-          <div className={styles.contentSection}>
-            <h3 className={styles.caption}>{selectedPost.caption}</h3>
-            <PostComments
-              comments={selectedPost.comments}
-              newComment={newComment}
-              setNewComment={setNewComment}
-              handleAddComment={handleAddComment}
-              setAllPosts={setAllPosts}
-              selectedPostId={selectedPostId}
-            />
-          </div>
-        </div>
         <button
           className={styles.closeButton}
           onClick={() => setSelectedPostId(null)}
         >
           ✖
         </button>
+        <div className={styles.imageSection}>
+          <PostImage imageUrl={selectedPost.url} />
+        </div>
+        <div className={styles.commentsSection}>
+          <PostComments
+            comments={selectedPost.comments}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            handleAddComment={handleAddComment}
+            setAllPosts={setAllPosts}
+            selectedPostId={selectedPostId}
+          />
+        </div>
+        <div className={styles.captionSection}>
+          <h3 className={styles.caption}>{selectedPost.caption}</h3>
+        </div>
       </div>
     </div>
   );

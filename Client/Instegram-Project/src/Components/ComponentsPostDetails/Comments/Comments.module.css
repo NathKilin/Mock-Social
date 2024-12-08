@@ -69,14 +69,18 @@
 }
 
 .comments {
-    max-height: 150px;
+    max-height: 80%;
     overflow-y: auto;
     padding-right: 10px;
 }
 .imgCommentUser {
-    width: 12%;
-    border-radius: 15px;
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin-right: 10px; 
 }
+
 
 .comments::-webkit-scrollbar {
     width: 8px;
@@ -91,17 +95,28 @@
     background: #555;
 }
 
+.containerUserAndText{
+    max-width: 20px;
+}
+
 .liComment {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #941f1f;
+    background: #dbeaf6;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 5px;
+    overflow: hidden;
+    width: 100%;
+    height: fit-content;
+    position: relative;
 }
 
 .deleteIcon {
+    top: 0;
+    right: 10px;
+    position:absolute;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -120,14 +135,21 @@
 .addComment input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 12px;
+}
+
+.likeButton{
+    top: 5;
+    right: 35px;
+    position:absolute;
+    
 }
 
 .addComment button {
     padding: 10px 15px;
-    background: #007bff;
+    background: #a66fa6;
     color: white;
     border: none;
     border-radius: 5px;
@@ -137,5 +159,9 @@
 }
 
 .addComment button:hover {
-    background: #0056b3;
+    background: #83478b;
+}
+
+.containerdelete{
+    padding-right: 0;
 }

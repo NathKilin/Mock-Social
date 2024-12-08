@@ -14,120 +14,141 @@
 }
 
 .modalContent {
-    background: #fff;
+    background: rgba(236, 243, 253, 0.8);
     border-radius: 10px;
-    width: 90%; /* Adjust width for smaller screens */
-    max-width: 800px;
-    max-height: 80vh; /* Prevent modal from overflowing vertically */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden; /* Prevent scrollbars from appearing unnecessarily */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Reduced gap for better alignment */
-    padding: 20px;
-}
-
-.dialogContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
     width: 100%;
-    flex: 1; /* Ensures the container fills available space */
+    height: 100%;
+    max-width: 800px;
+    max-height: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colunas */
+    grid-template-rows: repeat(10, 1fr); /* 10 linhas de tamanhos iguais */
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
 .imageSection {
-    flex: 1; /* Makes the image section adjust proportionally */
+    grid-column: 1; /* Primeira coluna */
+    grid-row: 1 / span 8; /* Ocupa as 8 primeiras linhas */
     display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* .imageSection img {
+    width: 100px;
+    height: auto;
+    /* max-height: 200px; */
+    /* object-fit: cover;
+    border-radius: 10px;
+} */ 
+
+.commentsSection {
+    grid-column: 2; /* Segunda coluna */
+    grid-row: 1 / span 10; /* Ocupa as 10 linhas */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Começa de baixo */
+    gap: 10px;
+    overflow-y: auto;
+    padding: 10px;
+    border-left: 1px solid #ccc; /* Divisor visual */
+}
+
+.captionSection {
+    grid-column: 1; /* Primeira coluna */
+    grid-row: 9 / span 2; /* Últimas 2 linhas */
+    padding: 10px;
+    overflow-y: auto;
+    border-top: 1px solid #ccc;
+    text-align: center;
+}
+
+.caption {
+    font-size: 1.2rem;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.addComment {
+    grid-column: 2; /* Segunda coluna */
+    grid-row: 10; /* Última linha */
+    display: flex;
+    gap: 10px;
     align-items: center;
     justify-content: center;
 }
 
-.contentSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Ensures the content stretches */
-    width: 100%;
+.addComment input {
+    flex: 1;
     padding: 10px;
-    flex-grow: 1; /* Makes the section expand to fill the remaining space */
-    overflow-y: auto; /* Ensures scrolling for long content */
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.caption {
-    font-size: 1.2rem; /* Relative font size for better scaling */
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.closeButton {
-    align-self: center;
-    background: red;
+.addComment button {
+    padding: 8px 12px;
+    background: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 1rem;
+    font-size: 14px;
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-top: 10px;
+}
+
+.addComment button:hover {
+    background: #0056b3;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: transparent;
+    color: rgb(57, 47, 47);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    z-index: 10;
 }
 
 .closeButton:hover {
-    background: darkred;
+    color: rgb(30, 26, 26);
+    font-size: 24px;
 }
 
-@media (min-width: 600px) {
+
+@media (max-width: 768px) {
     .modalContent {
-        max-width: 600px;
-        padding: 15px;
+        grid-template-columns: 1fr; /* Uma única coluna */
+        grid-template-rows: auto auto auto auto; /* 4 linhas */
     }
 
-    .dialogContainer {
-        gap: 20px;
+    .imageSection {
+        grid-column: 1;
+        grid-row: 1; /* Primeira linha */
     }
 
-    .contentSection {
-        padding: 10px;
+    .commentsSection {
+        grid-column: 1;
+        grid-row: 2; /* Segunda linha */
     }
 
-    .caption {
-        font-size: 1.1rem;
-    }
-}
-
-@media (min-width: 1024px) {
-    .modalContent {
-        max-width: 800px;
-        max-height: 70vh;
-        padding: 20px;
+    .captionSection {
+        grid-column: 1;
+        grid-row: 3; /* Terceira linha */
     }
 
-    .dialogContainer {
-        gap: 30px;
-    }
-
-    .contentSection {
-        padding: 15px;
-    }
-
-    .caption {
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .modalContent {
-        max-width: 95%;
-        max-height: 90vh;
-        padding: 10px;
-    }
-
-    .caption {
-        font-size: 1rem;
-    }
-
-    .closeButton {
-        padding: 6px 10px;
-        font-size: 0.9rem;
+    .addComment {
+        grid-column: 1;
+        grid-row: 4; /* Quarta linha */
     }
 }

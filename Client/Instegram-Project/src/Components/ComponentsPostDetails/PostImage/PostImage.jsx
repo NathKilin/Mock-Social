@@ -1,10 +1,29 @@
 import React from "react";
-import styles from "./postImage.module.css";
 
 const PostImage = ({ imageUrl }) => {
   return (
-    <div className={styles.imageSection}>
-      <img src={imageUrl} alt="Post" className={styles.postImage} />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        borderRadius: "10px",
+        width: "100%", // Ajuste para o tamanho desejado
+        maxWidth: "500px", // Limite máximo de largura
+        height: "auto", // Ajuste para manter proporção
+      }}
+    >
+      <img
+        src={imageUrl}
+        alt="Post"
+        style={{
+          width: "auto", // Ajuste da largura
+          height: "300px", // Mantém a proporção
+          objectFit: "cover", // Ajuste da imagem ao container
+          borderRadius: "2px", // Bordas arredondadas
+        }}
+      />
     </div>
   );
 };
