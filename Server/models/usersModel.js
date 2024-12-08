@@ -29,14 +29,14 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: "Email address is required",
     validate: [validateEmail, "Please fill a valid email address"],
-    select: false,
+    // select: false,
   },
 
   phone: {
     type: String,
     required: true,
     unique: true,
-    select: false,
+    // select: false,
   },
 
   role: {
