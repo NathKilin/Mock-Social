@@ -193,3 +193,7 @@
 .signUpLink:hover {
     color: #FFD700;
 }
+
+.failedText {
+    text-align: center;
+}
