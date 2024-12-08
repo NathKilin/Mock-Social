@@ -1,29 +1,48 @@
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 80px;
-    background-color: transparent;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  bottom: 2%; /* Adjust vertical position as needed */
+  left: 50%; /* Move the left edge to the center of the viewport */
+  transform: translateX(
+    -50%
+  ); /* Offset the element by half its width for perfect centering */
+  width: 80%; /* Width of the footer */
+  height: 80px;
+  background: linear-gradient(
+    to right,
+    var(--indigo-dye),
+    var(--columbia-blue)
+  ); /* Semi-transparent dark background */
+  backdrop-filter: blur(10px); /* Adds a frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 24px; /* Rounds the top corners */
+  z-index: 1000;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2); /* Creates the floating effect */
 }
 
 .footer button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%; 
-    background-color: transparent; 
-    border: none; 
-    transition: 0.21s ease;
-    cursor: pointer;
-    padding: 5px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--background-color) 0.2; /* Light, semi-transparent background */
+  border: none;
+  transition: 0.3s ease;
+  cursor: pointer;
+  padding: 5px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow to buttons */
 }
 
 .footer button:hover {
-    background-color: rgba(58, 58, 64, 0.7);
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); /* Slightly more opaque on hover */
+  transform: translateY(-5px); /* Lift the button on hover */
 }

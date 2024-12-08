@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // Get ID from URL
 
 // components
+import Header from "../../Components/Headeer/Header.jsx";
+import Footer from "../../Components/Footer/Footer.jsx";
 import ProfilePhoto from "../../Components/UserComponents/ProfilePhoto.jsx";
 import UserInfo from "../../Components/UserComponents/UserInfo.jsx";
 import PostGrid from "../../Components/UserComponents/PostGrid.jsx";
@@ -27,7 +29,7 @@ const UserProfile = () => {
     try {
       const resaults = await axios.get(`http://localhost:3000/api/user/${id}`);
       console.log(`"get user by id" resaults: ${resaults?.data.user}`);
-      console.log(resaults);
+      console.log(resaults.data.user.profileImage);
 
       setProfileData(resaults?.data.user);
     } catch (error) {
@@ -44,8 +46,6 @@ const UserProfile = () => {
       console.log(`isCurrentUser: ${isCurrentUser}`);
       console.log(`other user `);
       setIsCurrentUser(false);
-      console.log(params.id);
-
       getProfileData(params.id);
     }
   }, [params]);
@@ -56,11 +56,14 @@ const UserProfile = () => {
   return (
     <div className={styles.userProfile}>
       <section className={styles.userHeader}>
+        Display user profile photo
         <ProfilePhoto
           src={profileData.profileImage || "https://via.placeholder.com/80"}
           alt="Profile"
         />
+        Display user info (username, post count, etc.)
         <UserInfo username={profileData.userName} />
+        Conditionally render "Settings" or "Add Friend" button
         {isCurrentUser ? (
           <button
             className={styles.settingsButton}
@@ -78,7 +81,7 @@ const UserProfile = () => {
         )}
       </section>
 
-      <PostGrid posts={profileData.userPosts || []} />
+      <PostGrid posts={profileData.userPosts || []} onPostClick={() => {}} />
     </div>
   );
 };
