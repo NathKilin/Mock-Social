@@ -1,6 +1,11 @@
 .profilePhoto {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: 3px solid white;
+    object-fit: contain;
+    background-color: black;
+    display: block;
+    min-width: 200px;
+    min-height: 200px;
 }

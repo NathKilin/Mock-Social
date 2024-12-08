@@ -16,10 +16,15 @@ const UserProfile = () => {
   const globalUser = useSelector((state) => state.user.user);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [makeToCheck, setmakeToCheck] = useState(false);
+  const [yourFollowers, setYourFollowers] = useState(0);
+  const [postNumbs, setPostNumbs] = useState(0);
   const selectedPost = profileData?.userPosts?.find(
     (post) => post._id === selectedPostId
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  console.log(globalUser);
+
+  const counter = (friends) => +friends.length;
 
   const getProfileData = async (id) => {
     try {
@@ -38,6 +43,10 @@ const UserProfile = () => {
       setIsCurrentUser(false);
       getProfileData(params.id);
     }
+    setYourFollowers(counter(globalUser.friends));
+    setPostNumbs(counter(globalUser.userPosts));
+    console.log(yourFollowers);
+    console.log(postNumbs);
   }, [params, globalUser, makeToCheck]);
 
   if (!profileData) return <div>Loading...</div>;
@@ -45,7 +54,7 @@ const UserProfile = () => {
   return (
     <div className={styles.userProfile}>
       <section className={styles.userHeader}>
-      <ProfilePhoto
+        <ProfilePhoto
           src={
             profileData.profileImage ||
             "https://files.oaiusercontent.com/file-JUQ2DU1tkmMTvkyd5j54Xt?se=2024-12-08T08%3A41%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D53f18caf-b073-499a-aaf6-a2c4fb5bec85.webp&sig=Vpv7emoXfuQxrDMoh4wjkJbaea4qhLMovda4wDRK95E%3D"
@@ -53,23 +62,39 @@ const UserProfile = () => {
           alt="Profile"
         />
 
-        <UserInfo username={profileData.userName} />
+        <all>
+          <div className={styles.allInfoContainer}>
+            <UserInfo username={profileData.userName} />
 
-        {isCurrentUser ? (
-          <button
-            className={styles.settingsButton}
-            onClick={() => setIsDialogOpen(true)}
-            >
-            Settings
-          </button>
-        ) : (
-          <button
-            className={styles.addFriendButton}
-            onClick={() => alert("Friend request sent!")}
-          >
-            Add Friend
-          </button>
-        )}
+            <div className={styles.containerButtomsAndFollower}>
+              {isCurrentUser ? (
+                <button
+                  className={styles.settingsButton}
+                  onClick={() => setIsDialogOpen(true)}
+                >
+                  Settings
+                </button>
+              ) : (
+                <button
+                  className={styles.settingsButton}
+                  onClick={() => alert("Friend request sent!")}
+                >
+                  Add Friend
+                </button>
+              )}
+              <div className={styles.followersPostsContainer}>
+                <li>
+                  <span>POST</span>
+                  {yourFollowers}
+                </li>
+                <li>
+                  <span>FOLLOWER</span>
+                  {postNumbs}
+                </li>
+              </div>
+            </div>
+          </div>
+        </all>
       </section>
       <PostGrid
         selectedPostId={selectedPostId}
@@ -86,7 +111,7 @@ const UserProfile = () => {
               ...prev,
               userPosts: callback(prev.userPosts),
             }));
-          }}          
+          }}
           selectedPostId={selectedPostId}
         />
       )}
