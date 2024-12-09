@@ -4,10 +4,9 @@
     border-radius: 10px;
     overflow: hidden;
 }
-
 .postImage {
     width: 100%;
-    height: auto; 
+    height: auto;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;

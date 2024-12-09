@@ -1,5 +1,4 @@
 import React from "react";
-
 const PostImage = ({ imageUrl }) => {
   return (
     <div
@@ -27,5 +26,4 @@ const PostImage = ({ imageUrl }) => {
     </div>
   );
 };
-
 export default PostImage;
