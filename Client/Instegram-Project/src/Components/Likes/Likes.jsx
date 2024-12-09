@@ -101,7 +101,7 @@ const Likes = ({ postId, commentId }) => {
   };
 
   return (
-    <div className={styles.likes}>
+    <div className={styles.likesContainer}>
       <button
         onClick={handleLike}
         className={`${styles.likeButton} ${hasLiked ? styles.liked : ""}`}
