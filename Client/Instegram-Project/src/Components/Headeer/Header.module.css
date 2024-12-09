@@ -13,7 +13,14 @@
 .header .logo {
   font-size: 1.5rem;
   font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.header .logo:hover {
+  transform: scale(1.1);
+}
+
 
 .icons {
   display: flex;
