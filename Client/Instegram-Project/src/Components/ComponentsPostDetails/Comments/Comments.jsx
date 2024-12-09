@@ -56,24 +56,26 @@ const PostComments = ({
               <li className={styles.liComment} key={index}>
                 <div className={styles.containerUserAndText}>
                   
-                  <strong>
+                <strong>
                     {comment?.authorId === userGlobal?.user?._id
                       ? "You"
-                      : "Unknown User"}
-                    :
+                      : comment?.authorId?.userName || "Unknown User"}
                   </strong>
                   {comment.text}
                 </div>
-                      <div className={styles.likeButton}>
+                      <div className={styles.likeButton}
+                      >
                         <Like commentId={comment._id}/>
                       </div>
                 <div className={styles.containerdelete}>
                   {(comment?.authorId?._id === userGlobal?.user?._id ||
                     comment?.authorId === userGlobal?.user?._id) && (
-                    <DeleteOutlineIcon
+                      <DeleteOutlineIcon
                       onClick={() => deleteComment(comment._id)}
                       className={styles.deleteIcon}
+                      style={{ fontSize: '32px' }} // Ajusta o tamanho do ícone
                     />
+                    
                   )}
                 </div>
               </li>
