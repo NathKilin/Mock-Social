@@ -20,7 +20,6 @@ const handleLogInSabmit = async (
       { userName, password },
       { withCredentials: true }
     );
-    console.log(response);
 
     if (response.status === 200 && response.data.token) {
       setFailedLogText("Logging you in...");

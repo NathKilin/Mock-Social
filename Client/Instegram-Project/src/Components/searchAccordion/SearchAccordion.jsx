@@ -24,7 +24,7 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   const getRandomUsers = async () => {
     try {
       const result = await usersCliant.post("/search", { number: 30 });
-      console.log(result);
+
       setUsers(result.data.users);
     } catch (error) {
       console.log(error);
@@ -34,10 +34,6 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   const getSearchedUsers = async () => {
     try {
       if (searchQuery.length === 1) {
-        console.log(`isContain: ${isContain}`);
-        console.log(`serchQuery: ${searchQuery}`);
-        console.log(`users.length: ${users.length}`);
-
         const result = await usersCliant.post("/search", {
           number: 30,
           letters: searchQuery,
@@ -58,9 +54,6 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
       error.status === 404 ? setUsers((prev) => []) : console.log(error);
     }
   };
-
-  console.log(`users state: ${users}`);
-  console.log(users);
 
   // Controls visibility of the accordion based on `isAccordionOpen`
   useEffect(() => {
@@ -87,7 +80,7 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
                   setIsContain((prev) => !prev);
                 }}
               />
-              more
+              contain
             </span>
           </div>
         </div>

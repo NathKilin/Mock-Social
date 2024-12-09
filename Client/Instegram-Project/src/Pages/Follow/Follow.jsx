@@ -1,11 +1,11 @@
+import styles from "./Follow.module.css";
 import { useState } from "react";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import axios from "axios";
-import styles from "./Follow.module.css";
 import getAuthTokenFromCookie from "../../auth/auth.js";
 
-const Follow = ({ iFollow, setIFollow, friendId }) => {
+const Follow = ({ setIFollow, iFollow, friendId }) => {
   const [loading, setLoading] = useState(false);
   const token = getAuthTokenFromCookie();
 
@@ -21,11 +21,14 @@ const Follow = ({ iFollow, setIFollow, friendId }) => {
           },
         }
       );
-      if (response.data.success) {
+
+      if (response.data.message === "friend added successfully") {
         setIFollow(true);
       }
     } catch (error) {
-      console.error("Error adding friend:", error);
+      error.response.data.message === "You already friends"
+        ? setIFollow(true)
+        : console.error("Error adding friend:", error);
     } finally {
       setLoading(false);
     }
@@ -43,11 +46,15 @@ const Follow = ({ iFollow, setIFollow, friendId }) => {
           },
         }
       );
-      if (response.data.success) {
+      // console.log(response.data.messege);
+
+      if (response.data.messege === "yey! you are enemis!") {
         setIFollow(false);
       }
     } catch (error) {
-      console.error("Error removing friend:", error);
+      error.response.data.messege === "you'r already enemies!"
+        ? setIFollow(false)
+        : console.error("Error removing friend:", error);
     } finally {
       setLoading(false);
     }

@@ -18,7 +18,6 @@ const Footer = ({ setIsAccordionOpen }) => {
   };
 
   const globalUserID = useSelector((state) => state.user?.user?._id);
-  console.log(globalUserID);
 
   return (
     <div className={styles.Footer}>

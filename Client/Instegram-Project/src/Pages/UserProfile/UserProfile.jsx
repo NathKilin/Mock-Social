@@ -44,13 +44,16 @@ const UserProfile = () => {
       setIsCurrentUser(false);
       getProfileData(params.id);
     }
+    // console.log(globalUser.friends.length);
+
     setYourFollowers(counter(globalUser.friends));
     setPostNumbs(counter(globalUser.userPosts));
-    console.log(yourFollowers);
-    console.log(postNumbs);
+    // console.log(yourFollowers);
+    // console.log(postNumbs);
   }, [params, globalUser, makeToCheck]);
 
   if (!profileData) return <div>Loading...</div>;
+  // console.log(iFollow);
 
   return (
     <div className={styles.userProfile}>
@@ -76,12 +79,9 @@ const UserProfile = () => {
                   Settings
                 </button>
               ) : (
-                <button
-                  className={styles.settingsButton}
-                  onClick={() => alert("Friend request sent!")}
-                >
+                <button className={styles.settingsButton}>
                   <Follow
-                    // friendId={friendId}
+                    friendId={params.id}
                     iFollow={iFollow}
                     setIFollow={setIFollow}
                   />

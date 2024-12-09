@@ -10,7 +10,7 @@ import axios from "axios";
 const getUserApi = async (userId) => {
   try {
     const res = await axios.get(`http://localhost:3000/api/user/${userId}`);
-    console.log(res);
+
     return res.data;
   } catch (error) {
     console.error(error);
