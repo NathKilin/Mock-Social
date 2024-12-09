@@ -54,7 +54,6 @@ const OnePost = ({ post, setSelectedPostId }) => {
             className={styles.postImage}
             src={post.url}
             alt="photo or image"
-            style={{ borderRadius: "16px" }}
           />
         )}
       </section>
