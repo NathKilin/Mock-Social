@@ -95,7 +95,7 @@ const UserProfile = () => {
                   {postNumbs}
                 </li>
                 <li>
-                  <span>FOLLOWERS</span>
+                  <span>FRIENDS</span>
                   {yourFollowers}
                 </li>
               </div>

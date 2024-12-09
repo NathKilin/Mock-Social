@@ -4,6 +4,7 @@ import CommentIcon from "../../assets/comment1.png";
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
 import { colors } from "@mui/material";
 import { Variable } from "lucide-react";
+import { Margin } from "@mui/icons-material";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
@@ -24,6 +25,7 @@ const OnePost = ({ post, setSelectedPostId }) => {
         <div className={styles.topBar}>
           <Avatar>
             <AvatarImage
+              style={{objectFit: 'cover'}}
               src={post.authorId?.profileImage}
               alt="profile-picture"
             />

@@ -52,8 +52,7 @@ const PostDetails = ({
           className={styles.closeButton}
           onClick={() => setSelectedPostId(null)}
         >
-          :heavy_multiplication_x:
-        </button>
+✖        </button>
         <div className={styles.imageSection}>
           <PostImage imageUrl={selectedPost.url} />
         </div>

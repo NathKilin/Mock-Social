@@ -105,19 +105,20 @@
     top: 10px;
     left: 10px;
     background: transparent;
-    color: rgb(57, 47, 47);
+    color: rgb(246, 16, 16);
     border: none;
     border-radius: 5px;
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 24px;
     cursor: pointer;
     transition: 0.3s ease;
     z-index: 10;
+    /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 .closeButton:hover {
-    color: rgb(30, 26, 26);
-    font-size: 24px;
+    color: rgb(230, 39, 39);
+    font-size: 30px;
 }
 
 
