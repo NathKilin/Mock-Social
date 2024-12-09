@@ -14,7 +14,6 @@ const OnePost = ({ post, setSelectedPostId }) => {
   const differenceInHours = differenceInMs / (1000 * 60 * 60);
   const timePosted = Math.floor(differenceInHours);
 
-  console.log(post);
   return (
     <div
       onClick={() => setSelectedPostId(post._id)}

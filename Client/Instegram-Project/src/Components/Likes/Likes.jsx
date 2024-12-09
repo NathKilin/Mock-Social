@@ -45,7 +45,7 @@ const Likes = ({ postId, commentId }) => {
             },
           }
         );
-        console.log(response);
+        // console.log(response);
         const checkLiked = response.data.likedBy.some(
           (user) => user?._id === globalUserHost?.user?._id
         );
@@ -93,7 +93,7 @@ const Likes = ({ postId, commentId }) => {
         );
         setLikesCount((prev) => prev + 1);
         setHasLiked(true);
-        console.log("add");
+        // console.log("add");
       }
     } catch (error) {
       console.error("Error updating like:", error);

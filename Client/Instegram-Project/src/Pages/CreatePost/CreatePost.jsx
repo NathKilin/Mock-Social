@@ -14,7 +14,6 @@ const CreatePost = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
-  console.log(user.user);
 
   const handleOpenWidget = () => {
     window.cloudinary.openUploadWidget(
@@ -59,7 +58,7 @@ const CreatePost = () => {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       const newPost = data.data;
       const updatedUser = {
@@ -73,7 +72,7 @@ const CreatePost = () => {
       alert(
         `🚀 Your post has taken flight! 🚀 \n\n"${newPost.caption}" is now in the air!`
       );
-      console.log(user.user.userPosts);
+      // console.log(user.user.userPosts);
       return true;
     } catch (error) {
       console.error("Error creating post:", error);

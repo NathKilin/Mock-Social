@@ -9,9 +9,6 @@ const Post = ({
   onclick,
   setSelectedPostId,
 }) => {
-  console.log(text);
-  console.log(postId);
-
   return (
     <div
       className={styles.postContainer}
