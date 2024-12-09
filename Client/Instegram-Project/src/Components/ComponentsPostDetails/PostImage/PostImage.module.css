@@ -1,19 +1,5 @@
-/* .imagePlaceholder,
 .imageSection {
-    width: 100%;
-    margin-bottom: 10px;
-    overflow: hidden;
-}
-
-.imageSection img {
-    width: 100%;
-    object-fit: cover;
-    object-position: top;
-} */
-
-
-.imageSection {
-    width: 100%;
+    width: 25%; /* Reduz a largura do contêiner */
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
@@ -21,14 +7,13 @@
 
 .postImage {
     width: 100%;
-    height: auto;
+    height: auto; 
     object-fit: cover;
     object-position: center;
     border-radius: 10px;
 }
-
-@media (min-width: 768px) {
-    .imageSection {
-        width: 50%;
-    }
+.profilePhoto {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }

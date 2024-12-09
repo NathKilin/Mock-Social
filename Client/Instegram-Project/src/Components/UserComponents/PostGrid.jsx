@@ -12,7 +12,7 @@ const PostGrid = ({
 
   return (
     <section className={styles.postsGrid}>
-      {posts.map((post) => (
+      {[...posts].reverse().map((post) => (
         <Post
           key={post._id}
           postId={post._id}

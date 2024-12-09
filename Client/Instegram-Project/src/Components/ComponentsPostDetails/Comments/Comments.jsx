@@ -54,6 +54,11 @@ const PostComments = ({
           {comments.length > 0 ? (
             comments.map((comment, index) => (
               <li className={styles.liComment} key={index}>
+<<<<<<< HEAD
+                <div className={styles.containerUserAndText}>
+                  
+                <strong>
+=======
                 <div className="containerUserAndText">
                   <img
                     className={styles.imgCommentUser}
@@ -67,21 +72,26 @@ const PostComments = ({
                     alt="photo user"
                   />
                   <strong>
+>>>>>>> 589e75f7f58636c76b3d0ac0f6d655e398f4ac76
                     {comment?.authorId === userGlobal?.user?._id
                       ? "You"
-                      : "Unknown User"}
-                    :
+                      : comment?.authorId?.userName || "Unknown User"}
                   </strong>
                   {comment.text}
                 </div>
-                <Like commentId={comment._id} />
-                <div className="containerDelete">
+                      <div className={styles.likeButton}
+                      >
+                        <Like commentId={comment._id}/>
+                      </div>
+                <div className={styles.containerdelete}>
                   {(comment?.authorId?._id === userGlobal?.user?._id ||
                     comment?.authorId === userGlobal?.user?._id) && (
-                    <DeleteOutlineIcon
+                      <DeleteOutlineIcon
                       onClick={() => deleteComment(comment._id)}
                       className={styles.deleteIcon}
+                      style={{ fontSize: '32px' }} // Ajusta o tamanho do ícone
                     />
+                    
                   )}
                 </div>
               </li>
