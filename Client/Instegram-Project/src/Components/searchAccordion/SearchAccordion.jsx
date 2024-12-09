@@ -99,6 +99,7 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
         }}
       />
       <div className={styles.userList}>
+        {console.log(users)}
         {users.length > 0 ? (
           users.map((user) => (
             <div
@@ -115,9 +116,10 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
               }}
             >
               <img
-                src={user.profilePhoto || "https://via.placeholder.com/50"}
+                src={user.profileImage || "https://via.placeholder.com/50"}
                 alt="Profile"
                 style={{
+                  objectFit: 'cover',
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",

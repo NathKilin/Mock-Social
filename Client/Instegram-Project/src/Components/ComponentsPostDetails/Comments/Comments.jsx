@@ -65,6 +65,17 @@ const PostComments = ({
             comments.map((comment, index) => (
               <li className={styles.liComment} key={index}>
                 <div className={styles.containerUserAndText}>
+                <img
+                    className={styles.imgCommentUser}
+                    src={
+                      comment?.authorId?._id === userGlobal?.user?._id
+                        ? userGlobal.user.profileImage
+                        : comment.authorId?.profileImage
+                        ? comment.authorId.profileImage
+                        : comment.profileImage || ""
+                    }
+                    alt="photo user"
+                  />
                   <strong>
                     {comment?.authorId === userGlobal?.user?._id
                       ? "You"
