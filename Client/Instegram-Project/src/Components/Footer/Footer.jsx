@@ -18,7 +18,6 @@ const Footer = ({ setIsAccordionOpen }) => {
   };
 
   const globalUserID = useSelector((state) => state.user?.user?._id);
-  console.log(globalUserID);
 
   return (
     <div className={styles.Footer}>
@@ -35,7 +34,7 @@ const Footer = ({ setIsAccordionOpen }) => {
         <button onClick={toggleSearchAccordion}>
           <img
             src={SearchIcon}
-            alt="Seach"
+            alt="Search"
             style={{ width: "30px", height: "30px" }}
           />
         </button>

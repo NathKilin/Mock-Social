@@ -44,8 +44,7 @@ const EditProfileDialog = ({ userProfile, onClose, setmakeToCheck }) => {
   const navigate = useNavigate();
   const userId = useSelector((state) => state.user.user._id);
   const user = useSelector((state) => state.user.user);
-  console.log(userId);
-  console.log(user);
+
   const handleOpenWidget = () => {
     window.cloudinary.openUploadWidget(
       {
@@ -67,7 +66,7 @@ const EditProfileDialog = ({ userProfile, onClose, setmakeToCheck }) => {
 
   const handleSave = async () => {
     const updatedData = {};
-    console.log(userProfile);
+
     if (userName !== userProfile.userName) {
       updatedData.userName = userName;
     }
@@ -95,13 +94,12 @@ const EditProfileDialog = ({ userProfile, onClose, setmakeToCheck }) => {
       setFailedText,
       userId
     );
-    console.log(userProfile);
+
     const newUser = { ...userProfile, ...updatedData };
     if (updatedProfile) {
       onClose();
       dispatch(setUser(newUser));
       setmakeToCheck((prev) => !prev);
-      console.log(user);
     }
   };
 
