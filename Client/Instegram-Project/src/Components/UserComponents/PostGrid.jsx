@@ -8,7 +8,6 @@ const PostGrid = ({
   selectedPostId,
   setSelectedPostId,
 }) => {
-  console.log(posts);
   selectedPostId && console.log(selectedPostId);
 
   return (

@@ -1,6 +1,6 @@
 import styles from "./HomePage.module.css";
 import OnePost from "../../Components/OnePost/OnePost";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 const getAllPostApi = async (navigate) => {
   try {
     const posts = await axios.get("http://localhost:3000/api/posts/all");
-    console.log(posts);
+    // console.log(posts);
     if (!posts) {
       console.log("Post couldn't be found");
       navigate("/Error");
@@ -40,7 +40,7 @@ const HomePage = () => {
 
   const posts = async () => {
     try {
-  const getAllPosts = await getAllPostApi(navigate);
+      const getAllPosts = await getAllPostApi(navigate);
       if (getAllPosts && getAllPosts.length > 0) {
         const sortedPosts = sortPostsByDate(getAllPosts);
         setAllPosts(sortedPosts);

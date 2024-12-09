@@ -2,10 +2,10 @@ import styles from "./SearchAccordion.module.css";
 import React, { useState, useEffect } from "react";
 
 // react router
-import { Await, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // MUI
-import { TextField, Typography } from "@mui/material";
+import { Switch, TextField, Typography } from "@mui/material";
 
 import { usersCliant } from "../../api/axiosInstens.js";
 
@@ -13,42 +13,47 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
   const [hiddenVisibleToggle, setHiddenVisibleToggle] = useState(
     styles.accordionHidden
   );
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Hook for navigation
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState([
-    {
-      userName: "Bob Bonson",
-      _id: "67508bf0a29a70d328be3e68",
-      profilePhoto: "https://via.placeholder.com/50",
-    },
-    {
-      userName: "Alice Smith",
-      _id: "67508bf0a29a70d328be3e68",
-      // Example with a real image
-      profilePhoto: "https://via.placeholder.com/50",
-    },
-    {
-      userName: "John Doe",
-      _id: "67508bf0a29a70d328be3e68",
-      profilePhoto: "https://via.placeholder.com/50",
-    },
-  ]);
-  const [filteredUsers, setFilteredUsers] = useState(users);
-
+  const [users, setUsers] = useState([]);
+  const [isContain, setIsContain] = useState(false);
   const getRandomUsers = async () => {
     try {
       const result = await usersCliant.post("/search", { number: 30 });
-      console.log(result);
+
       setUsers(result.data.users);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(`users state: ${users}`);
-  console.log(users);
+
+  const getSearchedUsers = async () => {
+    try {
+      if (searchQuery.length === 1) {
+        const result = await usersCliant.post("/search", {
+          number: 30,
+          letters: searchQuery,
+          contain: isContain,
+        });
+        setUsers((prev) => result.data.users);
+        return;
+      } else if (users.length < 15) {
+        const result = await usersCliant.post("/search", {
+          number: 30,
+          letters: searchQuery,
+          contain: isContain,
+        });
+        setUsers((prev) => result.data.users);
+      }
+    } catch (error) {
+      console.log("in search user error");
+      error.status === 404 ? setUsers((prev) => []) : console.log(error);
+    }
+  };
 
   // Controls visibility of the accordion based on `isAccordionOpen`
   useEffect(() => {
@@ -59,18 +64,27 @@ const SearchAccordion = ({ isAccordionOpen, setIsAccordionOpen }) => {
     console.log(users);
   }, [isAccordionOpen]);
 
-  // // Filters users based on the search query
-  // useEffect(() => {
-  //   const lowerCaseQuery = searchQuery.toLowerCase();
-  //   const results = users
-  //     .filter((user) => user.userName.toLowerCase().includes(lowerCaseQuery))
-  //     .slice(0, 10); // Limit results to 10
-  //   setFilteredUsers(results);
-  // }, [searchQuery, users]);
+  useEffect(() => {
+    getSearchedUsers();
+  }, [searchQuery]);
 
   return (
     <div className={hiddenVisibleToggle}>
-      <Typography variant="h6">Search Users</Typography>
+      <Typography variant="h6">
+        <div class={"flex justify-between ps-9 pe-9 "}>
+          <span> Search Users</span>
+          <div>
+            <span>
+              <Switch
+                onChange={() => {
+                  setIsContain((prev) => !prev);
+                }}
+              />
+              contain
+            </span>
+          </div>
+        </div>
+      </Typography>
       <TextField
         fullWidth
         label="Search for users"
