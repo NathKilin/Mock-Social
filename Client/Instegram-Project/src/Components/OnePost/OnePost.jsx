@@ -2,10 +2,19 @@ import styles from "./OnePost.module.css";
 import Likes from "../Likes/Likes.jsx";
 import CommentIcon from "../../assets/comment1.png";
 import { Avatar, AvatarImage, AvatarFallback } from "@/Components/ui/avatar";
+import { colors } from "@mui/material";
+import { Variable } from "lucide-react";
 
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
 const OnePost = ({ post, setSelectedPostId }) => {
+  const createdAtDate = new Date(post.createdAt);
+  const currentDate = new Date();
+  const differenceInMs = currentDate - createdAtDate;
+  const differenceInHours = differenceInMs / (1000 * 60 * 60);
+  const timePosted = Math.floor(differenceInHours);
+
+  console.log(post);
   return (
     <div
       onClick={() => setSelectedPostId(post._id)}
@@ -13,40 +22,7 @@ const OnePost = ({ post, setSelectedPostId }) => {
       className={styles.post}
     >
       <section className={styles.postTop}>
-        {isVideo(post.url) ? (
-          <video
-            className={styles.imagePlaceholder}
-            src={post.url}
-            controls
-            autoPlay
-            loop
-            muted
-          ></video>
-        ) : (
-          <img
-            className={styles.imagePlaceholder}
-            src={post.url}
-            alt="photo or image"
-            style={{ borderRadius: "16px" }}
-          />
-        )}
-      </section>
-      <section className={styles.postBottom}>
-        <div className={styles.containerCommentLike}>
-          <button
-            className={styles.commentIcon}
-            onClick={() => {
-              setSelectedPostId(post._id);
-            }}
-          >
-            <img src={CommentIcon} alt="Comment Icon" />
-            <p>{post.commentsCount}</p>
-          </button>
-          <div onClick={(event) => event.stopPropagation()}>
-            <Likes postId={post._id} />
-          </div>
-        </div>
-        <div className={styles.captionContainer}>
+        <div className={styles.topBar}>
           <Avatar>
             <AvatarImage
               src={post.authorId?.profileImage}
@@ -56,11 +32,55 @@ const OnePost = ({ post, setSelectedPostId }) => {
               {post.authorId?.userName.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
+          <p className={styles.userNameAndDateContainer}>
+            {post.authorId?.userName}
+            <span style={{ color: "var(--columbia-blue)" }}>
+              {" "}
+              • {timePosted}h
+            </span>
+          </p>
+        </div>
+
+        {isVideo(post.url) ? (
+          <video
+            className={styles.postImage}
+            src={post.url}
+            controls
+            autoPlay
+            loop
+            muted
+          ></video>
+        ) : (
+          <img
+            className={styles.postImage}
+            src={post.url}
+            alt="photo or image"
+            style={{ borderRadius: "16px" }}
+          />
+        )}
+      </section>
+      <section className={styles.postBottom}>
+        <div className={styles.commentAndLikeIconsContainer}>
+          <button
+            className={styles.commentButtonContainer}
+            onClick={() => {
+              setSelectedPostId(post._id);
+            }}
+          >
+            <img
+              className={styles.commentIconImg}
+              src={CommentIcon}
+              alt="Comment Icon"
+            />
+            <p className={styles.commentsCount}>{post.commentsCount}</p>
+          </button>
+          <div onClick={(event) => event.stopPropagation()}>
+            <Likes postId={post._id} />
+          </div>
+        </div>
+        <div className={styles.captionContainer}>
           <p className={styles.caption}>{post.caption}</p>
         </div>
-        <p style={{ padding: "12px" }}>
-          view all <span>(add number)</span> comments
-        </p>
       </section>
     </div>
   );

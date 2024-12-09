@@ -1,79 +1,86 @@
 .post {
-  max-width: 500px;
-  width: 90%;
-  margin: 10px auto;
+  max-width: 90%;
+  margin: 24px;
+  max-height: 80vh;
   overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-direction: column;
-  position: relative;
 }
 
-.commentIcon {
-  background-color: transparent;
-  border-radius: 20%;
+.topBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+}
+
+.userNameAndDateContainer {
+  margin-left: 8px;
+}
+
+.post .postImage {
+  width: 100%;
+  height: 55vh;
+  max-width: 500px;
+  object-fit: cover;
+  margin: 8px;
+}
+
+/* .post .postImage .landscape {
+  aspect-ratio: 1.91 / 1;
+  object-fit: contain;
+}
+
+.post .postImage .square {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+} */
+
+.postBottom {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-top: 8px;
+}
+
+.commentAndLikeIconsContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+
+.commentButtonContainer {
   width: 45px;
   height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transition: transform 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
-  border: none;
-  cursor: pointer;
-  padding: 0;
 }
 
-.commentIcon:hover {
-  filter: hue-rotate(-40deg);
-  background-color: transparent;
-  /* background-color: rgba(58, 58, 64, 0.7); */
+.commentIconImg {
+  width: 24px;
+  height: 24px;
 }
 
-.commentIcon img {
-  width: 60%;
-  height: 80%;
-  object-fit: contain;
-  filter: none;
+.commentIconImg:hover {
+  transform: scale(1.2); /* Slight enlargement on hover */
 }
 
-.post::after {
-  content: "";
-  display: block;
-  width: 150%;
-  max-width: 1500px;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    rgba(59, 59, 62, 0) 5%,
-    #3b3b3e 50%,
-    rgba(59, 59, 62, 0) 95%
-  );
-  margin: 100px auto;
-  position: relative;
-  left: -25%;
+.commentsCount {
+  font-size: 12px;
 }
 
-.post .imagePlaceholder {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 3px;
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  background-color: transparent;
-}
-
-.post .imagePlaceholder.landscape {
-  aspect-ratio: 1.91 / 1;
-  object-fit: contain;
-}
-
-.post .imagePlaceholder.square {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+.captionContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
+  margin: 4px;
 }
 
 .caption {
@@ -84,31 +91,6 @@
   font-weight: normal;
   text-align: start;
   color: var(--bistre);
-}
-
-.containerCommentLike {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  width: 100%;
-}
-
-.postBottom {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin-top: 8px;
-  padding: 18px;
-}
-
-.captionContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-.profilePhoto {
-  width: 20px;
-  height: 20px;
 }
 
 @media (max-width: 480px) {
@@ -128,7 +110,7 @@
     max-width: 100%;
   }
 
-  .post .imagePlaceholder {
+  .post .postImage {
     aspect-ratio: 1 / 1;
     max-height: 300px;
   }
@@ -144,7 +126,7 @@
     max-width: 450px;
   }
 
-  .post .imagePlaceholder {
+  .post .postImage {
     aspect-ratio: 4 / 5;
     max-height: 400px;
   }
@@ -160,7 +142,7 @@
     max-width: 500px;
   }
 
-  .post .imagePlaceholder {
+  .post .postImage {
     aspect-ratio: 4 / 5;
     max-height: 500px;
   }

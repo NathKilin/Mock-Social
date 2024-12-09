@@ -3,6 +3,7 @@ import styles from "./PostDetails.module.css";
 import { saveCommentApi } from "../../api/commentApi.js";
 import PostComments from "./Comments/Comments.jsx";
 import PostImage from "./PostImage/PostImage.jsx";
+import { useSelector } from "react-redux";
 
 const PostDetails = ({
   selectedPostId,
@@ -11,7 +12,7 @@ const PostDetails = ({
   setAllPosts,
 }) => {
   const [newComment, setNewComment] = useState("");
-
+  const userPhotoUrl = useSelector((state) => state.user.user.profileImage);
   const handleAddComment = async () => {
     if (newComment.trim() === "") return;
     try {
@@ -19,6 +20,7 @@ const PostDetails = ({
       const saveComment = await saveCommentApi(newCommentObj);
       if (saveComment?.data?.data) {
         const newCommentData = saveComment.data.data;
+        newCommentData.profileImage = userPhotoUrl;
         setAllPosts((prev) =>
           prev.map((post) =>
             post._id === selectedPost._id
