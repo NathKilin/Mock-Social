@@ -4,7 +4,6 @@ import { saveCommentApi } from "../../api/commentApi.js";
 import PostComments from "./Comments/Comments.jsx";
 import PostImage from "./PostImage/PostImage.jsx";
 import { useSelector } from "react-redux";
-
 const PostDetails = ({
   selectedPostId,
   selectedPost,
@@ -43,7 +42,6 @@ const PostDetails = ({
       console.error(error);
     }
   };
-
   return (
     <div
       className={styles.modalBackdrop}
@@ -54,7 +52,7 @@ const PostDetails = ({
           className={styles.closeButton}
           onClick={() => setSelectedPostId(null)}
         >
-          ✖
+          :heavy_multiplication_x:
         </button>
         <div className={styles.imageSection}>
           <PostImage imageUrl={selectedPost.url} />
@@ -76,5 +74,4 @@ const PostDetails = ({
     </div>
   );
 };
-
 export default PostDetails;

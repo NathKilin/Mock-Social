@@ -120,111 +120,30 @@
     font-size: 24px;
 }
 
-@media (max-width: 1024px) {
-    .modalContent {
-        max-width: 90%; /* Reduz a largura máxima */
-        max-height: 90%; /* Reduz a altura máxima */
-        grid-template-columns: 1fr; /* Uma única coluna */
-        grid-template-rows: auto auto auto auto; /* Ajuste para layout vertical */
-    }
-
-    .imageSection {
-        grid-column: 1;
-        grid-row: 1; /* Primeira linha */
-    }
-
-    .commentsSection {
-        grid-column: 1;
-        grid-row: 2; /* Segunda linha */
-        padding: 5px; /* Ajuste do padding */
-    }
-
-    .captionSection {
-        grid-column: 1;
-        grid-row: 3; /* Terceira linha */
-    }
-
-    .addComment {
-        grid-column: 1;
-        grid-row: 4; /* Última linha */
-    }
-}
 
 @media (max-width: 768px) {
     .modalContent {
-        max-width: 100%;
-        max-height: 100%;
-        padding: 10px;
-    }
-
-    .commentsSection {
-        max-height: 200px; /* Limita altura para evitar overflow */
-        overflow-y: auto;
-    }
-
-    .addComment input {
-        font-size: 12px; /* Ajusta tamanho do texto no input */
-    }
-
-    .addComment button {
-        font-size: 12px;
-        padding: 6px 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .modalContent {
-        max-width: 100%;
-        height: auto; /* Altura ajustável */
-        grid-template-rows: auto auto auto auto; /* Quatro linhas ajustáveis */
-        gap: 5px; /* Reduz o espaçamento */
+        grid-template-columns: 1fr; /* Uma única coluna */
+        grid-template-rows: auto auto auto auto; /* 4 linhas */
     }
 
     .imageSection {
+        grid-column: 1;
         grid-row: 1; /* Primeira linha */
-        height: auto;
     }
 
     .commentsSection {
+        grid-column: 1;
         grid-row: 2; /* Segunda linha */
-        max-height: 150px; /* Reduz altura máxima */
     }
 
     .captionSection {
+        grid-column: 1;
         grid-row: 3; /* Terceira linha */
-        font-size: 1rem; /* Reduz o tamanho do texto */
     }
 
     .addComment {
+        grid-column: 1;
         grid-row: 4; /* Quarta linha */
-        gap: 5px;
-    }
-
-    .addComment input {
-        padding: 5px;
-    }
-
-    .addComment button {
-        font-size: 10px;
-        padding: 5px 8px;
-    }
-}
-
-@media (max-width: 360px) {
-    .modalContent {
-        padding: 5px;
-    }
-
-    .imageSection {
-        height: 150px; /* Reduz a altura para caber em telas muito pequenas */
-    }
-
-    .captionSection {
-        font-size: 0.9rem; /* Diminui ainda mais o texto */
-    }
-
-    .addComment button {
-        font-size: 9px;
-        padding: 4px 6px;
     }
 }

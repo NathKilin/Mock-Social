@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./comments.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import axios from "axios";
@@ -29,6 +29,16 @@ const PostComments = ({
 }) => {
   const userGlobal = useSelector((state) => state.user);
 
+  // Ref para o container de comentários
+  const commentsRef = useRef(null);
+
+  // Sempre rola até o final quando novos comentários são adicionados
+  useEffect(() => {
+    if (commentsRef.current) {
+      commentsRef.current.scrollTop = commentsRef.current.scrollHeight;
+    }
+  }, [comments]);
+
   const deleteComment = async (id) => {
     try {
       await deleteCommentApi(id);
@@ -49,49 +59,29 @@ const PostComments = ({
 
   return (
     <div className={styles.commentsSection}>
-      <div className={styles.comments}>
+      <div className={styles.comments} ref={commentsRef}>
         <ul>
           {comments.length > 0 ? (
             comments.map((comment, index) => (
               <li className={styles.liComment} key={index}>
-<<<<<<< HEAD
                 <div className={styles.containerUserAndText}>
-                  
-                <strong>
-=======
-                <div className="containerUserAndText">
-                  <img
-                    className={styles.imgCommentUser}
-                    src={
-                      comment?.authorId?._id === userGlobal?.user?._id
-                        ? userGlobal.user.profileImage
-                        : comment.authorId?.profileImage
-                        ? comment.authorId.profileImage
-                        : comment.profileImage || ""
-                    }
-                    alt="photo user"
-                  />
                   <strong>
->>>>>>> 589e75f7f58636c76b3d0ac0f6d655e398f4ac76
                     {comment?.authorId === userGlobal?.user?._id
                       ? "You"
                       : comment?.authorId?.userName || "Unknown User"}
                   </strong>
                   {comment.text}
                 </div>
-                      <div className={styles.likeButton}
-                      >
-                        <Like commentId={comment._id}/>
-                      </div>
+                <div className={styles.likeButton}>
+                  <Like commentId={comment._id} />
+                </div>
                 <div className={styles.containerdelete}>
                   {(comment?.authorId?._id === userGlobal?.user?._id ||
                     comment?.authorId === userGlobal?.user?._id) && (
-                      <DeleteOutlineIcon
+                    <DeleteOutlineIcon
                       onClick={() => deleteComment(comment._id)}
                       className={styles.deleteIcon}
-                      style={{ fontSize: '32px' }} // Ajusta o tamanho do ícone
                     />
-                    
                   )}
                 </div>
               </li>
