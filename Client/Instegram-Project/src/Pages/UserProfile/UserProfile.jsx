@@ -12,7 +12,7 @@ import Follow from "../Follow/Follow.jsx";
 
 const UserProfile = () => {
   const params = useParams();
-  const [profileData, setProfileData] = useState(null);
+  const [profileData, setProfileData] = useState({});
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const globalUser = useSelector((state) => state.user.user);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -25,7 +25,7 @@ const UserProfile = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [iFollow, setIFollow] = useState(false);
 
-  const counter = (friends) => +friends.length;
+  const counter = (friends) => +friends?.length || 0;
 
   const getProfileData = async (id) => {
     try {
@@ -40,20 +40,22 @@ const UserProfile = () => {
     if (globalUser?._id && params.id === globalUser._id) {
       setIsCurrentUser(true);
       setProfileData(globalUser);
+      setYourFollowers(counter(globalUser.friends));
+      setPostNumbs(counter(globalUser.userPosts));
     } else {
       setIsCurrentUser(false);
       getProfileData(params.id);
     }
-    // console.log(globalUser.friends.length);
-
-    setYourFollowers(counter(globalUser.friends));
-    setPostNumbs(counter(globalUser.userPosts));
-    // console.log(yourFollowers);
-    // console.log(postNumbs);
   }, [params, globalUser, makeToCheck]);
 
+  useEffect(() => {
+    if (profileData) {
+      setYourFollowers(counter(profileData.friends || []));
+      setPostNumbs(counter(profileData.userPosts || []));
+    }
+  }, [profileData]);
+
   if (!profileData) return <div>Loading...</div>;
-  // console.log(iFollow);
 
   return (
     <div className={styles.userProfile}>
@@ -66,7 +68,7 @@ const UserProfile = () => {
           alt="Profile"
         />
 
-        <all>
+        <div>
           <div className={styles.allInfoContainer}>
             <UserInfo username={profileData.userName} />
 
@@ -99,7 +101,7 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-        </all>
+        </div>
       </section>
       <PostGrid
         selectedPostId={selectedPostId}

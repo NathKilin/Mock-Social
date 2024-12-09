@@ -1,4 +1,3 @@
-import { FaSignOutAlt } from "react-icons/fa";
 import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import NotificationIcon from "../../assets/notification.png";
@@ -10,11 +9,12 @@ const Header = ({ setIsLogIn }) => {
   return (
     <header className={styles.header}>
       <img
+        onClick={() => navigate("/")}
         src={Logo}
         alt="Logo"
         className={styles.logo}
         style={{ width: "80px", height: "auto" }}
-      />{" "}
+      />
       <div className={styles.icons}>
         <button>
           <img
