@@ -4,6 +4,21 @@
 
 /* ... */
 
+@font-face {
+  font-family: "Instagram";
+  src: url("./assets/instagram-sans-2/Instagram Sans.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Instagram Bold";
+  src: url("./assets/instagram-sans-2/Instagram Sans Bold.ttf")
+    format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
 :root {
   --indigo-dye: #094074ff;
   --columbia-blue: #b6cce2ff;
