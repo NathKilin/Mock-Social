@@ -12,8 +12,21 @@ const OnePost = ({ post, setSelectedPostId }) => {
   const createdAtDate = new Date(post.createdAt);
   const currentDate = new Date();
   const differenceInMs = currentDate - createdAtDate;
-  const differenceInHours = differenceInMs / (1000 * 60 * 60);
-  const timePosted = Math.floor(differenceInHours);
+
+  const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+  const differenceInHours = Math.floor(differenceInMinutes / 60);
+  const differenceInDays = Math.floor(differenceInHours / 24);
+
+  let timePosted;
+
+  if (differenceInMinutes < 60) {
+    timePosted = `${differenceInMinutes}m ago`;
+  } else if (differenceInHours < 24) {
+    timePosted = `${differenceInHours}h ago`;
+  } else {
+    timePosted = `${differenceInDays} days ago`;
+  }
+  console.log(timePosted);
 
   return (
     <div
@@ -25,7 +38,7 @@ const OnePost = ({ post, setSelectedPostId }) => {
         <div className={styles.topBar}>
           <Avatar>
             <AvatarImage
-              style={{objectFit: 'cover'}}
+              style={{ objectFit: "cover" }}
               src={post.authorId?.profileImage}
               alt="profile-picture"
             />
@@ -37,9 +50,12 @@ const OnePost = ({ post, setSelectedPostId }) => {
             {post.authorId?.userName}
             <span style={{ color: "var(--columbia-blue)" }}>
               {" "}
-              • {timePosted}h
+              • {timePosted}
             </span>
           </p>
+        </div>
+        <div className={styles.captionContainer}>
+          <p className={styles.caption}>{post.caption}</p>
         </div>
 
         {isVideo(post.url) ? (
@@ -77,9 +93,6 @@ const OnePost = ({ post, setSelectedPostId }) => {
           <div onClick={(event) => event.stopPropagation()}>
             <Likes postId={post._id} />
           </div>
-        </div>
-        <div className={styles.captionContainer}>
-          <p className={styles.caption}>{post.caption}</p>
         </div>
       </section>
     </div>

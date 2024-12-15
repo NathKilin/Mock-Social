@@ -1,4 +1,5 @@
 .post {
+  font-family: "Instagram";
   max-width: 90%;
   margin: 24px;
   max-height: 80vh;
@@ -25,24 +26,13 @@
   height: 55vh;
   max-width: 500px;
   object-fit: cover;
-  margin: 8px;
   border-radius: 0.5rem;
 }
-
-/* .post .postImage .landscape {
-  aspect-ratio: 1.91 / 1;
-  object-fit: contain;
-}
-
-.post .postImage .square {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-} */
 
 .postBottom {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
   margin-top: 8px;
 }
 
@@ -85,11 +75,8 @@
 }
 
 .caption {
-  padding: 16px;
-  font-size: 14px;
-  color: #f3f3fc;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: normal;
+  font-size: 16px;
   text-align: start;
   color: var(--bistre);
 }
