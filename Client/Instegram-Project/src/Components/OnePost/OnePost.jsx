@@ -9,6 +9,7 @@ import { Margin } from "@mui/icons-material";
 const isVideo = (url) => /\.(mp4|webm|ogg)$/i.test(url);
 
 const OnePost = ({ post, setSelectedPostId }) => {
+  // Time posted calculations:
   const createdAtDate = new Date(post.createdAt);
   const currentDate = new Date();
   const differenceInMs = currentDate - createdAtDate;
@@ -26,7 +27,6 @@ const OnePost = ({ post, setSelectedPostId }) => {
   } else {
     timePosted = `${differenceInDays} days ago`;
   }
-  console.log(timePosted);
 
   return (
     <div
